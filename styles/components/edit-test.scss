@@ -1,0 +1,149 @@
+#edit-test {
+
+  i.action {
+    cursor:    pointer;
+    color:     $dark-gray;
+    font-size: 1.5rem;
+  }
+
+  i.action.primary {
+    color: $primary-color;
+  }
+
+  i.action.alert {
+    color: $alert-color;
+  }
+
+  .actions {
+
+    .action {
+      margin-right: 0.5rem;
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+
+    &.left {
+      position: absolute;
+      left:     1rem;
+      top:      1rem;
+    }
+
+    &.right {
+      position: absolute;
+      right:    1rem;
+      top:      1rem;
+    }
+  }
+
+  .drag-handle i, .drag-handle {
+    cursor: move !important;
+  }
+
+  .errors, .warnings {
+    white-space:  pre-wrap;
+    font-size:    0.9rem;
+    padding-left: 2rem;
+    position:     relative;
+    margin-top:   0.5rem;
+
+    &::before {
+      font-family: "Material Icons";
+      position:    absolute;
+      top:         -0.5rem;
+      left:        0;
+      font-size:   1.5rem;
+    }
+  }
+
+  .errors {
+    color: $alert-color;
+
+    &::before {
+      content: "\E000";
+    }
+  }
+
+  .warnings {
+    color: $warning-color;
+
+    &::before {
+      content: "\E002";
+    }
+  }
+
+  #sections-list {
+
+    .section {
+      position:   relative;
+      border-top: 1px solid $light-gray;
+
+      &:last-child {
+        border-bottom: 1px solid $light-gray;
+      }
+
+      .content {
+        padding:    1rem 3rem;
+        transition: background-color 0.25s ease-out;
+
+        &:hover {
+          background-color: #def0fc;
+        }
+
+        &.editable {
+          background-color: #ebebeb;
+        }
+
+        .title {
+          margin-bottom: 0;
+        }
+
+        .description {
+          font-style: italic;
+          font-size:  1rem;
+        }
+
+        .attributes {
+          margin-top: 0.5rem;
+        }
+      }
+
+      .edit-input, .edit-input > input, {
+        margin:           0;
+        padding:          0;
+        border:           0;
+        box-shadow:       none;
+        background-color: #ebebeb;
+        text-decoration:  underline;
+
+        &.title-input {
+          font-family: 'Nunito', sans-serif;
+          font-size:   1.47059rem;
+          line-height: 1.4;
+          height:      1.4em;
+        }
+
+        &.description-input {
+          font-style:  italic;
+          font-size:   1rem;
+          line-height: 1.5;
+          height:      1.5em;
+        }
+
+        &.num-input {
+          line-height: 1.5;
+          height:      1.5em;
+          min-width:   1rem;
+        }
+
+        &.select {
+          line-height: 1.5;
+          height:      1.5em;
+          cursor:      context-menu;
+        }
+      }
+    }
+
+  }
+}

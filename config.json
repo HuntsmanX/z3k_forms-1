@@ -1,0 +1,8 @@
+{
+  "development": {
+    "ENV_API_URL": "http://localhost:3000/v1/forms"
+  },
+  "production": {
+    "ENV_API_URL": ""
+  }
+}

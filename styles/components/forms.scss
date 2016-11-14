@@ -1,0 +1,31 @@
+form {
+  position: relative;
+
+  fieldset {
+    border-top: 1px solid rgba($black, 0.25);
+
+    legend {
+      margin-left: 2rem;
+      color:       #7d7d7d;
+      font-style:  italic;
+      font-size:   0.9em;
+    }
+  }
+
+  footer {
+    border-top:  1px solid rgba($black, 0.25);
+    padding-top: 1rem;
+  }
+
+  .form-loader {
+    position:         absolute;
+    top:              0;
+    bottom:           0;
+    left:             0;
+    right:            0;
+    z-index:          7000;
+    background-color: white;
+    opacity:          0.5;
+    cursor:           wait;
+  }
+}
