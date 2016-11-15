@@ -13,14 +13,14 @@ class RouterStore extends Router {
   }
 
   @action navigate = (to, params = {}) => {
-    this._goTo(this.views[to], params, this.stores);
+    this.goTo(this.views[to], params, this.stores);
   }
 
   @action replaceUrlParamsForView = (view, params) => {
     return this.views[view].replaceUrlParams(params);
   }
 
-  @action _goTo = (view, paramsObj, store) => {
+  @action goTo = (view, paramsObj, store) => {
     const currentParams = toJS(this.params);
 
     const beforeExitResult = this.currentView && this.currentView.beforeExit ?
