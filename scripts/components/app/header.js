@@ -1,16 +1,12 @@
 import React, { Component } from "react";
-import { inject } from "mobx-react";
-import views from "./../../views";
 
-import { Row, Column } from 'react-foundation-components/lib/global/grid-flex';
+import { Row, Column } from "react-foundation-components/lib/global/grid-flex";
 
-import { Link } from "mobx-router";
+import Link from "./../shared/link";
 
-@inject("s")
 class Header extends Component {
 
   render() {
-    const { router } = this.props.s;
 
     return (
       <div id="header" >
@@ -20,10 +16,10 @@ class Header extends Component {
               <div className="top-bar-left">
                 <ul className="menu">
                   <li className="menu-text app-title">
-                    <Link router={router} view={views.dashboard}>Z3K Forms</Link>
+                    <Link to="dashboard">Z3K Forms</Link>
                   </li>
                   <li>
-                    <Link router={router} view={views.tests}>Tests</Link>
+                    <Link to="tests">Tests</Link>
                   </li>
                 </ul>
               </div>

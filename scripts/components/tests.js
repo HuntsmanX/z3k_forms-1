@@ -11,12 +11,7 @@ import Test    from "./tests/test";
 @inject("s")
 @observer
 class Tests extends Component {
-
-  componentDidMount() {
-    this.props.s.ui.setPageTitle("Tests");
-    this.props.s.tests.list();
-  }
-
+  
   render() {
     const { s: { tests } } = this.props;
 

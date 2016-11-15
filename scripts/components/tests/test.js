@@ -3,7 +3,8 @@ import { observer, inject } from "mobx-react";
 import { Row, Column } from "react-foundation-components/lib/global/grid-flex";
 
 import Button from "./../shared/button";
-import Hash from "./../shared/hash";
+import Link   from "./../shared/link";
+import Hash   from "./../shared/hash";
 
 @inject("s")
 @observer
@@ -30,7 +31,7 @@ class Test extends Component {
           </Column>
           <Column large={2}>
             <div className="button-group small float-right">
-              <Button icon="mode_edit" />
+              <Link to="editTest" params={{ id: model.id }} button={{ icon: "mode_edit" }} />
               <Button icon="delete" color="alert" onClick={tests.destroy.bind(null, model.id)} />
             </div>
           </Column>

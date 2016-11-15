@@ -1,6 +1,7 @@
 import { observable, action } from "mobx";
 
-import ui from "./ui";
+import ui from     "./ui";
+import router from "./router";
 
 import Test            from "./../models/test";
 import TestsCollection from "./../collections/tests";
@@ -13,12 +14,13 @@ class TestsStore {
   @observable newTestShown = false;
 
   @action showNew = (val) => {
-    this.model = new Test();
+    if (val) this.model = new Test();
     this.newTestShown = val;
   }
 
   @action list = () => {
     this.collection.fetch();
+    ui.setPageTitle("Tests");
   }
 
   @action show = (id) => {
@@ -30,7 +32,10 @@ class TestsStore {
 
   @action create = () => {
     this.model.save().then(
-      () => this.showNew(false)
+      () => {
+        this.showNew(false);
+        router.navigate('editTest', { id: this.model.id });
+      }
     );
   }
 

@@ -1,16 +1,13 @@
 import ui     from "./stores/ui";
 import tests  from "./stores/tests";
-
-import { RouterStore, startRouter } from 'mobx-router';
-
-import views from "./views";
+import router from "./stores/router";
 
 const stores = {
-  router: new RouterStore(),
+  router,
   ui,
   tests
 };
 
-startRouter(views, stores);
+router.start(stores);
 
 export default stores;

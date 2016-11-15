@@ -9,22 +9,24 @@ import NotFound  from "./components/not-found";
 const views = {
 
   dashboard: new Route({
-    path: '/',
+    path:      '/',
     component: <Dashboard />
   }),
 
   tests: new Route({
-    path: '/tests',
-    component: <Tests />
+    path:      '/tests',
+    component: <Tests />,
+    onEnter:   ({ s }) => s.tests.list()
   }),
 
   editTest: new Route({
-    path: '/tests/:id',
-    component: <EditTest />
+    path:      '/tests/:id',
+    component: <EditTest />,
+    onEnter:   ({ s, params }) => s.tests.show(params.id)
   }),
 
   notFound: new Route({
-    path: '*',
+    path:     '*',
     component: <NotFound />
   })
 

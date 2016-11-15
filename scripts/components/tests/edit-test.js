@@ -9,10 +9,6 @@ import Loader from "./../shared/loader";
 @observer
 class EditTest extends Component {
 
-  componentDidMount() {
-    this.props.s.tests.show(this.props.params.id);
-  }
-
   render() {
     const test = this.props.s.tests.model;
 
