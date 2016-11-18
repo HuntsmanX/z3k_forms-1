@@ -25,9 +25,9 @@ class NewTest extends Component {
       <Modal
         title="New Test"
         show={tests.newTestShown}
-        onHide={tests.showNew.bind(null, false)}
+        onHide={tests.showNew.bind(tests, false)}
       >
-        <Form onSubmit={tests.create} model={test}>
+        <Form onSubmit={tests.create.bind(tests)} model={test}>
           <Callout>
             <Fieldset legend="New Test">
               <FormField model={test} attr="name" />

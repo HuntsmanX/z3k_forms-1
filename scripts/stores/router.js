@@ -5,22 +5,22 @@ import views from "./../views";
 
 class RouterStore extends Router {
 
-  @action start = (stores) => {
+  @action start(stores) {
     this.stores = stores;
     this.views  = views;
 
     startRouter(this.views, this.stores);
   }
 
-  @action navigate = (to, params = {}) => {
+  @action navigate(to, params = {}) {
     this.goTo(this.views[to], params, this.stores);
   }
 
-  @action replaceUrlParamsForView = (view, params) => {
+  @action replaceUrlParamsForView(view, params) {
     return this.views[view].replaceUrlParams(params);
   }
 
-  @action goTo = (view, paramsObj, store) => {
+  @action goTo(view, paramsObj, store) {
     const currentParams = toJS(this.params);
 
     const beforeExitResult = this.currentView && this.currentView.beforeExit ?

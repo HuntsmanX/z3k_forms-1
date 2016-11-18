@@ -19,14 +19,14 @@ class QuestionsList extends Component {
 
         <div className="clearfix">
           <div className="float-right">
-            <a onClick={section.addQuestion}>Add Question</a>
+            <a onClick={section.addQuestion.bind(section)}>Add Question</a>
           </div>
         </div>
       </div>
     );
   }
 
-  renderQuestions = () => {
+  renderQuestions() {
     const { section } = this.props;
 
     return section.questions.map(question => {

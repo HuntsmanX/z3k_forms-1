@@ -17,19 +17,17 @@ const setDefaults = (options) => {
     method:      'GET',
     dataType:    'json',
     contentType: 'application/json',
+    headers:     { 'X-Key-Inflection' : 'camel' }
   });
 }
 
 const ajax = (options = {}) => {
   setDefaults(options);
 
-  const request = $.ajax({
-    url:         ENV_API_URL + options.url,
-    type:        options.method,
-    dataType:    options.dataType,
-    contentType: options.contentType,
-    data:        JSON.stringify(options.payload)
-  });
+  options.url  = ENV_API_URL + options.url;
+  options.data = JSON.stringify(options.payload);
+
+  const request = $.ajax(options);
 
   request.then(handleSuccess, handleError);
 

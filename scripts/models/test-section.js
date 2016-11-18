@@ -1,32 +1,33 @@
 import AppModel from "./app-model";
-import { action } from "mobx";
+import { action, observable } from "mobx";
 
 import TestQuestions from "./../collections/test-questions";
 
 class TestSection extends AppModel {
 
-  @action edit = () => {
-    this.isBeingEdited = true;
+  @action edit() {
+    this.set('isBeingEdited', true);
   }
 
-  @action toggle = () => {
-    this.isExpanded = !this.isExpanded;
+  @action toggle() {
+    this.set('isExpanded', !this.isExpanded);
   }
 
-  @action addQuestion = () => {
+  @action addQuestion() {
     this.questions.add({ isBeingEdited: true });
   }
 
+  @action save() {
+    super.save().then(
+      () => this.set('isBeingEdited', false)
+    )
+  }
+
 }
 
-TestSection.urls = {
-  create()  { return [`/test/sections`, "POST"] },
-  update()  { return [`/test/sections/${this.id}`, "PATCH"] },
-  destroy() { return [`/test/sections/${this.id}`, "DELETE"] }
-}
+TestSection.urlRoot = "/test/sections";
 
-TestSection.attributes = {
-  id:                   null,
+TestSection.defaults = {
   title:                'Untitled Section',
   description:          'Section description',
   timeLimit:            0,
@@ -44,7 +45,7 @@ TestSection.attributes = {
 }
 
 TestSection.associations = {
-  questions: { type: 'hasMany', klass: TestQuestions }
+  questions: { collection: TestQuestions, parentKey: 'test' }
 }
 
 export default TestSection;

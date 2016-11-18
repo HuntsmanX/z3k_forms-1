@@ -6,6 +6,7 @@ import {
 } from "mobx";
 
 import isFunction  from "lodash/isFunction";
+import _array      from "lodash/array";
 import _collection from "lodash/collection";
 
 import ajax from "./../helpers/ajax";
@@ -19,15 +20,20 @@ class AppCollection {
     this.parent = parent;
     this.mixinLodashFunctions();
     this.fromJSON(data);
+    this.initialize();
   }
+
+  // To be overridden by child classes to perform initialization.
+  @action initialize() {}
 
   mixinLodashFunctions() {
-    Object.keys(_collection).forEach(func => {
+    const functions = Object.assign({}, _array, _collection);
+    Object.keys(functions).forEach(func => {
       this[func] = (...args) => _collection[func](this.models, ...args)
-    })
+    });
   }
 
-  fromJSON = (data = []) => {
+  fromJSON(data = []) {
     const models = data.map(obj => {
       let model = new this.modelClass(obj);
       this.assignParent(model);
@@ -35,6 +41,10 @@ class AppCollection {
     });
 
     this.set('models', models)
+  }
+
+  serialize(options = {}) {
+    return this.models.map(model => model.serialize(options));
   }
 
   @computed get length() {
@@ -49,20 +59,19 @@ class AppCollection {
     return this.constructor.name;
   }
 
-  getUrl = (name) => {
-    const url = this.constructor.urls[name];
+  getUrl(name) {
+    const root = this.constructor.urlRoot;
 
-    if (!url) console.warn(`${name} URL is not specified for ${this.className} class`)
-    if (isFunction(url)) return url.call(this);
-
-    return url;
+    switch(name) {
+      case 'fetch': return root;
+    }
   }
 
-  @action set = (attr, val) => {
+  @action set(attr, val) {
     this[attr] = val;
   }
 
-  @action fetch = () => {
+  @action fetch() {
     this.set('isBeingFetched', true);
 
     const request = ajax({
@@ -80,15 +89,17 @@ class AppCollection {
     return request;
   }
 
-  @action assignParent = (model) => {
+  @action assignParent(model) {
     if (this.parent.model && this.parent.name)
-      extendObservable(model, { [parent.name]: parent.model });
+      extendObservable(model, { [this.parent.name]: this.parent.model });
   }
 
-  @action add = (attrs = {}) => {
-    let model = new this.modelClass(attrs);
-    this.assignParent(model);
-    this.models.push(model);
+  @action add(attrs = {}) {
+    _array.flatten([attrs]).forEach(attr => {
+      let model = new this.modelClass(attr || {});
+      this.assignParent(model);
+      this.models.push(model);
+    });
   }
 
 }

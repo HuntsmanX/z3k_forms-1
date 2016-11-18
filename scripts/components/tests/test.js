@@ -32,7 +32,7 @@ class Test extends Component {
           <Column large={2}>
             <div className="button-group small float-right">
               <Link to="editTest" params={{ id: model.id }} button={{ icon: "mode_edit" }} />
-              <Button icon="delete" color="alert" onClick={tests.destroy.bind(null, model.id)} />
+              <Button icon="delete" color="alert" onClick={tests.destroy.bind(tests, model.id)} />
             </div>
           </Column>
         </Row>

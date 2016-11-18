@@ -16,7 +16,7 @@ class EditTest extends Component {
 
     return (
       <div id="edit-test">
-        <div id="sections-list">
+        <div className="sections-list">
           {test.sections.length ? (
             this.renderSections()
           ) : (
@@ -25,14 +25,14 @@ class EditTest extends Component {
         </div>
         <div className="clearfix">
           <div className="float-right">
-            <a onClick={test.addSection} className="btn-add">Add Section</a>
+            <a onClick={test.addSection.bind(test)} className="btn-add">Add Section</a>
           </div>
         </div>
       </div>
     );
   }
 
-  renderSections = () => {
+  renderSections() {
     const test = this.props.s.tests.model;
 
     return test.sections.map(section => {

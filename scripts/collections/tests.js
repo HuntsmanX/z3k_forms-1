@@ -6,8 +6,6 @@ class TestsCollection extends AppCollection {}
 
 TestsCollection.model = Test;
 
-TestsCollection.urls = {
-  fetch: "/tests"
-}
+TestsCollection.urlRoot = "/tests";
 
 export default TestsCollection;

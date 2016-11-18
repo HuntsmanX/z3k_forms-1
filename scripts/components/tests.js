@@ -11,7 +11,7 @@ import Test    from "./tests/test";
 @inject("s")
 @observer
 class Tests extends Component {
-  
+
   render() {
     const { s: { tests } } = this.props;
 
@@ -22,7 +22,7 @@ class Tests extends Component {
           <Button
             label="New Test"
             icon="add"
-            onClick={tests.showNew.bind(null, true)}
+            onClick={tests.showNew.bind(tests, true)}
           />
         </EntitiesListPanel>
         <EntitiesList

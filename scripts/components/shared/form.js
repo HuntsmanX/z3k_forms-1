@@ -84,10 +84,10 @@ class FormField extends Component {
         <FormFieldLabel alignment="right" middle large={3}>
           {label}
         </FormFieldLabel>
-        <FormFieldInput large={9} value={model[attr]} onChange={this.onChange} />
+        <FormFieldInput large={9} value={model.get(attr)} onChange={this.onChange} />
         {hasError ? (
           <FormFieldError large={9} largeOffset={3}>
-            {model.errors.get(attr)[0]}
+            {model.error(attr)[0]}
           </FormFieldError>
         ) : null}
       </FormField_>

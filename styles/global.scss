@@ -14,4 +14,8 @@ body {
   .reveal {
     z-index: 5000;
   }
+
+  .tooltip[role='tooltip'] {
+    margin-top: 0.75rem;
+  }
 }

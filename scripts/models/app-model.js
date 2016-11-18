@@ -3,106 +3,192 @@ import {
   extendObservable,
   action,
   asMap,
-  computed
+  computed,
+  toJS,
+  autorun
 } from "mobx";
 
-import defaults     from "lodash/defaults";
-import isFunction   from "lodash/isFunction";
-import omit         from "lodash/omit";
-import camelize     from "underscore.string/camelize";
-import decapitalize from "underscore.string/decapitalize";
-import uuid         from "node-uuid";
+import defaults      from "lodash/defaults";
+import isFunction    from "lodash/isFunction";
+import isPlainObject from "lodash/isPlainObject";
+import omit          from "lodash/omit";
+import includes      from "lodash/includes";
+import flatten       from "lodash/flatten";
+import camelize      from "underscore.string/camelize";
+import decapitalize  from "underscore.string/decapitalize";
+import uuid          from "node-uuid";
 
 import ajax from "./../helpers/ajax";
 
 class AppModel {
 
-  @observable isBeingFetched   = false;
-  @observable isBeingSaved     = false;
-  @observable isBeingDestroyed = false;
+  // All model attributes are kept in the 'attrs' map. This is more
+  // convenient than keeping all attributes directly on the model object
+  // as this allows easier serialization to JSON.
+
+  @observable attrs = asMap({
+    isBeingFetched:   false,
+    isBeingSaved:     false,
+    isBeingDestroyed: false
+  });
+
+  // Errors are written into 'errors' map upon unsuccessful creation
+  // or update i.e. when server responds with 422 status. See 'setErrors',
+  // 'unsetErrors' and 'save' methods.
 
   @observable errors = asMap({});
 
+  // 'uuid' is a unique string identifer, may be used as the 'key' prop
+  // in React views when iterating over a collection of objects or
+  // for identifying an object in a collection when 'id' is not yet set
+
   uuid = uuid.v4();
 
+  // Do not override constructor in child classes, use 'initialize' method
+  // instead.
+
   constructor(data = {}) {
+    this.setDefaultAttributes();
     this.fromJSON(data);
+    this.initialize();
   }
 
-  get attributeNames() {
-    return Object.keys(this.defaultAttributes || {});
+  // To be overridden by child classes to perform initialization.
+
+  @action initialize() {}
+
+  // Default attributes are assigned to the constructor function of the
+  // class in the 'attributes' hash.
+
+  get defaultAttributes() {
+    return this.constructor.defaults || {};
   }
+
+  // Assigned to the constructor function of the class. This is then used
+  // during initialization to assign relations to the object.
 
   get associations() {
     return this.constructor.associations || {};
   }
 
-  get defaultAttributes() {
-    return this.constructor.attributes || {};
-  }
-
-  get className() {
-    return this.constructor.name;
-  }
-
   @computed get isPersisted() {
-    return !!this.id;
+    return !!this.get('id');
   }
 
-  @action fromJSON = (data = {}) => {
-    defaults(data, this.defaultAttributes);
-
-    this.initAttributes(data);
-    this.initAssociations(data);
+  @computed get isNew() {
+    return !this.get('id');
   }
 
-  @action initAttributes = (data = {}) => {
+  // 'fromJSON' is called by the constructor and 'create'/'save'
+  // methods in case of success.
+
+  @action fromJSON(data = {}) {
+    this.setAttributes(data);
+    this.setAssociations(data);
+  }
+
+  @action setAttributes(data = {}) {
     const attrs = omit(data, Object.keys(this.associations));
-    extendObservable(this, attrs);
-  }
 
-  @action initAssociations = (data = {}) => {
-    Object.keys(this.associations).forEach(association => {
-      const funcName = camelize(`init ${this.associations[association].type} association`);
-      this[funcName](association, data[association], this.associations[association].klass);
+    Object.keys(attrs).forEach(attrName => {
+      this.set(attrName, attrs[attrName]);
     });
   }
 
-  @action initHasManyAssociation = (association, data = [], klass) => {
-    const collection = new klass(
-      data, { name: decapitalize(this.constructor.name), model: this }
+  @action setDefaultAttributes() {
+    this.setAttributes(this.defaultAttributes);
+  }
+
+  @action setAssociations(data = {}) {
+    Object.keys(this.associations).forEach(associationName => {
+      const associationConfig = this.associations[associationName];
+
+      if (includes(Object.keys(associationConfig), 'collection'))
+        this.setCollectionAssociation(associationName, data[associationName], associationConfig);
+    });
+  }
+
+  @action setCollectionAssociation(name, data = [], config) {
+    const collection = new config.collection(
+      data, { name: config.parentKey, model: this }
     );
-    extendObservable(this, { [association]: collection });
+    extendObservable(this, { [name]: collection });
   }
 
-  @action set = (attr, val) => {
-    this[attr] = val;
+  // Options examples:
+  //
+  // serialize({ include: 'foo' });
+  // serialize({ include: ['foo', 'bar'] });
+  // serialize({ include: { foo: 'bar' } });
+  // serialize({ include: { foo: ['bar', 'baz'] } });
+  // serialize({ include: { foo: { bar: 'baz' } } });
+  // serialize({ include: { foo: { bar: ['baz', 'qux'] } } });
+
+  serialize(options = {}) {
+    const data = toJS(this.attrs);
+
+    if (options.include)
+      this._serializeAssociations(data, options);
+
+    return data;
   }
 
-  @action setErrors = (errors) => {
-    Object.keys(errors).forEach(attr => this.errors.set(attr, errors[attr]));
+  _serializeAssociations(data, options) {
+    const { include, includeMap } = options;
+
+    const associations = isPlainObject(include) ?
+      Object.keys(include) :
+      flatten([include]);
+
+    associations.forEach(association => {
+      const childOptions = isPlainObject(include) ?
+        { ...options, include: include[association] } :
+        {};
+      const key = includeMap && includeMap[association] ?
+        includeMap[association] :
+        association;
+
+      data[key] = this[association].serialize(childOptions);
+    });
   }
 
-  @action unsetErrors = () => {
+  @action set(attr, val) {
+    this.attrs.set(attr, val);
+    this._ensureAccessorsExist(attr);
+  }
+
+  get(attr) {
+    return computed(
+      () => this.attrs.get(attr)
+    ).get();
+  }
+
+  @action setErrors(errors) {
+    this.errors.merge(errors);
+  }
+
+  @action unsetErrors() {
     this.errors.clear();
   }
 
-  getUrlAndMethod = (name) => {
-    const url = this.constructor.urls[name];
-
-    if (!url) console.warn(`${name} URL is not specified for ${this.className} class`)
-    if (isFunction(url)) return url.call(this);
-
-    return url;
+  error(attr) {
+    return computed(
+      () => this.errors.get(attr)
+    ).get();
   }
 
-  serialize = () => {
-    const attrs = {};
-    this.attributeNames.map(attr => attrs[attr] = this[attr]);
-    return { test: attrs };
+  getUrlAndMethod(name) {
+    const root = this.constructor.urlRoot;
+
+    switch(name) {
+      case 'fetch':   return [`${root}/${this.get('id')}`, "GET"];
+      case 'create':  return [root,                        "POST"];
+      case 'update':  return [`${root}/${this.get('id')}`, "PATCH"];
+      case 'destroy': return [`${root}/${this.get('id')}`, "DELETE"];
+    }
   }
 
-  @action fetch = () => {
+  @action fetch() {
     const [ url, method ] = this.getUrlAndMethod('fetch');
 
     this.set('isBeingFetched', true);
@@ -125,8 +211,8 @@ class AppModel {
     return request;
   }
 
-  @action save = () => {
-    const action = this.id ? 'update' : 'create';
+  @action save() {
+    const action = this.get('id') ? 'update' : 'create';
     const [ url, method ] = this.getUrlAndMethod(action);
 
     this.unsetErrors();
@@ -152,7 +238,7 @@ class AppModel {
     return request;
   }
 
-  @action destroy = () => {
+  @action destroy() {
     const [ url, method ] = this.getUrlAndMethod('destroy');
 
     this.set('isBeingDestroyed', true);
@@ -163,6 +249,21 @@ class AppModel {
     });
 
     return request;
+  }
+
+  // Created attribute accessors for the given key unless attribute accessors
+  // alreadt exist. This allows shorter syntax for accessing attributes:
+  //
+  // obj.name instead of obj.get('name')
+  // obj.name = 'foo' instead of obj.set('name', 'foo')
+
+  _ensureAccessorsExist(key) {
+    if (key in this) return;
+
+    Object.defineProperty(this, key, {
+      get()    { return this.attrs.get(key) },
+      set(val) { this.set(key, val); }
+    });
   }
 
 }

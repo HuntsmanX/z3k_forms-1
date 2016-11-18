@@ -13,24 +13,24 @@ class TestsStore {
 
   @observable newTestShown = false;
 
-  @action showNew = (val) => {
+  @action showNew(val) {
     if (val) this.model = new Test();
     this.newTestShown = val;
   }
 
-  @action list = () => {
+  @action list() {
     this.collection.fetch();
     ui.setPageTitle("Tests");
   }
 
-  @action show = (id) => {
+  @action show(id) {
     this.model.set('id', id);
     this.model.fetch().then(
       () => ui.setPageTitle(this.model.name)
     );
   }
 
-  @action create = () => {
+  @action create() {
     this.model.save().then(
       () => {
         this.showNew(false);
@@ -39,10 +39,11 @@ class TestsStore {
     );
   }
 
-  @action destroy = (id) => {
+  @action destroy(id) {
     const model = this.collection.find({ id: id });
+    
     if (confirm(`Are you sure you want to delete '${model.name}' test?`))
-      model.destroy().then(this.list);
+      model.destroy().then(this.list.bind(this));
   }
 
 }

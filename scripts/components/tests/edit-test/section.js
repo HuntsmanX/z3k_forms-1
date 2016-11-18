@@ -57,18 +57,34 @@ class ActionsRight extends Component {
     return (
       <div className="actions right">
         {section.isBeingEdited ? (
-          <Icon className="action primary" title="Save" onClick={section.save}>save</Icon>
+          <Icon
+            className="action primary"
+            title="Save"
+            onClick={section.save.bind(section)}
+          >save</Icon>
         ) : (
-          <Icon className="action primary" title="Edit" onClick={section.edit}>edit</Icon>
+          <Icon
+            className="action primary"
+            title="Edit"
+            onClick={section.edit.bind(section)}
+          >edit</Icon>
         )}
 
         <Icon className="action alert" title="Delete">delete</Icon>
 
         {section.isPersisted ? (
           section.isExpanded ? (
-            <Icon className="action" title="Collapse" onClick={section.toggle}>expand_less</Icon>
+            <Icon
+              className="action"
+              title="Collapse"
+              onClick={section.toggle.bind(section)}
+            >expand_less</Icon>
           ) : (
-            <Icon className="action" title="Expand" onClick={section.toggle}>expand_more</Icon>
+            <Icon
+              className="action"
+              title="Expand"
+              onClick={section.toggle.bind(section)}
+            >expand_more</Icon>
           )
         ) : null}
       </div>
