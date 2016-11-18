@@ -11,7 +11,7 @@ class ResponseStore {
   @observable collection = new ResponsesCollection();
   @observable model      = new Response();
 
-  @observable newResponsehown = false;
+  @observable newResponseShown = false;
 
   @action showNew(val) {
     if (val) this.model = new Response();
