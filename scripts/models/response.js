@@ -4,6 +4,12 @@ import AppModel from "./app-model";
 
 class Response extends AppModel {
 
+  static get defaults() {
+    return {
+      testId: ""
+    };
+  }
+
 }
 
 Response.urlRoot = "/responses";

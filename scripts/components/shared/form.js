@@ -1,6 +1,8 @@
 import React, { Component } from "react";
-import { observer } from "mobx-react";
-import humanize from "underscore.string/humanize";
+import { observer }         from "mobx-react";
+import humanize             from "underscore.string/humanize";
+import Select               from 'react-select';
+import ajax                 from './../../helpers/ajax';
 
 import {
   FormField as FormField_,
@@ -96,5 +98,82 @@ class FormField extends Component {
 
 }
 
+@observer
+class FormSelect extends Component {
+  onChange = (event) => {
+    if (Object.is(event, null)){
+      this.props.model.set(this.props.attr, "");
+    } else {
+      this.props.model.set(this.props.attr, event.value);
+    }
+  }
+
+  render() {
+    const { model, attr, options } = this.props;
+    const label = this.props.label || humanize(attr);
+    const opts = options.map(o => ({ value: o.id, label: o.name }));
+    const hasError = model.errors.has(attr);
+
+    return (
+      <FormField_ grid>
+      <FormFieldLabel alignment="right" middle large={3}>
+        {label}
+      </FormFieldLabel>
+        <Select className="columns large-5"
+          value={model.get(attr)}
+          options={opts}
+          onChange={this.onChange}
+          />
+      {false ? (
+        <FormFieldError large={9} largeOffset={3}>
+          {model.error(attr)[0]}
+        </FormFieldError>
+      ) : null}
+    </FormField_>)
+  }
+}
+
+@observer
+class FormSelectWithAjax extends Component {
+  onChange = (event) => {
+    if (Object.is(event, null)){
+      this.props.model.set(this.props.attr, "");
+    } else {
+      this.props.model.set(this.props.attr, event.value);
+    }
+  }
+  render() {
+    const { model, attr } = this.props;
+    const label = this.props.label || humanize(attr);
+    const hasError = model.errors.has(attr);
+
+    const getUsers = (input) => {
+      if (input.length >= 2){
+        return ajax({ url:'/testees/find', method: 'GET', payload: {letters: input}})
+          .then((json) => {
+            return { options: json };
+          });
+      }
+    }
+
+    return (
+      <FormField_ grid>
+      <FormFieldLabel alignment="right" middle large={3}>
+        {label}
+      </FormFieldLabel>
+        <Select.Async className="columns large-5"
+          value={model.get(attr)}
+          loadOptions={getUsers}
+          onChange={this.onChange}
+          />
+      {false ? (
+        <FormFieldError large={9} largeOffset={3}>
+          {model.error(attr)[0]}
+        </FormFieldError>
+      ) : null}
+    </FormField_>)
+  }
+}
+
 export default Form;
-export { Fieldset, FormFooter, FormField };
+  export { Fieldset, FormFooter, FormField, FormSelect, FormSelectWithAjax };

@@ -7,6 +7,7 @@ import EditTest     from "./components/tests/edit-test";
 import NotFound     from "./components/not-found";
 import Responses    from "./components/responses";
 import EditResponse from "./components/responses/edit-response";
+import NewResponse  from "./components/responses/new-response";
 
 const views = {
 
@@ -27,11 +28,6 @@ const views = {
     onEnter:   ({ s, params }) => s.tests.show(params.id)
   }),
 
-  notFound: new Route({
-    path:     '*',
-    component: <NotFound />
-  }),
-
   responses: new Route({
     path:       '/responses',
     component:  <Responses />,
@@ -42,6 +38,17 @@ const views = {
     path:      '/responses/:id',
     component: <EditResponse />,
     onEnter:   ({ s, params }) => s.responses.show(params.id)
+  }),
+
+  NewResponse: new Route({
+    path:      '/new-response',
+    component: <NewResponse />,
+    onEnter:   ({ s }) => s.responses.showNew()
+  }),
+
+  notFound: new Route({
+    path:     '*',
+    component: <NotFound />
   })
 
 }

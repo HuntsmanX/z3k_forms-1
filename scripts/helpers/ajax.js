@@ -25,7 +25,12 @@ const ajax = (options = {}) => {
   setDefaults(options);
 
   options.url  = ENV_API_URL + options.url;
-  options.data = JSON.stringify(options.payload);
+  
+  if (options.method === 'GET'){
+    options.data = options.payload;
+  } else {
+    options.data = JSON.stringify(options.payload);
+  }
 
   const request = $.ajax(options);
 
