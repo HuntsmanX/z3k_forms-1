@@ -6,18 +6,24 @@ import SequenceOption from "./sequence-block/sequence-option";
 @observer
 class SequenceBlock extends Component {
 
-  render() {
-    const { field, onChange, onFocus, onBlur } = this.props.blockProps;
+  moveOption = (...args) => {
+    const { field } = this.props.blockProps;
+    if (field.readOnly) return;
+    field.moveOption(...args);
+  }
 
+  render() {
+    const { field, onFocus, onBlur } = this.props.blockProps;
+    
     return (
       <div>
-        {field.options.map((option, index) => {
+        {field.availableOptions.map((option, index) => {
           return (
             <SequenceOption
               key={option.uuid}
               uuid={option.uuid}
               content={option.content}
-              move={onChange}
+              move={this.moveOption}
               onBeginDrag={onFocus}
               onEndDrag={onBlur}
               index={index}

@@ -17,7 +17,8 @@ const FIELD_TYPES = [
     tooltip:            "Text input field for short answers",
     type:               'block',
     hasOptions:         false,
-    hasCorrectOptions:  false
+    hasCorrectOptions:  false,
+    choice:             null
   }, {
     name:               'text_area',
     label:              'Text Area',
@@ -26,7 +27,8 @@ const FIELD_TYPES = [
     tooltip:            "Text area for longer answers",
     type:               'block',
     hasOptions:         false,
-    hasCorrectOptions:  false
+    hasCorrectOptions:  false,
+    choice:             null
   }, {
     name:               'dropdown',
     label:              'Dropdown',
@@ -35,7 +37,8 @@ const FIELD_TYPES = [
     tooltip:            "Regular dropdown for single-choice questions",
     type:               'block',
     hasOptions:         true,
-    hasCorrectOptions:  true
+    hasCorrectOptions:  true,
+    choice:             'single'
   }, {
     name:               'checkboxes',
     label:              'Checkboxes',
@@ -44,7 +47,8 @@ const FIELD_TYPES = [
     tooltip:            "Allows selecting multiple options",
     type:               'block',
     hasOptions:         true,
-    hasCorrectOptions:  true
+    hasCorrectOptions:  true,
+    choice:             'multiple'
   }, {
     name:               'radio_buttons',
     label:              'Radio Buttons',
@@ -53,7 +57,8 @@ const FIELD_TYPES = [
     tooltip:            "Regular radio buttons for single-choice questions",
     type:               'block',
     hasOptions:         true,
-    hasCorrectOptions:  true
+    hasCorrectOptions:  true,
+    choice:             'single'
   }, {
     name:               'sequence',
     label:              'Sequence',
@@ -62,7 +67,8 @@ const FIELD_TYPES = [
     tooltip:            "A list of sortable options, for 'reorder' kind of questions",
     type:               'block',
     hasOptions:         true,
-    hasCorrectOptions:  false
+    hasCorrectOptions:  false,
+    choice:             null
   }, {
     name:               'text_editor',
     label:              'Text Editor',
@@ -71,7 +77,8 @@ const FIELD_TYPES = [
     tooltip:            "A rich text editor for large answers, allows using styles etc.",
     type:               'block',
     hasOptions:         false,
-    hasCorrectOptions:  false
+    hasCorrectOptions:  false,
+    choice:             null
   }, {
     name:               'inline_text_input',
     label:              'Inline Text Input',
@@ -80,7 +87,8 @@ const FIELD_TYPES = [
     tooltip:            "Text input for 'gaps' kind of questions",
     type:               'inline',
     hasOptions:         false,
-    hasCorrectOptions:  false
+    hasCorrectOptions:  false,
+    choice:             null
   }, {
     name:               'inline_dropdown',
     label:              'Inline Dropdown',
@@ -89,7 +97,8 @@ const FIELD_TYPES = [
     tooltip:            "Dropdown for 'gaps' kind of questions",
     type:               'inline',
     hasOptions:         true,
-    hasCorrectOptions:  true
+    hasCorrectOptions:  true,
+    choice:             'single'
   }
 ];
 

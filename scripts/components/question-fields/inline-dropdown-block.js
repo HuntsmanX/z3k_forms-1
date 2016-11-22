@@ -4,22 +4,34 @@ import { observer } from "mobx-react";
 @observer
 class InlineDropdownBlock extends Component {
 
-  render() {
-    const { field, valueKey, onChange, onFocus, onBlur } = this.props.blockProps;
+  handleChange = (event) => {
+    this.props.blockProps.field.toggleSelectedOption(event.target.value);
+  }
 
-    const selected = field.options.find(o => o[valueKey]);
+  render() {
+    const { field, onFocus, onBlur } = this.props.blockProps;
+
+    const selected = field.availableOptions.find(o => o.isSelected);
     const value    = selected ? selected.uuid : "";
 
     return (
       <div className="inline-dropdown-wrapper">
         <select
           value={value}
-          onChange={onChange}
+          onChange={this.handleChange}
           onFocus={onFocus}
           onBlur={onBlur}
         >
-          {field.options.map(option => {
-            return <option key={option.uuid} value={option.uuid}>{option.content}</option>;
+          {field.availableOptions.map(option => {
+            return (
+              <option
+                key={option.uuid}
+                value={option.uuid}
+                disabled={field.readOnly}
+              >
+                {option.content}
+              </option>
+            );
           })}
         </select>
       </div>

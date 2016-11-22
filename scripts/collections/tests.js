@@ -2,10 +2,16 @@ import AppCollection from "./app-collection";
 
 import Test from "./../models/test";
 
-class TestsCollection extends AppCollection {}
+class TestsCollection extends AppCollection {
 
-TestsCollection.model = Test;
+  static get model() {
+    return Test;
+  }
 
-TestsCollection.urlRoot = "/tests";
+  static get urlRoot() {
+    return "/tests";
+  }
+
+}
 
 export default TestsCollection;

@@ -35,10 +35,14 @@ class EditTest extends Component {
   renderSections() {
     const test = this.props.s.tests.model;
 
-    return test.sections.map(section => {
+    return test.sections.map((section, index) => {
       return <Section
         key={section.uuid}
         section={section}
+        move={test.moveSection.bind(test)}
+        uuid={section.uuid}
+        index={index}
+        deleteSection={() => test.deleteSection(section.uuid)}
       />
     });
   }

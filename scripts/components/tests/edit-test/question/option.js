@@ -1,10 +1,14 @@
 import React, { Component } from "react";
 import { observer } from "mobx-react";
 
-import { Row, Column } from "react-foundation-components/lib/global/grid-flex";
+import { Column } from "react-foundation-components/lib/global/grid-flex";
 
 import Icon from "./../../../shared/icon";
 
+import { dragSource, dropTarget } from "./../../../../helpers/sort-dnd";
+
+@dropTarget("option")
+@dragSource("option")
 @observer
 class Option extends Component {
 
@@ -18,39 +22,53 @@ class Option extends Component {
   }
 
   render() {
-    const { option, index, hasCorrectOptions, toggleCorrect, deleteOption } = this.props;
+    const {
+      option,
+      index,
+      hasCorrectOptions,
+      toggleSelected,
+      deleteOption,
+      connectDragSource,
+      connectDragPreview,
+      isDragging,
+      connectDropTarget
+    } = this.props;
 
-    const icon = option.isCorrect ? 'done' : 'block';
+    const opacity = isDragging ? 0 : 1;
+    const icon    = option.isCorrect ? 'done' : 'block';
 
-    return (
-      <Row className="choice-option">
+    return connectDropTarget(
+      <div className="row choice-option" style={{ opacity, display: 'flex' }}>
 
         <Column large={1}>
           <label className="middle text-right drag-handle">
-            <Icon className="action drag-handle">dehaze</Icon>
+            {connectDragSource(
+              <i className="material-icons action drag-handle">dehaze</i>
+            )}
           </label>
         </Column>
 
-        <Column large={8}>
+        {connectDragPreview(<div className="column large-8">
           <input
             type="text"
             value={option.content}
             onChange={this.handleChange.bind(this, 'content')}
             onKeyDown={this.handleKeyDown}
             placeholder={`Option ${index + 1}`}
+            ref={option.assignInputRef.bind(option)}
           />
-        </Column>
+        </div>)}
 
         <Column large={3}>
           <label className="middle">
             {hasCorrectOptions ? (
-              <Icon className="action" onClick={toggleCorrect}>{icon}</Icon>
+              <Icon className="action" onClick={toggleSelected}>{icon}</Icon>
             ) : null}
             <Icon className="action" onClick={deleteOption}>delete</Icon>
           </label>
         </Column>
 
-      </Row>
+      </div>
     );
   }
 

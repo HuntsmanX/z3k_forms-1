@@ -2,8 +2,12 @@ import AppCollection from "./app-collection";
 
 import TestOption from "./../models/test-option";
 
-class TestOptions extends AppCollection {}
+class TestOptions extends AppCollection {
 
-TestOptions.model = TestOption;
+  static get model() {
+    return TestOption;
+  }
+
+}
 
 export default TestOptions;

@@ -3,8 +3,6 @@ import { EditorState, RichUtils, convertToRaw, convertFromRaw, ContentState } fr
 
 class Editor {
 
-  get defaultText() { return ''; }
-
   @observable state = null;
 
   constructor(content, ...args) {
@@ -65,6 +63,10 @@ class Editor {
         ContentState.createFromText(this.defaultText)
       )
     );
+  }
+
+  get defaultText() {
+    return this.constructor.defaultText || "";
   }
 
 }

@@ -41,7 +41,7 @@ class TestsStore {
 
   @action destroy(id) {
     const model = this.collection.find({ id: id });
-    
+
     if (confirm(`Are you sure you want to delete '${model.name}' test?`))
       model.destroy().then(this.list.bind(this));
   }

@@ -6,7 +6,9 @@ import Editor from "./editor";
 
 class QuestionEditor extends Editor {
 
-  get defaultText() { return 'Untitled question'; }
+  static get defaultText() {
+    return "Untitled question";
+  }
 
   initialize(content, onChange) {
     this._onChange = onChange;

@@ -79,6 +79,14 @@ class AppModel {
     return !this.get('id');
   }
 
+  @computed get isMarkedForDestruction() {
+    return this.has('_destroy') && this.get('_destroy') === true;
+  }
+
+  @action markForDestruction() {
+    this.set('_destroy', true);
+  }
+
   // 'fromJSON' is called by the constructor and 'create'/'save'
   // methods in case of success.
 
@@ -107,6 +115,13 @@ class AppModel {
         this.setCollectionAssociation(associationName, data[associationName], associationConfig);
     });
   }
+
+  // TODO Don't initialize associations from scratch if data is empty and
+  // associations already exist. Currently server has to include all
+  // associations in the response when the model is updated, otherwise
+  // all associations are lost on the client. This will also improve
+  // performance on both server and client - smaller response from the server
+  // and no unnecessary re-rendering on the client.
 
   @action setCollectionAssociation(name, data = [], config) {
     const collection = new config.collection(
@@ -163,6 +178,12 @@ class AppModel {
     ).get();
   }
 
+  has(attr) {
+    return computed(
+      () => this.attrs.has(attr)
+    ).get();
+  }
+
   @action setErrors(errors) {
     this.errors.merge(errors);
   }
@@ -212,7 +233,7 @@ class AppModel {
   }
 
   @action save() {
-    const action = this.get('id') ? 'update' : 'create';
+    const action = this.isPersisted ? 'update' : 'create';
     const [ url, method ] = this.getUrlAndMethod(action);
 
     this.unsetErrors();
@@ -252,10 +273,12 @@ class AppModel {
   }
 
   // Created attribute accessors for the given key unless attribute accessors
-  // alreadt exist. This allows shorter syntax for accessing attributes:
+  // already exist. This allows shorter syntax for accessing attributes:
   //
   // obj.name instead of obj.get('name')
   // obj.name = 'foo' instead of obj.set('name', 'foo')
+  //
+  // TODO replace this with proxies if possible
 
   _ensureAccessorsExist(key) {
     if (key in this) return;

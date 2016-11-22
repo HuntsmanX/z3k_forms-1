@@ -1,10 +1,13 @@
 import React, { Component } from "react";
 import { observer, inject } from "mobx-react";
+import { DragDropContext } from "react-dnd";
+import HTML5Backend from "react-dnd-html5-backend";
 
 import { Row, Column } from 'react-foundation-components/lib/global/grid-flex';
 
 import Header from "./header";
 
+@DragDropContext(HTML5Backend)
 @inject("s")
 @observer
 class ContentWrapper extends Component {

@@ -16,11 +16,13 @@ const _dragSource = {
   }
 };
 
-export const dragSource = DragSource('option', _dragSource, (connect, monitor) => ({
-  connectDragSource:  connect.dragSource(),
-  connectDragPreview: connect.dragPreview(),
-  isDragging:         monitor.isDragging()
-}));
+export const dragSource = (type) => {
+  return DragSource(type, _dragSource, (connect, monitor) => ({
+    connectDragSource:  connect.dragSource(),
+    connectDragPreview: connect.dragPreview(),
+    isDragging:         monitor.isDragging()
+  }));
+};
 
 const _dropTarget = {
   hover(props, monitor, component) {
@@ -53,10 +55,7 @@ const _dropTarget = {
     if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) return;
 
     // Time to actually perform the action
-    const dragId  = monitor.getItem().uuid;
-    const hoverId = props.uuid;
-
-    props.move(dragId, hoverId);
+    props.move(monitor.getItem().uuid, props.uuid);
 
     // Note: we're mutating the monitor item here!
     // Generally it's better to avoid mutations,
@@ -66,6 +65,8 @@ const _dropTarget = {
   }
 };
 
-export const dropTarget = DropTarget('option', _dropTarget, connect => ({
-  connectDropTarget: connect.dropTarget()
-}));
+export const dropTarget = (type) => {
+  return DropTarget(type, _dropTarget, connect => ({
+    connectDropTarget: connect.dropTarget()
+  }));
+};

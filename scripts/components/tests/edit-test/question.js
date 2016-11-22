@@ -10,46 +10,57 @@ import QuestionEditor from "./question-editor";
 import Controls       from "./question/controls";
 import FieldsControls from "./question/fields-controls";
 
+import { dragSource, dropTarget } from "./../../../helpers/sort-dnd";
+
+@dropTarget("question")
+@dragSource("question")
 @observer
 class Question extends Component {
 
   render() {
-    const { question } = this.props;
+    const {
+      question,
+      connectDragSource,
+      connectDragPreview,
+      isDragging,
+      connectDropTarget,
+      deleteQuestion
+    } = this.props;
 
-    return (
-      <div className="question">
-        <ActionsLeft question={question} />
-        <ActionsRight question={question} />
+    const opacity   = isDragging ? 0 : 1;
+    const className = question.isBeingEdited ? "question edited" : "question";
 
-        <div className="main-content">
-          <QuestionEditor question={question} />
+    return connectDropTarget(
+      <div className={className} style={{ opacity }}>
 
-          {question.isBeingEdited ? (
-            <div>
-              <Controls question={question} />
-              <FieldsControls question={question} />
-            </div>
-          ) : (
-            <QuestionStats question={question} />
-          )}
+        <div className="actions left">
+          {question.isPersisted ? (
+            connectDragSource(
+              <i className="material-icons action drag-handle">dehaze</i>
+            )
+          ) : null}
         </div>
-      </div>
-    );
-  }
 
-}
+        <ActionsRight question={question} deleteQuestion={deleteQuestion} />
 
-@observer
-class ActionsLeft extends Component {
+        {connectDragPreview(
+          <div className="main-content">
+            <QuestionEditor question={question} />
 
-  render() {
-    const { question } = this.props;
+            {question.formattedErrors.length ? (
+              <div className="errors">{question.formattedErrors}</div>
+            ) : null}
 
-    return (
-      <div className="actions left">
-        {question.isPersisted ? (
-          <Icon className="action drag-handle">dehaze</Icon>
-        ) : null}
+            {question.isBeingEdited ? (
+              <div>
+                <Controls question={question} />
+                <FieldsControls question={question} />
+              </div>
+            ) : (
+              <QuestionStats question={question} />
+            )}
+          </div>
+        )}
       </div>
     );
   }
@@ -60,19 +71,34 @@ class ActionsLeft extends Component {
 class ActionsRight extends Component {
 
   render() {
-    const { question } = this.props;
+    const { question, deleteQuestion } = this.props;
 
     return (
       <div className="actions right">
         {question.isBeingEdited ? (
-          <Icon className="action primary" onClick={question.save.bind(question)} title="Save">save</Icon>
+          <Icon
+            className="action primary"
+            onClick={question.save.bind(question)}
+            title="Save"
+          >
+            save
+          </Icon>
         ) : (
-          <Icon className="action primary" onClick={question.edit.bind(question)} title="Edit">mode_edit</Icon>
+          <Icon
+            className="action primary"
+            onClick={question.edit.bind(question)}
+            title="Edit"
+          >
+            mode_edit
+          </Icon>
         )}
         <Icon
           className="material-icons action alert"
           title="Delete"
-        >delete</Icon>
+          onClick={deleteQuestion}
+        >
+          delete
+        </Icon>
       </div>
     );
   }
@@ -89,7 +115,7 @@ class QuestionStats extends Component {
       <div className="question-stats">
         <Row>
           <Column large={3}>
-            <Hash k='Max Score' v={question.score} />
+            <Hash k='Max Score' v={question.maxScore} />
           </Column>
 
           <Column large={3}>
