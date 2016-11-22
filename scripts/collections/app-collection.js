@@ -8,6 +8,9 @@ import {
 import isFunction  from "lodash/isFunction";
 import _array      from "lodash/array";
 import _collection from "lodash/collection";
+import camelize    from "underscore.string/camelize";
+import defaults    from "lodash/defaults";
+import debounce    from "lodash/debounce";
 
 import ajax from "./../helpers/ajax";
 
@@ -21,34 +24,58 @@ class AppCollection {
     this.mixinLodashFunctions();
     this.fromJSON(data);
     this.initialize();
+    this.persistOrder = debounce(this.persistOrder, 1000);
   }
 
   // To be overridden by child classes to perform initialization.
+
   @action initialize() {}
+
+  // Mixes in lodash array and collection functions into the collection.
+  // See https://lodash.com/docs for available methods
 
   mixinLodashFunctions() {
     const functions = Object.assign({}, _array, _collection);
+
+    const skip = ['remove'];
+
     Object.keys(functions).forEach(func => {
-      this[func] = (...args) => _collection[func](this.models, ...args)
+      if (!functions.includes(skip, func)) {
+        this[func] = (...args) => functions[func](this.models, ...args)
+      }
     });
   }
 
   fromJSON(data = []) {
-    const models = data.map(obj => {
+    let models = data.map(obj => {
       let model = new this.modelClass(obj);
       this.assignParent(model);
       return model;
     });
 
-    this.set('models', models)
+    models = _collection.sortBy(models, model => model.orderIndex || 0);
+
+    this.set('models', models);
   }
 
   serialize(options = {}) {
     return this.models.map(model => model.serialize(options));
   }
 
+  // Collection is consireded ordered if all models have 'orderIndex'
+  // attribute. If that is the case, 'orderIdex' is updated by 'add',
+  // 'move' and 'remove' methods.
+
+  @computed get isOrdered() {
+    return this.every(model => model.has('orderIndex'));
+  }
+
   @computed get length() {
     return this.models.length;
+  }
+
+  @computed get notMarkedForDestruction() {
+    return this.filter(model => !model.isMarkedForDestruction);
   }
 
   get modelClass() {
@@ -63,7 +90,8 @@ class AppCollection {
     const root = this.constructor.urlRoot;
 
     switch(name) {
-      case 'fetch': return root;
+      case 'fetch':   return root;
+      case 'reorder': return `${root}/reorder`;
     }
   }
 
@@ -76,7 +104,9 @@ class AppCollection {
 
     const request = ajax({
       url: this.getUrl('fetch')
-    }).done(
+    });
+
+    request.then(
       ({ data }) => {
         this.fromJSON(data);
         this.set('isBeingFetched', false);
@@ -89,9 +119,28 @@ class AppCollection {
     return request;
   }
 
+  @action persistOrder() {
+    const order = {};
+
+    this.notMarkedForDestruction.forEach(
+      model => order[model.id] = model.orderIndex
+    );
+
+    ajax({
+      url:     this.getUrl('reorder'),
+      method:  'PUT',
+      payload: { order: order }
+    });
+  }
+
+  // Assigns parent models to all models in the collection - kinda
+  // creates 'belongs to' association.
+
   @action assignParent(model) {
-    if (this.parent.model && this.parent.name)
-      extendObservable(model, { [this.parent.name]: this.parent.model });
+    const { name: parentName, model: parentModel } = this.parent;
+    if (!parentModel || !parentName) return;
+    extendObservable(model, { [parentName]: parentModel });
+    model.set(`${parentName}Id`, parentModel.id);
   }
 
   @action add(attrs = {}) {
@@ -100,6 +149,39 @@ class AppCollection {
       this.assignParent(model);
       this.models.push(model);
     });
+    this._setOrderIndexes();
+  }
+
+  @action remove(uuid, options = {}) {
+    const index = this.findIndex({ uuid: uuid });
+    this.models.splice(index, 1);
+    this._setOrderIndexes(options);
+  }
+
+  @action markForDestruction(uuid) {
+    const model = this.find({ uuid: uuid });
+    model.markForDestruction();
+    this._setOrderIndexes();
+  }
+
+  @action move(fromId, toId, options = {}) {
+    const fromIndex = this.findIndex({ uuid: fromId });
+    const toIndex   = this.findIndex({ uuid: toId });
+
+    this.models.splice(
+      toIndex, 0, this.models.splice(fromIndex, 1)[0]
+    );
+    this._setOrderIndexes(options);
+  }
+
+  @action _setOrderIndexes(options = {}) {
+    if (!this.isOrdered) return;
+
+    this.notMarkedForDestruction.forEach(
+      (model, index) => model.set('orderIndex', index)
+    );
+
+    if (options.persistOrder) this.persistOrder();
   }
 
 }

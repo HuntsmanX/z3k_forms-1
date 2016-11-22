@@ -17,15 +17,17 @@ class OptionsList extends Component {
 
     return (
       <div>
-        {field.options.map((option, index) => {
+        {field.availableOptions.map((option, index) => {
           return <Option
             key={option.uuid}
             option={option}
-            index={index}
             deleteOption={field.deleteOption.bind(field, option.uuid)}
             onEnterPress={this.addOption}
             hasCorrectOptions={field.hasCorrectOptions}
-            toggleCorrect={field.toggleCorrectOption.bind(field, option.uuid)}
+            toggleSelected={field.toggleSelectedOption.bind(field, option.uuid)}
+            index={index}
+            uuid={option.uuid}
+            move={field.moveOption.bind(field)}
           />
         })}
         <a onClick={this.addOption}>Add Option</a>

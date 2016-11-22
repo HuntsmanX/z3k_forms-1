@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 
+import Icon from "./../../shared/icon";
+
 class StyleButton extends Component {
 
   onToggle = (event) => {
@@ -15,7 +17,7 @@ class StyleButton extends Component {
 
     return (
       <span className={className} onMouseDown={this.onToggle}>
-        <i className="material-icons" title={iconTitle}>{icon}</i>
+        <Icon title={iconTitle}>{icon}</Icon>
       </span>
     );
   }

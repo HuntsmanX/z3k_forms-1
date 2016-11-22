@@ -1,4 +1,5 @@
 import { action, computed, observable } from "mobx";
+import humanize from "underscore.string/humanize";
 
 import AppModel from "./app-model";
 import Editor   from "./editor";
@@ -8,6 +9,21 @@ import TestOptions from "./../collections/test-options";
 import FIELD_TYPES from "./../helpers/field-types";
 
 class TestField extends AppModel {
+
+  static get defaults() {
+    return {
+      content:   "",
+      score:     1,
+      autocheck: false,
+      _destroy:  false
+    };
+  }
+
+  static get associations() {
+    return {
+      options: { collection: TestOptions, parentKey: 'test' }
+    };
+  }
 
   @observable editor = null;
 
@@ -20,22 +36,37 @@ class TestField extends AppModel {
     ]);
   }
 
+  @computed get availableOptions() {
+    return this.options.notMarkedForDestruction;
+  }
+
+  @computed get value() {
+    return this.get('content');
+  }
+
+  @computed get readOnly() {
+    if (this.fieldType === 'text_editor') return true;
+    return !this.question.isBeingEdited;
+  }
+
+  @computed get formattedErrors() {
+    return this.errors.entries().map(entry => {
+      return `${humanize(entry[0])} ${entry[1].join(', ')}`;
+    }).join("\n");
+  }
+
   @action fromJSON(data) {
     super.fromJSON(data);
     this.editor = new Editor(this.content);
   }
 
-  serialize() {
-    const data = super.serialize();
+  serialize(options) {
+    const data = super.serialize(options);
 
     if (this.fieldType === "text_editor")
       data.content = this.editor.serialize();
 
     return data;
-  }
-
-  @computed get value() {
-    return this.get('content');
   }
 
   @action setValue(val) {
@@ -47,49 +78,63 @@ class TestField extends AppModel {
   }
 
   @action addOption() {
-    this.options.add()
+    this.options.add();
+    this.options.last().focus();
   }
 
   @action deleteOption(uuid) {
-    console.log(this.options.find({ uuid: uuid }))
+    this.options.markForDestruction(uuid);
   }
 
-  @action toggleCorrectOption(uuid) {
-    console.log(this.options.find({ uuid: uuid }))
+  @action moveOption(dragId, hoverId) {
+    this.options.move(dragId, hoverId);
   }
 
-  @computed get readOnly() {
-    if (this.fieldType === 'text_editor') return true;
-    return !this.question.isBeingEdited;
+  @action toggleSelectedOption(uuid) {
+    const option = this.options.find({ uuid: uuid });
+
+    if (this.isSingleChoice)   this._selectSingleSelectedOption(option);
+    if (this.isMultipleChoice) this._selectMultipeSelectedOption(option);
+  }
+
+  @action _selectSingleSelectedOption(option) {
+    this.options.each(o => o.set('isCorrect', false));
+    option.set('isCorrect', true);
+  }
+
+  @action _selectMultipeSelectedOption(option) {
+    option.set('isCorrect', !option.isCorrect);
+  }
+
+  @computed get fieldEntity() {
+    return FIELD_TYPES.find(f => f.name === this.fieldType)
   }
 
   @computed get label() {
-    return FIELD_TYPES.find(f => f.name === this.fieldType).label;
+    return this.fieldEntity.label;
   }
 
   @computed get tooltip() {
-    return FIELD_TYPES.find(f => f.name === this.fieldType).tooltip;
+    return this.fieldEntity.tooltip;
   }
 
   @computed get hasOptions() {
-    return FIELD_TYPES.find(f => f.name === this.fieldType).hasOptions;
+    return this.fieldEntity.hasOptions;
   }
 
   @computed get hasCorrectOptions() {
     if (!this.autocheck) return false;
-    return FIELD_TYPES.find(f => f.name === this.fieldType).hasCorrectOptions;
+    return this.fieldEntity.hasCorrectOptions;
   }
 
-}
+  @computed get isSingleChoice() {
+    return this.fieldEntity.choice === 'single';
+  }
 
-TestField.defaults = {
-  content:    "",
-  score:      1,
-  autocheck:  false,
-}
+  @computed get isMultipleChoice() {
+    return this.fieldEntity.choice === 'multiple';
+  }
 
-TestField.associations = {
-  options: { collection: TestOptions, parentKey: 'test' }
 }
 
 export default TestField;

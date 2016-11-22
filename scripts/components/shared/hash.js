@@ -5,7 +5,9 @@ import { Row } from 'react-foundation-components/lib/global/grid-flex';
 class Hash extends Component {
 
   render() {
-    const { k: key, v: value, w: width } = this.props;
+    const { k: key, v: value, w: width, render } = this.props;
+
+    if (!render) return null;
 
     let keyWidth = '', valueWidth = '';
 
@@ -25,6 +27,10 @@ class Hash extends Component {
     );
   }
 
+}
+
+Hash.defaultProps = {
+  render: true
 }
 
 export default Hash;

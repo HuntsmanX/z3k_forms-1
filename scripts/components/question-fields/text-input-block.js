@@ -9,7 +9,7 @@ class TextInputBlock extends Component {
   }
 
   render() {
-    const { field, valueKey, onFocus, onBlur, placeholder } = this.props.blockProps;
+    const { field, onFocus, onBlur, placeholder } = this.props.blockProps;
 
     return (
       <input

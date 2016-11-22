@@ -29,8 +29,8 @@ class QuestionEditor extends Component {
 
     } else if (fieldType) {
 
-      const field = question.fields.find(f => f.blockKey === block.getKey());
-
+      const field = question.fields.find({ blockKey: block.getKey() });
+      
       return {
         component: fieldType.component,
         editable:  false,
@@ -60,6 +60,7 @@ class QuestionEditor extends Component {
           handleKeyCommand={editor.handleKeyCommand.bind(editor)}
           readOnly={question.readOnly}
           handleReturn={editor.handleReturn.bind(editor)}
+          ref={question.assignInputRef.bind(question)}
         />
       </div>
     );

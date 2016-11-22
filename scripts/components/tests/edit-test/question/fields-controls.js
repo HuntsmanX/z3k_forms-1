@@ -12,11 +12,11 @@ import OptionsList from "./options-list";
 class FieldsControls extends Component {
 
   render() {
-    const { question: { fields } } = this.props;
+    const { question: { availableFields } } = this.props;
 
     return (
       <div className="fields-controls">
-        {fields.map((field, index) => {
+        {availableFields.map((field, index) => {
           return <FieldControls key={field.uuid} index={index} field={field} />;
         })}
       </div>
@@ -62,6 +62,10 @@ class FieldControls extends Component {
           </Column>
 
         </Row>
+
+        {field.formattedErrors.length ? (
+          <div className="errors">{field.formattedErrors}</div>
+        ) : null}
       </div>
     );
   }

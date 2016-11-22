@@ -29,10 +29,14 @@ class QuestionsList extends Component {
   renderQuestions() {
     const { section } = this.props;
 
-    return section.questions.map(question => {
+    return section.questions.map((question, index) => {
       return <Question
         key={question.uuid}
         question={question}
+        move={section.moveQuestion.bind(section)}
+        uuid={question.uuid}
+        index={index}
+        deleteQuestion={() => section.deleteQuestion(question.uuid)}
       />
     });
   }
