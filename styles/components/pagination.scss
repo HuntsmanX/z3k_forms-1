@@ -1,0 +1,10 @@
+div.pagination {
+  margin-top: 1rem;
+  position:   relative;
+
+  .per-page {
+    display: inline-block;
+    width:   4rem;
+    height:  2rem;
+  }
+}

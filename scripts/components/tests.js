@@ -4,6 +4,7 @@ import { observer, inject } from "mobx-react";
 import EntitiesListPanel from "./shared/entities-list-panel";
 import EntitiesList      from "./shared/entities-list";
 import Button            from "./shared/button";
+import Pagination        from "./shared/pagination";
 
 import NewTest from "./tests/new-test";
 import Test    from "./tests/test";
@@ -29,6 +30,7 @@ class Tests extends Component {
           collection={tests.collection}
           component={Test}
         />
+        <Pagination collection={tests.collection} />
       </div>
     );
   }

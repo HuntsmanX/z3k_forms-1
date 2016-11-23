@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 
-import Loader from "./loader";
+import Loader         from "./loader";
+import LoadingWrapper from "./loading-wrapper";
 
 class EntitiesList extends Component {
 
@@ -10,10 +11,12 @@ class EntitiesList extends Component {
       component: ChildComponent
     } = this.props;
 
-    if (collection.isBeingFetched) return <Loader />;
+    if (collection.isBeingFetched && !collection.length) return <Loader />;
 
     return (
       <ul className="entities-list">
+        {collection.isBeingFetched ? <LoadingWrapper /> : null}
+
         {collection.map(model => {
           return <ChildComponent key={model.uuid} model={model} />
         })}
