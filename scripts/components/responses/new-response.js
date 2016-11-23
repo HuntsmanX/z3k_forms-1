@@ -1,9 +1,11 @@
 import React, { Component } from "react";
 import { observer, inject } from "mobx-react";
 
-import Callout from "./../shared/callout";
-import Button  from "./../shared/button";
-import Loader from "./../shared/loader";
+import Callout           from "./../shared/callout";
+import Button            from "./../shared/button";
+import Loader            from "./../shared/loader";
+import UserSelectOption  from './user-select-forms';
+import SetSelectedValue  from './set-selected-value-select';
 
 import Form, {
   Fieldset,
@@ -20,7 +22,9 @@ import { Row, Column } from 'react-foundation-components/lib/global/grid-flex';
 class NewResponse extends Component {
   render() {
     const { model: response, tests, loading } = this.props.s.responses;
-
+    const setOptions = element => {
+                                    element['value'] = element['id'];
+                                    element['label'] = element['fullNameEng']};
     if (loading) return <Loader />;
 
     return(
@@ -28,10 +32,10 @@ class NewResponse extends Component {
           <Callout>
             <Fieldset legend="New Response">
               <FormSelect model={response} attr="testId" label="Test" options={tests} />
-              <FormSelectWithAjax model={response} url="/testees/find" attr="userId" label="User" responseUsers="true"/>
+              <FormSelectWithAjax model={response} url="/testees/find" attr="userId" label="User" selectOption={UserSelectOption} setValue={SetSelectedValue} setOptions={setOptions}/>
             </Fieldset>
             <FormFooter>
-              <Button type="submit" label="Save" icon="done" />
+              <Button type="submit" label="Create" icon="done" />
             </FormFooter>
           </Callout>
         </Form>

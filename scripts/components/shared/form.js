@@ -3,8 +3,6 @@ import { observer }         from "mobx-react";
 import humanize             from "underscore.string/humanize";
 import Select               from 'react-select';
 import ajax                 from './../../helpers/ajax';
-import UserSelectOption     from '../responses/user-select-forms';
-import UserFullName         from '../responses/user-full-name-select';
 
 import {
   FormField as FormField_,
@@ -153,10 +151,8 @@ class FormSelectWithAjax extends Component {
       if (input.length >= 2) {
         return ajax({ url: url, method: 'GET', payload: {q: input}})
           .then((json) => {
-            if (this.props.responseUsers == 'true') {
-              json.map(element => { element['value']  = element['id']
-                                    element['label'] = element['fullNameEng'] })
-            }
+            debugger
+              json.map(this.props.setOptions)
             return { options: json };
           });
       }
@@ -166,15 +162,13 @@ class FormSelectWithAjax extends Component {
       <FormFieldLabel alignment="right" middle large={3}>
         {label}
       </FormFieldLabel>
-      {this.props.responseUsers == 'true' ? (
         <Select.Async className="columns large-5"
           value={model.get(attr)}
           loadOptions={getOptions}
-          optionComponent={UserSelectOption}
-          valueComponent={UserFullName}
+          optionComponent={this.props.selectOption}
+          valueComponent={this.props.setValue}
           onChange={this.onChange}
           />
-      ): null}
       {hasError ? (
         <FormFieldError large={9} largeOffset={3}>
           {model.error(attr)[0]}
