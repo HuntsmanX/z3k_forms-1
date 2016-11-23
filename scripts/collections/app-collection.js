@@ -18,6 +18,10 @@ class AppCollection {
 
   @observable models         = [];
   @observable isBeingFetched = false;
+  @observable currentPage    = 1;
+  @observable totalPages     = 0;
+  @observable totalItems     = 0;
+  @observable perPage        = 25;
 
   constructor(data = [], parent = {}) {
     this.parent = parent;
@@ -46,7 +50,7 @@ class AppCollection {
     });
   }
 
-  fromJSON(data = []) {
+  @action fromJSON(data = []) {
     let models = data.map(obj => {
       let model = new this.modelClass(obj);
       this.assignParent(model);
@@ -103,12 +107,17 @@ class AppCollection {
     this.set('isBeingFetched', true);
 
     const request = ajax({
-      url: this.getUrl('fetch')
+      url:     this.getUrl('fetch'),
+      payload: {
+        page: this.currentPage,
+        per:  this.perPage
+      }
     });
 
     request.then(
-      ({ data }) => {
+      ({ data, meta }) => {
         this.fromJSON(data);
+        this._setPagination(meta);
         this.set('isBeingFetched', false);
       },
       () => {
@@ -182,6 +191,16 @@ class AppCollection {
     );
 
     if (options.persistOrder) this.persistOrder();
+  }
+
+  @action _setPagination(data = {}) {
+    const { totalPages, totalItems, currentPage } = data;
+
+    if (!totalPages || !totalItems || !currentPage) return;
+
+    this.set('totalPages',  totalPages);
+    this.set('totalItems',  totalItems);
+    this.set('currentPage', currentPage);
   }
 
 }
