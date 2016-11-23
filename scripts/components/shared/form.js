@@ -101,7 +101,8 @@ class FormField extends Component {
 @observer
 class FormSelect extends Component {
   handleChange = (event) => {
-    event ? this.props.model.set(this.props.attr, event.value) : this.props.model.set(this.props.attr, "");
+    const value = event ? event.value : "";
+    this.props.model.set(this.props.attr, value);
   }
 
   render() {
@@ -111,21 +112,23 @@ class FormSelect extends Component {
     const hasError = model.errors.has(attr);
 
     return (
-      <FormField_ grid>
-      <FormFieldLabel alignment="right" middle large={3}>
-        {label}
-      </FormFieldLabel>
-        <Select className="columns large-5"
+      <FormField_ grid error={hasError}>
+        <FormFieldLabel alignment="right" middle large={3}>
+          {label}
+        </FormFieldLabel>
+        <Select
+          className="columns large-5"
           value={model.get(attr)}
           options={opts}
           onChange={this.handleChange}
-          />
-      {hasError ? (
-        <FormFieldError large={9} largeOffset={3}>
-          {model.error(attr)[0]}
-        </FormFieldError>
-      ) : null}
-    </FormField_>)
+        />
+        {hasError ? (
+          <FormFieldError large={9} largeOffset={3}>
+            {model.error(attr)[0]}
+          </FormFieldError>
+        ) : null}
+      </FormField_>
+    );
   }
 }
 
@@ -133,43 +136,47 @@ class FormSelect extends Component {
 class FormSelectWithAjax extends Component {
 
   handleChange = (event) => {
-    event ? this.props.model.set(this.props.attr, event.value) : this.props.model.set(this.props.attr, "");
+    const value = event ? event.value || "";
+    this.props.model.set(this.props.attr, value);
   }
 
   render() {
-    const { model, attr, url } = this.props;
+    const { model, attr, url, formatOptions } = this.props;
     const label = this.props.label || humanize(attr);
     const hasError = model.errors.has(attr);
 
     const getOptions = (input) => {
       if (input.length < 2) return;
-      return ajax({ url: url, method: 'GET', payload: { q: input}})
-        .then((json) => {
-          json.map(this.props.formatOptions);
-            return { options: json };
-        });
+      return ajax({ url: url, method: 'GET', payload: { q: input } }).then(
+        (json) => {
+          json.map(formatOptions);
+          return { options: json };
+        }
+      );
     }
 
     return (
-      <FormField_ grid>
-      <FormFieldLabel alignment="right" middle large={3}>
-        {label}
-      </FormFieldLabel>
-        <Select.Async className="columns large-5"
+      <FormField_ grid error={hasError}>
+        <FormFieldLabel alignment="right" middle large={3}>
+          {label}
+        </FormFieldLabel>
+        <Select.Async
+          className="columns large-5"
           value={model.get(attr)}
           loadOptions={getOptions}
           optionComponent={this.props.selectOption}
           valueComponent={this.props.setValue}
           onChange={this.handleChange}
-          />
-      {hasError ? (
-        <FormFieldError large={9} largeOffset={3}>
-          {model.error(attr)[0]}
-        </FormFieldError>
-      ) : null}
-    </FormField_>)
+        />
+        {hasError ? (
+          <FormFieldError large={9} largeOffset={3}>
+            {model.error(attr)[0]}
+          </FormFieldError>
+        ) : null}
+      </FormField_>
+    );
   }
 }
 
 export default Form;
-  export { Fieldset, FormFooter, FormField, FormSelect, FormSelectWithAjax };
+export { Fieldset, FormFooter, FormField, FormSelect, FormSelectWithAjax };

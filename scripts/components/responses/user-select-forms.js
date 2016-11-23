@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 
 class UserSelectOption extends Component {
+
 	handleMouseDown = (event) => {
 		event.preventDefault();
 		event.stopPropagation();
@@ -17,15 +18,19 @@ class UserSelectOption extends Component {
 	}
 
 	render() {
+    const { fullName, email, firstCalledOn, title } = this.props.option;
+
 		return (
-			<div className='select-results__options'
+			<div
+        className='select-results__options'
 				onMouseDown={this.handleMouseDown}
 				onMouseEnter={this.handleMouseEnter}
 				onMouseMove={this.handleMouseMove}
-				title={this.props.option.title}>
-        {this.props.option.fullName}
-				{this.props.option.email}
-        {this.props.option.firstCalledOn}
+				title={title}
+      >
+        {fullName}
+				{email}
+        {firstCalledOn}
 			</div>
 		);
 	}

@@ -2,10 +2,16 @@ import AppCollection from "./app-collection";
 
 import Response from "./../models/response";
 
-class ResponsesCollection extends AppCollection {}
+class ResponsesCollection extends AppCollection {
 
-ResponsesCollection.model = Response;
+  static get model() {
+    return Response;
+  }
 
-ResponsesCollection.urlRoot = "/responses";
+  static get urlRoot() {
+    return "/responses";
+  }
+
+}
 
 export default ResponsesCollection;

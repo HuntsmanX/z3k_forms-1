@@ -22,31 +22,34 @@ import { Row, Column } from 'react-foundation-components/lib/global/grid-flex';
 class NewResponse extends Component {
   render() {
     const { model: response, tests, loading } = this.props.s.responses;
-    const setFormattedOptions = element => {
-                                             element['value'] = element['id'];
-                                             element['label'] = element['fullNameEng']};
+
     if (loading) return <Loader />;
 
+    const setFormattedOptions = (element) => {
+      element['value'] = element['id'];
+      element['label'] = element['fullNameEng'];
+    };
+
     return(
-        <Form>
-          <Callout>
-            <Fieldset legend="New Response">
-              <FormSelect model={response} attr="testId" label="Test" options={tests} />
-              <FormSelectWithAjax
-                model={response}
-                url="/testees/find"
-                attr="userId"
-                label="User"
-                selectOption={UserSelectOption}
-                setValue={SetSelectedValue}
-                formatOptions={setFormattedOptions}
-              />
-            </Fieldset>
-            <FormFooter>
-              <Button type="submit" label="Create" icon="done" />
-            </FormFooter>
-          </Callout>
-        </Form>
+      <Form>
+        <Callout>
+          <Fieldset legend="New Response">
+            <FormSelect model={response} attr="testId" label="Test" options={tests} />
+            <FormSelectWithAjax
+              model={response}
+              url="/testees/find"
+              attr="userId"
+              label="User"
+              selectOption={UserSelectOption}
+              setValue={SetSelectedValue}
+              formatOptions={setFormattedOptions}
+            />
+          </Fieldset>
+          <FormFooter>
+            <Button type="submit" label="Create" icon="done" />
+          </FormFooter>
+        </Callout>
+      </Form>
     );
   }
 
