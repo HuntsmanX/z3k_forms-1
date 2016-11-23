@@ -4,6 +4,8 @@ import humanize             from "underscore.string/humanize";
 import Select               from 'react-select';
 import ajax                 from './../../helpers/ajax';
 
+import { Column } from 'react-foundation-components/lib/global/grid-flex';
+
 import {
   FormField as FormField_,
   FormFieldInput,
@@ -100,6 +102,7 @@ class FormField extends Component {
 
 @observer
 class FormSelect extends Component {
+
   handleChange = (event) => {
     const value = event ? event.value : "";
     this.props.model.set(this.props.attr, value);
@@ -107,8 +110,9 @@ class FormSelect extends Component {
 
   render() {
     const { model, attr, options } = this.props;
-    const label = this.props.label || humanize(attr);
-    const opts = options.map(o => ({ value: o.id, label: o.name }));
+
+    const label    = this.props.label || humanize(attr);
+    const opts     = options.map(o => ({ value: o.id, label: o.name }));
     const hasError = model.errors.has(attr);
 
     return (
@@ -116,12 +120,13 @@ class FormSelect extends Component {
         <FormFieldLabel alignment="right" middle large={3}>
           {label}
         </FormFieldLabel>
-        <Select
-          className="columns large-5"
-          value={model.get(attr)}
-          options={opts}
-          onChange={this.handleChange}
-        />
+        <Column large={5}>
+          <Select
+            value={model.get(attr)}
+            options={opts}
+            onChange={this.handleChange}
+          />
+        </Column>
         {hasError ? (
           <FormFieldError large={9} largeOffset={3}>
             {model.error(attr)[0]}
@@ -136,38 +141,40 @@ class FormSelect extends Component {
 class FormSelectWithAjax extends Component {
 
   handleChange = (event) => {
-    const value = event ? event.value || "";
+    const value = event ? event.value : "";
     this.props.model.set(this.props.attr, value);
   }
 
-  render() {
-    const { model, attr, url, formatOptions } = this.props;
-    const label = this.props.label || humanize(attr);
-    const hasError = model.errors.has(attr);
+  loadOptions = (input) => {
+    const { url, formatOption } = this.props;
 
-    const getOptions = (input) => {
-      if (input.length < 2) return;
-      return ajax({ url: url, method: 'GET', payload: { q: input } }).then(
-        (json) => {
-          json.map(formatOptions);
-          return { options: json };
-        }
-      );
-    }
+    if (input.length < 2) return Promise.resolve({ options: [] });
+
+    return ajax({ url: url, method: 'GET', payload: { q: input } }).then(
+      json => ({ options: json.map(formatOption) })
+    );
+  }
+
+  render() {
+    const { model, attr, optionComponent, valueComponent } = this.props;
+
+    const label    = this.props.label || humanize(attr);
+    const hasError = model.errors.has(attr);
 
     return (
       <FormField_ grid error={hasError}>
         <FormFieldLabel alignment="right" middle large={3}>
           {label}
         </FormFieldLabel>
-        <Select.Async
-          className="columns large-5"
-          value={model.get(attr)}
-          loadOptions={getOptions}
-          optionComponent={this.props.selectOption}
-          valueComponent={this.props.setValue}
-          onChange={this.handleChange}
-        />
+        <Column large={5}>
+          <Select.Async
+            value={model.get(attr)}
+            loadOptions={this.loadOptions}
+            optionComponent={optionComponent}
+            valueComponent={valueComponent}
+            onChange={this.handleChange}
+          />
+        </Column>
         {hasError ? (
           <FormFieldError large={9} largeOffset={3}>
             {model.error(attr)[0]}

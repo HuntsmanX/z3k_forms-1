@@ -3,12 +3,14 @@ import React, { Component } from "react";
 class SetSelectedValue extends Component {
 
 	render() {
+    const { fullNameEng, email, phone, firstCalledOn } = this.props.value;
+
 		return (
-      <div className="select-value">
-				<span className="select-value-label">
-					{this.props.children}
-				</span>
-			</div>
+      <div className="Select-value">
+        <span className="Select-value-label">
+  				{`${fullNameEng} (${email || phone} / ${firstCalledOn})`}
+  			</span>
+      </div>
 		);
 	}
 };
