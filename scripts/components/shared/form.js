@@ -100,12 +100,8 @@ class FormField extends Component {
 
 @observer
 class FormSelect extends Component {
-  onChange = (event) => {
-    if (Object.is(event, null)){
-      this.props.model.set(this.props.attr, "");
-    } else {
-      this.props.model.set(this.props.attr, event.value);
-    }
+  handleChange = (event) => {
+    event ? this.props.model.set(this.props.attr, event.value) : this.props.model.set(this.props.attr, "");
   }
 
   render() {
@@ -122,7 +118,7 @@ class FormSelect extends Component {
         <Select className="columns large-5"
           value={model.get(attr)}
           options={opts}
-          onChange={this.onChange}
+          onChange={this.handleChange}
           />
       {hasError ? (
         <FormFieldError large={9} largeOffset={3}>
@@ -135,28 +131,25 @@ class FormSelect extends Component {
 
 @observer
 class FormSelectWithAjax extends Component {
-  onChange = (event) => {
-    if (Object.is(event, null)){
-      this.props.model.set(this.props.attr, "");
-    } else {
-      this.props.model.set(this.props.attr, event.value);
-    }
+
+  handleChange = (event) => {
+    event ? this.props.model.set(this.props.attr, event.value) : this.props.model.set(this.props.attr, "");
   }
+
   render() {
     const { model, attr, url } = this.props;
     const label = this.props.label || humanize(attr);
     const hasError = model.errors.has(attr);
 
     const getOptions = (input) => {
-      if (input.length >= 2) {
-        return ajax({ url: url, method: 'GET', payload: {q: input}})
-          .then((json) => {
-            debugger
-              json.map(this.props.setOptions)
+      if (input.length < 2) return;
+      return ajax({ url: url, method: 'GET', payload: { q: input}})
+        .then((json) => {
+          json.map(this.props.formatOptions);
             return { options: json };
-          });
-      }
+        });
     }
+
     return (
       <FormField_ grid>
       <FormFieldLabel alignment="right" middle large={3}>
@@ -167,7 +160,7 @@ class FormSelectWithAjax extends Component {
           loadOptions={getOptions}
           optionComponent={this.props.selectOption}
           valueComponent={this.props.setValue}
-          onChange={this.onChange}
+          onChange={this.handleChange}
           />
       {hasError ? (
         <FormFieldError large={9} largeOffset={3}>
