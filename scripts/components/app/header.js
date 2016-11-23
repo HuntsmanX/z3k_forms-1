@@ -21,6 +21,12 @@ class Header extends Component {
                   <li>
                     <Link to="tests">Tests</Link>
                   </li>
+                  <li>
+                    <Link to="responses">Responses</Link>
+                  </li>
+                  <li>
+                    <Link to="NewResponse">New Response</Link>
+                  </li>
                 </ul>
               </div>
             </div>

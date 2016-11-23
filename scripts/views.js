@@ -1,10 +1,13 @@
 import React from "react";
 import { Route } from 'mobx-router';
 
-import Dashboard from "./components/dashboard";
-import Tests     from "./components/tests";
-import EditTest  from "./components/tests/edit-test";
-import NotFound  from "./components/not-found";
+import Dashboard    from "./components/dashboard";
+import Tests        from "./components/tests";
+import EditTest     from "./components/tests/edit-test";
+import NotFound     from "./components/not-found";
+import Responses    from "./components/responses";
+import EditResponse from "./components/responses/edit-response";
+import NewResponse  from "./components/responses/new-response";
 
 const views = {
 
@@ -23,6 +26,24 @@ const views = {
     path:      '/tests/:id',
     component: <EditTest />,
     onEnter:   ({ s, params }) => s.tests.show(params.id)
+  }),
+
+  responses: new Route({
+    path:       '/responses',
+    component:  <Responses />,
+    onEnter:   ({ s }) => s.responses.list()
+  }),
+
+  editResponse: new Route({
+    path:      '/responses/:id',
+    component: <EditResponse />,
+    onEnter:   ({ s, params }) => s.responses.show(params.id)
+  }),
+
+  NewResponse: new Route({
+    path:      '/new-response',
+    component: <NewResponse />,
+    onEnter:   ({ s }) => s.responses.showNew()
   }),
 
   notFound: new Route({

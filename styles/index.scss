@@ -2,6 +2,7 @@
 
 @import 'foundation-sites/scss/foundation';
 @include foundation-everything(true);
+@import 'react-select/dist/react-select';
 
 @import 'global';
 
