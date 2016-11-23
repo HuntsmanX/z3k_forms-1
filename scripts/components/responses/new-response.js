@@ -28,7 +28,7 @@ class NewResponse extends Component {
           <Callout>
             <Fieldset legend="New Response">
               <FormSelect model={response} attr="testId" label="Test" options={tests} />
-              <FormSelectWithAjax model={response} attr="userId" label="User"/>
+              <FormSelectWithAjax model={response} url="/testees/find" attr="userId" label="User" responseUsers="true"/>
             </Fieldset>
             <FormFooter>
               <Button type="submit" label="Save" icon="done" />

@@ -3,6 +3,8 @@ import { observer }         from "mobx-react";
 import humanize             from "underscore.string/humanize";
 import Select               from 'react-select';
 import ajax                 from './../../helpers/ajax';
+import UserSelectOption     from '../responses/user-select-forms';
+import UserFullName         from '../responses/user-full-name-select';
 
 import {
   FormField as FormField_,
@@ -124,7 +126,7 @@ class FormSelect extends Component {
           options={opts}
           onChange={this.onChange}
           />
-      {false ? (
+      {hasError ? (
         <FormFieldError large={9} largeOffset={3}>
           {model.error(attr)[0]}
         </FormFieldError>
@@ -143,30 +145,37 @@ class FormSelectWithAjax extends Component {
     }
   }
   render() {
-    const { model, attr } = this.props;
+    const { model, attr, url } = this.props;
     const label = this.props.label || humanize(attr);
     const hasError = model.errors.has(attr);
 
-    const getUsers = (input) => {
-      if (input.length >= 2){
-        return ajax({ url:'/testees/find', method: 'GET', payload: {letters: input}})
+    const getOptions = (input) => {
+      if (input.length >= 2) {
+        return ajax({ url: url, method: 'GET', payload: {q: input}})
           .then((json) => {
+            if (this.props.responseUsers == 'true') {
+              json.map(element => { element['value']  = element['id']
+                                    element['label'] = element['fullNameEng'] })
+            }
             return { options: json };
           });
       }
     }
-
     return (
       <FormField_ grid>
       <FormFieldLabel alignment="right" middle large={3}>
         {label}
       </FormFieldLabel>
+      {this.props.responseUsers == 'true' ? (
         <Select.Async className="columns large-5"
           value={model.get(attr)}
-          loadOptions={getUsers}
+          loadOptions={getOptions}
+          optionComponent={UserSelectOption}
+          valueComponent={UserFullName}
           onChange={this.onChange}
           />
-      {false ? (
+      ): null}
+      {hasError ? (
         <FormFieldError large={9} largeOffset={3}>
           {model.error(attr)[0]}
         </FormFieldError>
