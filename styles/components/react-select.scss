@@ -1,0 +1,34 @@
+.Select-control {
+  border:        $input-border;
+  border-radius: 0;
+  font-size:     0.88235rem;
+  color:         #0a0a0a;
+}
+
+.Select-menu-outer {
+  border:        $input-border;
+  border-radius: 0;
+  font-size:     0.88235rem;
+}
+
+.is-focused:not(.is-open) > .Select-control {
+  border:           1px solid #8a8a8a;
+  background-color: #fefefe;
+  outline:          none;
+  box-shadow:       0 0 5px #cacaca;
+  transition:       box-shadow 0.5s, border-color 0.25s ease-in-out;
+}
+
+.Select-option {
+  color: #0a0a0a;
+  border-radius: 0 !important;
+}
+
+.Select-option.is-selected {
+  background-color: #def0fc;
+}
+
+.Select-option.is-focused {
+  background-color: $primary-color;
+  color:            white;
+}

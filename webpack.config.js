@@ -14,7 +14,7 @@ Object.keys(config).forEach(function(key) {
 
 module.exports = {
 
-  devtool: 'eval-source-map',
+  devtool: 'eval',
 
   entry: [
     'webpack-hot-middleware/client?reload=true',

@@ -18,19 +18,19 @@ class UserSelectOption extends Component {
 	}
 
 	render() {
-    const { fullName, email, firstCalledOn, title } = this.props.option;
+    const {
+      option: { fullNameEng, email, firstCalledOn, phone },
+      className
+    } = this.props;
 
 		return (
 			<div
-        className='select-results__options'
+        className={className}
 				onMouseDown={this.handleMouseDown}
 				onMouseEnter={this.handleMouseEnter}
 				onMouseMove={this.handleMouseMove}
-				title={title}
       >
-        {fullName}
-				{email}
-        {firstCalledOn}
+        {`${fullNameEng} (${email || phone} / ${firstCalledOn})`}
 			</div>
 		);
 	}

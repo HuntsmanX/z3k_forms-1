@@ -32,11 +32,21 @@ class ResponseStore {
     ui.setPageTitle("Responses");
   }
 
+  @action create() {
+    this.model.save().then(
+      () => router.navigate('start', { id: this.model.id })
+    );
+  }
+
   @action show(id) {
     this.model.set('id', id);
     this.model.fetch().then(
       () => ui.setPageTitle(this.model.name)
     );
+  }
+
+  @action start(id) {
+    this.model.set('id', id);
   }
 
 }
