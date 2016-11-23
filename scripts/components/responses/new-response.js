@@ -22,13 +22,16 @@ import { Row, Column } from 'react-foundation-components/lib/global/grid-flex';
 class NewResponse extends Component {
   render() {
     const { model: response, tests, loading } = this.props.s.responses;
-    const setFormattedOptions = element => {
-                                             element['value'] = element['id'];
-                                             element['label'] = element['fullNameEng']};
+    const { s: { responses } } = this.props;
+    const setFormattedOptions = (element) => ({
+      ...element,
+      value: element.id,
+      label: element.fullNameEng
+    });
     if (loading) return <Loader />;
 
     return(
-        <Form>
+        <Form onSubmit={responses.create.bind(responses)} model={response}>
           <Callout>
             <Fieldset legend="New Response">
               <FormSelect model={response} attr="testId" label="Test" options={tests} />

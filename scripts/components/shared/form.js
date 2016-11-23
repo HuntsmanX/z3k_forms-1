@@ -137,17 +137,16 @@ class FormSelectWithAjax extends Component {
   }
 
   render() {
-    const { model, attr, url } = this.props;
+    const { model, attr, url, formatOptions } = this.props;
     const label = this.props.label || humanize(attr);
     const hasError = model.errors.has(attr);
 
     const getOptions = (input) => {
-      if (input.length < 2) return;
-      return ajax({ url: url, method: 'GET', payload: { q: input}})
-        .then((json) => {
-          json.map(this.props.formatOptions);
-            return { options: json };
-        });
+      if (input.length < 2) return Promise.resolve({ options: [] });
+
+      return ajax({ url: url, method: 'GET', payload: { q: input } }).then(
+        (json) => ({ options: json.map(formatOptions) })
+      );
     }
 
     return (

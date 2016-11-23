@@ -8,6 +8,7 @@ import NotFound     from "./components/not-found";
 import Responses    from "./components/responses";
 import EditResponse from "./components/responses/edit-response";
 import NewResponse  from "./components/responses/new-response";
+import Start        from "./components/start";
 
 const views = {
 
@@ -44,6 +45,12 @@ const views = {
     path:      '/new-response',
     component: <NewResponse />,
     onEnter:   ({ s }) => s.responses.showNew()
+  }),
+
+  start: new Route({
+    path:       '/start',
+    component:  <Start />,
+    onEnter:   ({ s, params }) => s.responses.start(params.id)
   }),
 
   notFound: new Route({
