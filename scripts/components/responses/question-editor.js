@@ -2,11 +2,11 @@ import React, { Component } from "react";
 import { observer } from "mobx-react";
 import { Entity, Editor } from "draft-js";
 
-import FIELD_TYPES    from "./../../../helpers/field-types";
-import blockRenderMap from "./../../../helpers/draft-renderer-map";
-import styleMap       from "./../../../helpers/draft-style-map";
+import FIELD_TYPES    from "./../../helpers/field-types";
+import blockRenderMap from "./../../helpers/draft-renderer-map";
+import styleMap       from "./../../helpers/draft-style-map";
 
-import EolBlock from "./../../question-fields/eol-block";
+import EolBlock from "./../question-fields/eol-block";
 
 @observer
 class QuestionEditor extends Component {
@@ -18,6 +18,7 @@ class QuestionEditor extends Component {
     const fieldType  = FIELD_TYPES.find(f => entityType === f.name);
 
     const { question } = this.props;
+
     if (entityType === 'eol-block') {
 
       return {
@@ -47,7 +48,6 @@ class QuestionEditor extends Component {
 
   render() {
     const { question, question: { editor } } = this.props;
-
     return (
       <div className="question-editor">
         <Editor
@@ -57,7 +57,7 @@ class QuestionEditor extends Component {
           editorState={editor.state}
           onChange={editor.set.bind(editor)}
           handleKeyCommand={editor.handleKeyCommand.bind(editor)}
-          readOnly={question.readOnly}
+          readOnly
           handleReturn={editor.handleReturn.bind(editor)}
           ref={question.assignInputRef.bind(question)}
         />

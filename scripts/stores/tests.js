@@ -28,6 +28,7 @@ class TestsStore {
     this.model.fetch().then(
       () => ui.setPageTitle(this.model.name)
     );
+    window.test = this.model;
   }
 
   @action create() {
