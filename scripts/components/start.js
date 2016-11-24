@@ -12,7 +12,7 @@ class Start extends Component {
 
     return (
       <div>
-        <h1>Hello</h1>
+        <h1>Hello {response.userFullNameEng}</h1>
         <p>
           This test is split into multiple pages with a certain number of questions on
           each page. Some or all pages will have a time limit and you will be shown
