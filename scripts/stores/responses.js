@@ -29,7 +29,6 @@ class ResponseStore {
 
   @action list() {
     this.collection.fetch();
-    debugger
     ui.setPageTitle("Responses");
   }
 
@@ -53,7 +52,6 @@ class ResponseStore {
   @action editSection(uuid){
     router.navigate('editResponseSection', { id: uuid })
   }
-
 
 }
 

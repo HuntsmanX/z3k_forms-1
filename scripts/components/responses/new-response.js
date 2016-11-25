@@ -18,7 +18,7 @@ import Form, {
 @inject("s")
 @observer
 class NewResponse extends Component {
-  
+
   render() {
     const { s: { responses } } = this.props;
     const { model: response, tests, loading } = responses;
