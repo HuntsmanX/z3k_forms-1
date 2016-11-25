@@ -62,5 +62,9 @@ class ResponseField extends AppModel {
     return FIELD_TYPES.find(f => f.name === this.fieldType)
   }
 
+  @action moveOption(dragId, hoverId) {
+    this.options.move(dragId, hoverId);
+  }
+
 }
 export default ResponseField;

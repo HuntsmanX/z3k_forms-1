@@ -5,10 +5,11 @@ import Button               from "./../shared/button";
 
 @observer
 class QuestionsList extends Component {
+
   render(){
     const section  = this.props.section;
     const sections = this.props.sections
-    
+
     return(
       <div className="questions-list">
         {section.questions.map((question, index) => {
@@ -23,7 +24,7 @@ class QuestionsList extends Component {
           type="submit"
           label="Start"
           icon="done"
-          onClick={sections.UpdateSection.bind(sections, section)}
+          onClick={sections.updateSection.bind(sections, section)}
         />
       </div>
     )

@@ -17,20 +17,21 @@ class SectionsStore {
 
   @action edit(id) {
     this.model.set('id', id);
-    this.model.fetch()
+    this.setLoading(true)
+    this.model.fetch().then(
+      () => this.setLoading(false)
+    );
   }
 
-  @action UpdateSection(section) {
+  @action updateSection(section) {
     this.setLoading(true);
-
     section.save().then(
       ({ data }) => {
         if (isUndefined(data)) {
           router.navigate('finish');
-        } else{
+        } else {
           this.edit(data.uuid);
         }
-        this.setLoading(false);
       })
   }
 
