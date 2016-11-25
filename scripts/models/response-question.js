@@ -19,12 +19,6 @@ class ResponseQuestion extends AppModel {
     this.editor = new QuestionEditor(this.content)
   }
 
-  @action focus() {
-    setTimeout(() => {
-      this.inputRef && this.inputRef.focus();
-    }, 0);
-  }
-
   @action assignInputRef(input) {
     this.inputRef = input;
   }

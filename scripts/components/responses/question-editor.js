@@ -55,10 +55,7 @@ class QuestionEditor extends Component {
           blockRenderMap={blockRenderMap}
           customStyleMap={styleMap}
           editorState={editor.state}
-          onChange={editor.set.bind(editor)}
-          handleKeyCommand={editor.handleKeyCommand.bind(editor)}
           readOnly
-          handleReturn={editor.handleReturn.bind(editor)}
           ref={question.assignInputRef.bind(question)}
         />
       </div>

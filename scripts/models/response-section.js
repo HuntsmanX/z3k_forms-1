@@ -15,6 +15,14 @@ class ResponseSection extends AppModel {
       questions: { collection: ResponseQuestions, parentKey: 'section' }
     };
   }
+
+  serialize() {
+    const data = super.serialize({
+      include:    { questions: { fields: ['options'] } },
+      includeMap: { questions: 'questionsAttributes', fields: 'fieldsAttributes', options: 'optionsAttributes' }
+    });
+    return data
+  }
 }
 
 export default ResponseSection;

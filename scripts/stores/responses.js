@@ -29,6 +29,7 @@ class ResponseStore {
 
   @action list() {
     this.collection.fetch();
+    debugger
     ui.setPageTitle("Responses");
   }
 

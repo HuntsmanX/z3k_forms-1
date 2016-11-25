@@ -38,7 +38,7 @@ class QuestionEditor extends Component {
           field:           field,
           onFocus:         question.set.bind(question, 'fieldActive', true),
           onBlur:          question.set.bind(question, 'fieldActive', false),
-          placeholder:     'Answer'
+          placeholder:     'Correct Answer'
         }
       };
 

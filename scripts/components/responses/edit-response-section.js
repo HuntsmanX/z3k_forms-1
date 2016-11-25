@@ -7,11 +7,13 @@ import QuestionsList         from "./question-list"
 class EditResponseSection extends Component {
 
   render() {
-    const section = this.props.s.sections.model
+    if (this.props.s.sections.loading) return <p>loading</p>;
+
+    const section = this.props.s.sections.model;
 
     return(
       <div>
-        <QuestionsList section={section}/>
+        <QuestionsList section={section} sections={this.props.s.sections}/>
       </div>
     );
   }
