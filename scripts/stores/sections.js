@@ -17,7 +17,7 @@ class SectionsStore {
 
   @action edit(id) {
     this.model.set('id', id);
-    this.setLoading(true)
+    this.setLoading(true);
     this.model.fetch().then(
       () => this.setLoading(false)
     );
@@ -27,13 +27,11 @@ class SectionsStore {
     this.setLoading(true);
     section.save().then(
       ({ data }) => {
-        if (isUndefined(data)) {
-          router.navigate('finish');
-        } else {
-          this.edit(data.uuid);
-        }
-      })
+        isUndefined(data) ? router.navigate('finish') : this.edit(data.uuid);
+      }
+    );
   }
 
 }
+
 export default new SectionsStore();

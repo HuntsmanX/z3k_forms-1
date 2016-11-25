@@ -1,20 +1,22 @@
 import React, { Component } from "react";
 import { observer, inject } from "mobx-react";
-import QuestionsList         from "./question-list"
+
+import QuestionsList from "./question-list";
+import Loader        from "./../shared/loader";
 
 @inject("s")
 @observer
 class EditResponseSection extends Component {
 
   render() {
-    if (this.props.s.sections.loading) return <p>loading</p>;
+    const { sections } = this.props.s;
 
-    const section = this.props.s.sections.model;
+    if (sections.loading) return <Loader />;
 
-    return(
-      <div>
-        <QuestionsList section={section} sections={this.props.s.sections}/>
-      </div>
+    const section = sections.model;
+
+    return (
+      <QuestionsList section={section} />
     );
   }
 

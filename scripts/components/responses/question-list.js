@@ -1,33 +1,33 @@
 import React, { Component } from "react";
-import { observer }         from "mobx-react";
-import Question             from  "./question";
+import { observer, inject } from "mobx-react";
+import Question             from "./question";
 import Button               from "./../shared/button";
 
+@inject("s")
 @observer
 class QuestionsList extends Component {
 
-  render(){
-    const section  = this.props.section;
-    const sections = this.props.sections
+  render() {
+    const { section, s: { sections } } = this.props;
 
     return(
       <div className="questions-list">
         {section.questions.map((question, index) => {
-            return <Question
-              key={question.uuid}
-              index={index}
-              question={question}
-            />;
-          })
-        }
+          return <Question
+            key={question.uuid}
+            index={index}
+            question={question}
+          />;
+        })}
         <Button
           type="submit"
           label="Start"
           icon="done"
-          onClick={sections.updateSection.bind(sections, section)}
+          onClick={() => sections.updateSection(section)}
         />
       </div>
-    )
+    );
   }
+
 }
 export default QuestionsList;

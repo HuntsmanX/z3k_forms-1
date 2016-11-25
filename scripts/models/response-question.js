@@ -19,10 +19,5 @@ class ResponseQuestion extends AppModel {
     this.editor = new QuestionEditor(this.content)
   }
 
-  @action assignInputRef(input) {
-    this.inputRef = input;
-  }
-
-
 }
 export default ResponseQuestion;
