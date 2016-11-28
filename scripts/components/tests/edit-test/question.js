@@ -3,8 +3,9 @@ import { observer } from "mobx-react";
 
 import { Row, Column } from "react-foundation-components/lib/global/grid-flex";
 
-import Icon from "./../../shared/icon";
-import Hash from "./../../shared/hash";
+import Icon           from "./../../shared/icon";
+import Hash           from "./../../shared/hash";
+import LoadingWrapper from "./../../shared/loading-wrapper";
 
 import QuestionEditor from "./question-editor";
 import Controls       from "./question/controls";
@@ -32,6 +33,9 @@ class Question extends Component {
 
     return connectDropTarget(
       <div className={className} style={{ opacity }}>
+        {question.isBeingSaved || question.isBeingDestroyed ? (
+          <LoadingWrapper spinner />
+        ) : null}
 
         <div className="actions left">
           {question.isPersisted ? (

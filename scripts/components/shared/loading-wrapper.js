@@ -1,5 +1,7 @@
 import React from "react";
 
+import Loader from "./loader";
+
 const style = {
   position:        'absolute',
   top:             0,
@@ -8,11 +10,14 @@ const style = {
   right:           0,
   opacity:         0.5,
   backgroundColor: 'white',
-  cursor:          'wait'
+  cursor:          'wait',
+  zIndex:          1e3
 }
 
-const LoadingWrapper = () => (
-  <div className="loading-wrapper" style={style} />
+const LoadingWrapper = (props) => (
+  <div className="loading-wrapper" style={style}>
+    {props.spinner ? <Loader /> : null}
+  </div>
 );
 
 export default LoadingWrapper;
