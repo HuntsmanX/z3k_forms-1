@@ -5,11 +5,13 @@ import ui from     "./ui";
 import router from "./router";
 
 import ResponseSection   from "./../models/response-section";
+import Timer             from "./../models/timer";
 
 class SectionsStore {
 
   @observable loading = false;
-  @observable model = new ResponseSection();
+  @observable model   = new ResponseSection();
+  @observable timer   = new Timer();
 
   @action setLoading(val){
     this.loading = val;
@@ -19,7 +21,10 @@ class SectionsStore {
     this.model.set('id', id);
     this.setLoading(true);
     this.model.fetch().then(
-      () => this.setLoading(false)
+      () => {
+        this.timer.start(this.model, this);
+        this.setLoading(false);
+      }
     );
   }
 
