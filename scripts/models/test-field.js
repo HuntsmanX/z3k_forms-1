@@ -1,14 +1,10 @@
-import { action, computed, observable } from "mobx";
+import { action, computed } from "mobx";
 import humanize from "underscore.string/humanize";
 
-import AppModel from "./app-model";
-import Editor   from "./editor";
-
+import Field       from "./field";
 import TestOptions from "./../collections/test-options";
 
-import FIELD_TYPES from "./../helpers/field-types";
-
-class TestField extends AppModel {
+class TestField extends Field {
 
   static get defaults() {
     return {
@@ -25,8 +21,6 @@ class TestField extends AppModel {
     };
   }
 
-  @observable editor = null;
-
   initialize() {
     if (this.isPersisted || !this.hasOptions) return;
 
@@ -42,31 +36,6 @@ class TestField extends AppModel {
 
   @computed get value() {
     return this.get('content');
-  }
-
-  @computed get readOnly() {
-    if (this.fieldType === 'text_editor') return true;
-    return !this.question.isBeingEdited;
-  }
-
-  @computed get formattedErrors() {
-    return this.errors.entries().map(entry => {
-      return `${humanize(entry[0])} ${entry[1].join(', ')}`;
-    }).join("\n");
-  }
-
-  @action fromJSON(data) {
-    super.fromJSON(data);
-    this.editor = new Editor(this.content);
-  }
-
-  serialize(options) {
-    const data = super.serialize(options);
-
-    if (this.fieldType === "text_editor")
-      data.content = this.editor.serialize();
-
-    return data;
   }
 
   @action setValue(val) {
@@ -86,15 +55,15 @@ class TestField extends AppModel {
     this.options.markForDestruction(uuid);
   }
 
-  @action moveOption(dragId, hoverId) {
-    this.options.move(dragId, hoverId);
+  @computed get readOnly() {
+    if (this.fieldType === 'text_editor') return true;
+    return !this.question.isBeingEdited;
   }
 
-  @action toggleSelectedOption(uuid) {
-    const option = this.options.find({ uuid: uuid });
-
-    if (this.isSingleChoice)   this._selectSingleSelectedOption(option);
-    if (this.isMultipleChoice) this._selectMultipeSelectedOption(option);
+  @computed get formattedErrors() {
+    return this.errors.entries().map(entry => {
+      return `${humanize(entry[0])} ${entry[1].join(', ')}`;
+    }).join("\n");
   }
 
   @action _selectSingleSelectedOption(option) {
@@ -106,33 +75,13 @@ class TestField extends AppModel {
     option.set('isCorrect', !option.isCorrect);
   }
 
-  @computed get fieldEntity() {
-    return FIELD_TYPES.find(f => f.name === this.fieldType)
-  }
+  serialize(options) {
+    const data = super.serialize(options);
 
-  @computed get label() {
-    return this.fieldEntity.label;
-  }
+    if (this.fieldType === "text_editor")
+      data.content = this.editor.serialize();
 
-  @computed get tooltip() {
-    return this.fieldEntity.tooltip;
-  }
-
-  @computed get hasOptions() {
-    return this.fieldEntity.hasOptions;
-  }
-
-  @computed get hasCorrectOptions() {
-    if (!this.autocheck) return false;
-    return this.fieldEntity.hasCorrectOptions;
-  }
-
-  @computed get isSingleChoice() {
-    return this.fieldEntity.choice === 'single';
-  }
-
-  @computed get isMultipleChoice() {
-    return this.fieldEntity.choice === 'multiple';
+    return data;
   }
 
 }

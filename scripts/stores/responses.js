@@ -49,6 +49,10 @@ class ResponseStore {
     this.model.set('id', id);
   }
 
+  @action editSection(uuid){
+    router.navigate('editResponseSection', { id: uuid })
+  }
+
 }
 
 export default new ResponseStore();

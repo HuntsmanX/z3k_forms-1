@@ -1,19 +1,19 @@
 import React, { Component } from "react";
 import { observer, inject } from "mobx-react";
 
-@inject("s")
 @observer
-class EditResponse extends Component {
+class Finish extends Component {
 
   render() {
-    const response = this.props.s.responses.model;
-
-    return(
+    return (
       <div>
+        <p>
+          Finish
+        </p>
       </div>
     );
   }
 
 }
 
-export default EditResponse;
+export default Finish;

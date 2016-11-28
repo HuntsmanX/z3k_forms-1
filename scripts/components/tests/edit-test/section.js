@@ -3,8 +3,9 @@ import { observer } from "mobx-react";
 
 import { Row, Column } from "react-foundation-components/lib/global/grid-flex";
 
-import Icon from "./../../shared/icon";
-import Hash from "./../../shared/hash";
+import Icon           from "./../../shared/icon";
+import Hash           from "./../../shared/hash";
+import LoadingWrapper from "./../../shared/loading-wrapper";
 
 import QuestionsList from "./questions-list";
 
@@ -30,6 +31,10 @@ class Section extends Component {
 
     return connectDropTarget(
       <div className="section" style={{ opacity }}>
+        {section.isBeingSaved || section.isBeingDestroyed ? (
+          <LoadingWrapper spinner />
+        ) : null}
+
         <div className="actions left">
           {section.isPersisted ? (
             connectDragSource(

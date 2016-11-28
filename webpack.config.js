@@ -63,6 +63,9 @@ module.exports = {
         test:    /\.scss$/,
         exclude: /node_modules/,
         loader:  ExtractTextPlugin.extract('style', 'css?sourceMap!sass?sourceMap')
+      }, {
+        test:    /\.woff$/,
+        loader:  'file?name=fonts/[name].[ext]'
       }
     ]
   },

@@ -26,11 +26,7 @@ class AppModel {
   // convenient than keeping all attributes directly on the model object
   // as this allows easier serialization to JSON.
 
-  @observable attrs = asMap({
-    isBeingFetched:   false,
-    isBeingSaved:     false,
-    isBeingDestroyed: false
-  });
+  @observable attrs = asMap({});
 
   // Errors are written into 'errors' map upon unsuccessful creation
   // or update i.e. when server responds with 422 status. See 'setErrors',
@@ -104,7 +100,12 @@ class AppModel {
   }
 
   @action setDefaultAttributes() {
-    this.setAttributes(this.defaultAttributes);
+    const attrs = Object.assign({}, this.defaultAttributes, {
+      isBeingFetched:   false,
+      isBeingSaved:     false,
+      isBeingDestroyed: false
+    });
+    this.setAttributes(attrs);
   }
 
   @action setAssociations(data = {}) {
@@ -116,14 +117,9 @@ class AppModel {
     });
   }
 
-  // TODO Don't initialize associations from scratch if data is empty and
-  // associations already exist. Currently server has to include all
-  // associations in the response when the model is updated, otherwise
-  // all associations are lost on the client. This will also improve
-  // performance on both server and client - smaller response from the server
-  // and no unnecessary re-rendering on the client.
-
   @action setCollectionAssociation(name, data = [], config) {
+    if (!data.length && name in this) return;
+
     const collection = new config.collection(
       data, { name: config.parentKey, model: this }
     );
@@ -141,10 +137,7 @@ class AppModel {
 
   serialize(options = {}) {
     const data = toJS(this.attrs);
-
-    if (options.include)
-      this._serializeAssociations(data, options);
-
+    if (options.include) this._serializeAssociations(data, options);
     return data;
   }
 

@@ -10,7 +10,7 @@ class QuestionEditor extends Editor {
     return "Untitled question";
   }
 
-  initialize(content, onChange) {
+  initialize(content, onChange = () => {}) {
     this._onChange = onChange;
   }
 

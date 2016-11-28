@@ -4,8 +4,8 @@ import { observer, inject } from "mobx-react";
 import Callout           from "./../shared/callout";
 import Button            from "./../shared/button";
 import Loader            from "./../shared/loader";
-import UserSelectOption  from "./user-select-forms";
-import SetSelectedValue  from "./set-selected-value";
+import UserSelectOption  from "./new-response/user-select-forms";
+import SetSelectedValue  from "./new-response/set-selected-value";
 
 import Form, {
   Fieldset,
@@ -18,7 +18,7 @@ import Form, {
 @inject("s")
 @observer
 class NewResponse extends Component {
-  
+
   render() {
     const { s: { responses } } = this.props;
     const { model: response, tests, loading } = responses;
