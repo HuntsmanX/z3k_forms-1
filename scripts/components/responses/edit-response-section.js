@@ -22,9 +22,11 @@ class EditResponseSection extends Component {
         <div className="question-list">
           <QuestionsList section={section} />
         </div>
-        <div className="timer">
-          <ResponseTimer timer={timer} section={section} sections={sections} />
-        </div>
+        {section.timeLimit > 0 ?
+          <div className="timer">
+            <ResponseTimer timer={timer} section={section} sections={sections} />
+          </div>
+        : null}
       </div>
     );
   }

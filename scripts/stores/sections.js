@@ -22,7 +22,7 @@ class SectionsStore {
     this.setLoading(true);
     this.model.fetch().then(
       () => {
-        this.timer.start(this.model, this);
+        if (this.model.timeLimit > 0) this.timer.start(this.model.timeLimit, this.model.bonusTime, this.updateSection.bind(this, this.model));
         this.setLoading(false);
       }
     );
@@ -30,6 +30,7 @@ class SectionsStore {
 
   @action updateSection(section) {
     this.setLoading(true);
+    this.timer.cleanUp();
     section.save().then(
       ({ data }) => {
         isUndefined(data) ? router.navigate('finish') : this.edit(data.uuid);

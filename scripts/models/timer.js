@@ -6,12 +6,11 @@ class Timer {
 
   isBonusTime = false;
 
-  @action start(section, store) {
-    this.timeLimit     = section.timeLimit * 60 || 0;
-    this.bonusTime     = section.bonusTime * 60 || 0;
+  @action start(timeLimit, bonusTime, action) {
+    this.timeLimit     = timeLimit * 60 || 0;
+    this.bonusTime     = bonusTime * 60 || 0;
     this.remainingTime = this.timeLimit;
-    this.section       = section;
-    this.sectionStore  = store;
+    this.callback      = action;
     this.tick();
   }
 
@@ -32,30 +31,34 @@ class Timer {
       () => {
         if (this.remainingTime > 0) return;
         if (!this.isBonusTime) return this.enableBonusTime();
-        this.sectionStore.updateSection(this.section);
-        clearInterval(this.timer);
-        this.disposer();
+        this.callback();
+        this.cleanUp();
       }
     );
+  }
+
+  @action cleanUp() {
+    clearInterval(this.timer);
+    this.disposer();
   }
 
   @action decrement() {
     this.remainingTime--;
   }
 
-  @computed get showMinutes() {
+  @computed get formattedRemainingTime() {
     let secNum  = parseInt(this.remainingTime, 10);
     let hours   = Math.floor(secNum / 3600);
     let minutes = Math.floor((secNum - (hours * 3600)) / 60);
     let seconds = secNum - (hours * 3600) - (minutes * 60);
 
-    if (hours   < 10) {hours   = "0"+hours;}
-    if (minutes < 10) {minutes = "0"+minutes;}
-    if (seconds < 10) {seconds = "0"+seconds;}
+    if (hours   < 10) hours   = `0 ${hours}`;
+    if (minutes < 10) minutes = `0 ${minutes}`;
+    if (seconds < 10) seconds = `0 ${seconds}`;
 
     let str = '';
     this.isBonusTime ?  str = 'Bonus Time: ' :  str = 'Remaining: '
-    return str + hours+':'+minutes+':'+seconds;
+    return `${str} ${hours} : ${minutes} : ${seconds}`;
   }
 
 }
