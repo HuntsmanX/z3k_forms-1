@@ -1,4 +1,4 @@
-#edit-test {
+#verify-response {
 
   i.action {
     cursor:    pointer;
@@ -35,6 +35,11 @@
       right:    1rem;
       top:      1rem;
     }
+
+    &.middle {
+      top: auto;
+    }
+
   }
 
   .drag-handle i, .drag-handle {
@@ -165,6 +170,16 @@
         }
       }
 
+      &:not(.edited) {
+        &.checked {
+          background-color: #e4ffe5;
+        }
+        &.unchecked {
+          background-color: whitesmoke;
+        }
+      }
+
+
       &:first-child {
         border-top: 1px solid $light-gray;
       }
@@ -199,6 +214,7 @@
               font-size: 1.35rem;
               color:     $secondary-color;
               cursor:    pointer;
+              &.not-clickable { cursor: default }
             }
 
             input, label, textarea {
@@ -214,6 +230,16 @@
               width:       5rem;
               height:      1.35rem;
               line-height: 1.35rem;
+            }
+
+            .results-table {
+              margin-top: 1rem;
+              border: none;
+
+              th, tr, td {
+                background-color: rgba(238, 247, 253, 0.3);
+              }
+
             }
           }
         }
