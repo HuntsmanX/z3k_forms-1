@@ -23,7 +23,7 @@ class TextEditorBlock extends Component {
 
   render() {
     const { field, field: { editor }, onFocus, onBlur } = this.props.blockProps;
-
+    
     return (
       <div className="text-editor-field">
         {field.readOnly ? this.renderBlocker() : null}

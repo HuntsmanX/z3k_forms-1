@@ -18,13 +18,13 @@ class EditResponseSection extends Component {
     const timer   = sections.timer;
 
     return (
-      <div className="section">
+      <div>
         <div className="question-list">
           <QuestionsList section={section} />
         </div>
         {section.timeLimit > 0 ?
-          <div className="timer">
-            <ResponseTimer timer={timer} section={section} sections={sections} />
+            <div className="timer">
+              <ResponseTimer timer={timer} section={section} sections={sections} />
           </div>
         : null}
       </div>
