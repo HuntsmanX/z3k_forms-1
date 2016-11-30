@@ -1,6 +1,7 @@
 import { action } from "mobx";
 import { EditorState, Entity, AtomicBlockUtils, Modifier } from "draft-js";
 import includes from "lodash/includes";
+import indexOf from "lodash/indexOf";
 
 import Editor from "./editor";
 
@@ -15,6 +16,7 @@ class QuestionEditor extends Editor {
   }
 
   @action set(value) {
+    value = this._fixSelection(value);
     const backspace = value.getLastChangeType() === 'backspace-character';
     this.state = backspace ? this._handleDelete(value) : value;
     this._onChange();
@@ -76,6 +78,40 @@ class QuestionEditor extends Editor {
 
     const modifiedContent = Modifier.removeRange(value.getCurrentContent(), selection, 'backward');
     return EditorState.push(this.state, modifiedContent, value.getLastChangeType());
+  }
+
+  _fixSelection(value) {
+    const blockKey = value.getSelection().getFocusKey();
+    const block    = value.getCurrentContent().getBlockForKey(blockKey);
+
+    if (block.getType() !== "atomic") return value;
+
+    const currentBlockKey   = this.state.getSelection().getFocusKey();
+    const blockKeys         = value.getCurrentContent().getBlocksAsArray().map(block => block.getKey());
+    const blockIndex        = indexOf(blockKeys, blockKey);
+    const currentBlockIndex = indexOf(blockKeys, currentBlockKey);
+
+    let direction;
+
+    if (blockIndex === currentBlockIndex) {
+      direction = value.getSelection().getAnchorOffset() < this.state.getSelection().getAnchorOffset() ? 'left' : 'right';
+    } else {
+      direction = blockIndex < currentBlockIndex ? 'left' : 'right';
+    }
+
+    let index       = blockIndex;
+    let targetBlock = block;
+
+    while (targetBlock.getType() === "atomic") {
+      direction === 'left' ? index-- : index++;
+      targetBlock = value.getCurrentContent().getBlockForKey(blockKeys[index]);
+    }
+
+    let selection = value.getSelection();
+    selection     = selection.set('anchorKey', targetBlock.getKey());
+    selection     = selection.set('anchorOffset', direction === 'left' ? targetBlock.getLength() : 0);
+
+    return EditorState.forceSelection(value, selection);
   }
 
 }
