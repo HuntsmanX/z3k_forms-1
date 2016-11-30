@@ -195,10 +195,10 @@ class AppModel {
     const root = this.constructor.urlRoot;
 
     switch(name) {
-      case 'fetch':   return [`${root}/${this.get('id')}`, "GET"];
-      case 'create':  return [root,                        "POST"];
-      case 'update':  return [`${root}/${this.get('id')}`, "PATCH"];
-      case 'destroy': return [`${root}/${this.get('id')}`, "DELETE"];
+      case 'fetch':   return [`${root}/${this.get('uid') || this.get('id')}`, "GET"];
+      case 'create':  return [root,                                           "POST"];
+      case 'update':  return [`${root}/${this.get('id')}`,                    "PATCH"];
+      case 'destroy': return [`${root}/${this.get('id')}`,                    "DELETE"];
     }
   }
 

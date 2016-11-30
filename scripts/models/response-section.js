@@ -30,7 +30,7 @@ class ResponseSection extends AppModel {
       include:    { questions: { fields: ['options'] } },
       includeMap: { questions: 'questionsAttributes', fields: 'fieldsAttributes', options: 'optionsAttributes' }
     });
-    return data
+    return data;
   }
 
   scoreUnitsMap = {
@@ -115,25 +115,12 @@ class ResponseSection extends AppModel {
     }).join("\n");
   }
 
-  @action edit() {
-    this.set('isBeingEdited', true);
-    this.focus();
-  }
-
   @action toggle() {
     this.set('isExpanded', !this.isExpanded);
   }
 
-  @action save() {
-    super.save().then(
-      () => this.set('isBeingEdited', false)
-    )
-  }
-
-  @action focus() {
-    setTimeout(() => {
-      this.inputRef && this.inputRef.focus();
-    }, 0);
+  @computed get isTimeLimited() {
+    return this.timeLimit > 0;
   }
 
 }

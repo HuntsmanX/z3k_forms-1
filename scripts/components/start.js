@@ -1,15 +1,18 @@
 import React, { Component } from "react";
 import { observer, inject } from "mobx-react";
 
-import Button from "./shared/button";
+import Link   from "./shared/link";
+import Loader from "./shared/loader";
 
 @inject("s")
 @observer
 class Start extends Component {
 
   render() {
-    const { s: { responses } } = this.props;
+    const { s: { responses, sections } } = this.props;
     const response = this.props.s.responses.model;
+
+    if (response.isBeingFetched) return <Loader />;
 
     return (
       <div>
@@ -22,11 +25,10 @@ class Start extends Component {
           otherwise the system will submit your responses in an incomplete from. Press
           the start button when you are ready. Good luck!
         </p>
-        <Button
-          type="submit"
-          label="Start"
-          icon="done"
-          onClick={responses.editSection.bind(responses, response.firstSectionUuid)}
+        <Link
+          to="editResponseSection"
+          params={{ uid: response.firstSectionUid }}
+          button={{ icon: 'done', label: 'Start' }}
         />
       </div>
     );

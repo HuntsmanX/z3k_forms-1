@@ -1,32 +1,39 @@
 import React, { Component } from "react";
 import { observer, inject } from "mobx-react";
 
-import QuestionsList from "./question-list";
-import ResponseTimer from "./response-timer";
-import Loader        from "./../shared/loader";
+import QuestionsList  from "./question-list";
+import ResponseTimer  from "./response-timer";
+import Loader         from "./../shared/loader";
+import LoadingWrapper from "./../shared/loading-wrapper";
+import Button         from "./../shared/button";
 
 @inject("s")
 @observer
 class EditResponseSection extends Component {
 
   render() {
-    const { sections } = this.props.s;
+    const { sections, sections: { model: section, timer } } = this.props.s;
 
-    if (sections.loading) return <Loader />;
-
-    const section = sections.model;
-    const timer   = sections.timer;
+    if (section.isBeingFetched) return <Loader />;
 
     return (
-      <div>
+      <div className="section" style={{ position: 'relative' }}>
+        {section.isBeingSaved ? <LoadingWrapper /> : null}
+
+        <div className="description">
+          {section.description}
+          <hr />
+        </div>
         <div className="question-list">
           <QuestionsList section={section} />
         </div>
-        {section.timeLimit > 0 ?
-            <div className="timer">
-              <ResponseTimer timer={timer} section={section} sections={sections} />
-          </div>
-        : null}
+        <Button
+          type="submit"
+          label="Submit"
+          icon="done"
+          onClick={() => sections.updateSection(section)}
+        />
+        <ResponseTimer timer={timer} />
       </div>
     );
   }

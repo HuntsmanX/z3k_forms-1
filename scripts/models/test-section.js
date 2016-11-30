@@ -111,7 +111,7 @@ class TestSection extends AppModel {
     if (this.requiredScore > this.maxScore && this.requiredScoreUnits === 'points')
       ret.push('Required score is larger than max score');
 
-    if (this.acceptableScore > this.maxManualScore && this.acceptableScoreUnits === 'points')
+    if (this.acceptableScore > this.maxAutoScore && this.acceptableScoreUnits === 'points')
       ret.push('Acceptable autoscore is larger than max autoscore');
 
     return ret.join("\n");

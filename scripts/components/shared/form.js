@@ -151,7 +151,7 @@ class FormSelectWithAjax extends Component {
     if (input.length < 2) return Promise.resolve({ options: [] });
 
     return ajax({ url: url, method: 'GET', payload: { q: input } }).then(
-      json => ({ options: json.map(formatOption) })
+      json => ({ options: Array.from(json).map(formatOption) })
     );
   }
 

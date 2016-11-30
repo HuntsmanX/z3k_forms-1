@@ -50,20 +50,21 @@ const views = {
   }),
 
   start: new Route({
-    path:       '/start',
+    path:       '/start/:id',
     component:  <Start />,
     onEnter:   ({ s, params }) => s.responses.start(params.id)
   }),
 
   editResponseSection: new Route({
-    path:       '/responses/sections/:id',
+    path:       '/test/:uid',
     component:   <EditResponseSection />,
-    onEnter:   ({ s, params }) => s.sections.edit(params.id)
+    onEnter:   ({ s, params }) => s.sections.edit(params.uid)
   }),
 
   finish: new Route({
     path:       '/finish',
-    component:   <Finish />
+    component:   <Finish />,
+    onEnter:    ({ s }) => s.ui.setPageTitle('Thank you!')
   }),
 
   notFound: new Route({

@@ -51,10 +51,9 @@ class ResponseStore {
 
   @action start(id) {
     this.model.set('id', id);
-  }
-
-  @action editSection(uuid){
-    router.navigate('editResponseSection', { id: uuid })
+    this.model.fetch().then(
+      () => ui.setPageTitle(this.model.name)
+    );
   }
 
 }

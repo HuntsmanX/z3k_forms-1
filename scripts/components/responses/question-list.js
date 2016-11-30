@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { observer, inject } from "mobx-react";
 import Question             from "./question";
-import Button               from "./../shared/button";
 
 @inject("s")
 @observer
@@ -19,12 +18,6 @@ class QuestionsList extends Component {
             question={question}
           />;
         })}
-        <Button
-          type="submit"
-          label="Start"
-          icon="done"
-          onClick={() => sections.updateSection(section)}
-        />
       </div>
     );
   }

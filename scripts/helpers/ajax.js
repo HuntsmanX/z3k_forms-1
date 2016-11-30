@@ -6,9 +6,11 @@ const handleSuccess = (data, textStatus, jqXHR) => {}
 const handleError = (jqXHR, textStatus, errorThrown) => {
   if (jqXHR.status === 422) return;
 
-  alert(
-    `Server error occured :(\n\nStatus code: ${jqXHR.status}\nError message: ${errorThrown}`
-  );
+  let message = `Server error occured\n\nStatus code: ${jqXHR.status}\nError message: ${errorThrown}`;
+  if (jqXHR.responseJSON && jqXHR.responseJSON.exception)
+    message += `\n\n${jqXHR.responseJSON.exception}`;
+
+  alert(message);
 }
 
 const setDefaults = (options) => {

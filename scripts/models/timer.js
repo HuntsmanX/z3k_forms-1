@@ -3,53 +3,73 @@ import { observable, computed, action, autorun } from "mobx";
 class Timer {
 
   @observable remainingTime = 0;
+  @observable isBonusTime   = false;
 
-  isBonusTime = false;
+  constructor(storageId, time, bonus, callback) {
+    this.storageId = storageId;
+    this.callback  = callback;
 
-  @action start(timeLimit, bonusTime, action) {
-    this.timeLimit     = +localStorage.getItem("currentTime") || timeLimit * 60 || 0;
-    this.bonusTime     = bonusTime * 60 || 0;
-    this.remainingTime = this.timeLimit;
-    this.callback      = action;
+    if (this.initFromLocalStorage()) return this.start();
 
-    
-    localStorage.setItem('timeLimit', this.timeLimit);
-    localStorage.setItem('bonusTime', this.bonusTime);
+    this.remainingTime = time * 60;
+    this.bonus         = bonus * 60;
+    this.isBonusTime   = false;
 
-    this.tick();
+    this.start();
+  }
+
+  initFromLocalStorage() {
+    if (!localStorage.getItem(this.storageId)) return false;
+
+    const data = JSON.parse(localStorage.getItem(this.storageId));
+
+    this.remainingTime = data.remainingTime;
+    this.bonus         = data.bonus;
+    this.isBonusTime   = data.isBonusTime;
+
+    return true;
+  }
+
+  @action start() {
+    this.createListener();
+    this.timer = setInterval(
+      () => this.tick(), 1000
+    );
   }
 
   @action tick() {
-    this.timer = setInterval(
-      () => this.decrement(), 1000
-    );
-    this.createListener()
+    this.remainingTime--;
+    this.persist();
+  }
+
+  @action persist() {
+    const data = {
+      remainingTime: this.remainingTime,
+      bonus:         this.bonus,
+      isBonusTime:   this.isBonusTime
+    };
+    localStorage.setItem(this.storageId, JSON.stringify(data));
   }
 
   @action enableBonusTime() {
-    this.remainingTime = this.bonusTime;
+    this.remainingTime = this.bonus;
     this.isBonusTime = true;
   }
 
   @action createListener() {
-    this.disposer = autorun(
+    this.disposeListener = autorun(
       () => {
         if (this.remainingTime > 0) return;
         if (!this.isBonusTime) return this.enableBonusTime();
+        this.stop();
         this.callback();
-        this.cleanUp();
       }
     );
   }
 
-  @action cleanUp() {
+  @action stop() {
     clearInterval(this.timer);
-    this.disposer();
-  }
-
-  @action decrement() {
-    localStorage.setItem('currentTime', this.remainingTime);
-    this.remainingTime--;
+    this.disposeListener();
   }
 
   @computed get formattedRemainingTime() {
@@ -58,14 +78,13 @@ class Timer {
     let minutes = Math.floor((secNum - (hours * 3600)) / 60);
     let seconds = secNum - (hours * 3600) - (minutes * 60);
 
-    if (hours   < 10) hours   = `0 ${hours}`;
-    if (minutes < 10) minutes = `0 ${minutes}`;
-    if (seconds < 10) seconds = `0 ${seconds}`;
+    if (hours   < 10) hours   = `0${hours}`;
+    if (minutes < 10) minutes = `0${minutes}`;
+    if (seconds < 10) seconds = `0${seconds}`;
 
-    let str = '';
-    this.isBonusTime ?  str = 'Bonus Time: ' :  str = 'Time: '
-    return `${str} ${hours} : ${minutes} : ${seconds}`;
+    return `${hours}:${minutes}:${seconds}`;
   }
 
 }
+
 export default Timer;
