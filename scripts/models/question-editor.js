@@ -81,6 +81,8 @@ class QuestionEditor extends Editor {
   }
 
   _fixSelection(value) {
+    if (value.getLastChangeType() === "backspace-character") return value;
+
     const blockKey = value.getSelection().getFocusKey();
     const block    = value.getCurrentContent().getBlockForKey(blockKey);
 
@@ -108,8 +110,14 @@ class QuestionEditor extends Editor {
     }
 
     let selection = value.getSelection();
-    selection     = selection.set('anchorKey', targetBlock.getKey());
-    selection     = selection.set('anchorOffset', direction === 'left' ? targetBlock.getLength() : 0);
+
+    if (selection.get('focusKey') === selection.get('anchorKey') && selection.get('focusOffset') === selection.get('anchorOffset')) {
+      selection = selection.set('anchorKey', targetBlock.getKey());
+      selection = selection.set('anchorOffset', direction === 'left' ? targetBlock.getLength() : 0);
+    }
+
+    selection = selection.set('focusKey', targetBlock.getKey());
+    selection = selection.set('focusOffset', direction === 'left' ? targetBlock.getLength() : 0);
 
     return EditorState.forceSelection(value, selection);
   }
