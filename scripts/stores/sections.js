@@ -12,7 +12,6 @@ class SectionsStore {
   @observable timer = null;
 
   @action edit(uid) {
-    debugger
     this.model.set('uid', uid);
     this.model.fetch().then(
       () => {
