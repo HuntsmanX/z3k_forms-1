@@ -21,12 +21,12 @@ class Response extends Component {
             <Hash k='Name' v={model.name} />
           </Column>
           <Column large={3}>
-            <Hash k='Sections' v='' />
-            <Hash k='Total Questions' v='' />
+            <Hash k='Sections' v={model.numsOfSections} />
+            <Hash k='Total Questions' v={model.totalQuestions} />
           </Column>
           <Column large={3}>
-            <Hash k='Max Score' v='' />
-            <Hash k='User Score' v='' />
+            <Hash k='Max Score' v={model.maxScore} />
+            <Hash k='User Score' v={model.userScore} />
           </Column>
           <Column large={2}>
             <div className="button-group small float-right">

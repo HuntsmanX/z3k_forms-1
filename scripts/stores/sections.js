@@ -18,10 +18,12 @@ class SectionsStore {
   }
 
   @action edit(id) {
+    if (localStorage.getItem("sectionId") != id ) localStorage.setItem('currentTime', 0); 
     this.model.set('id', id);
     this.setLoading(true);
     this.model.fetch().then(
       () => {
+        localStorage.setItem('sectionId', id);
         if (this.model.timeLimit > 0) this.timer.start(this.model.timeLimit, this.model.bonusTime, this.updateSection.bind(this, this.model));
         this.setLoading(false);
       }
@@ -29,6 +31,7 @@ class SectionsStore {
   }
 
   @action updateSection(section) {
+    localStorage.setItem('currentTime', null);
     this.setLoading(true);
     this.timer.cleanUp();
     section.save().then(

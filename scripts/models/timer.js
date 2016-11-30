@@ -7,10 +7,15 @@ class Timer {
   isBonusTime = false;
 
   @action start(timeLimit, bonusTime, action) {
-    this.timeLimit     = timeLimit * 60 || 0;
+    this.timeLimit     = +localStorage.getItem("currentTime") || timeLimit * 60 || 0;
     this.bonusTime     = bonusTime * 60 || 0;
     this.remainingTime = this.timeLimit;
     this.callback      = action;
+
+    
+    localStorage.setItem('timeLimit', this.timeLimit);
+    localStorage.setItem('bonusTime', this.bonusTime);
+
     this.tick();
   }
 
@@ -43,6 +48,7 @@ class Timer {
   }
 
   @action decrement() {
+    localStorage.setItem('currentTime', this.remainingTime);
     this.remainingTime--;
   }
 
@@ -57,7 +63,7 @@ class Timer {
     if (seconds < 10) seconds = `0 ${seconds}`;
 
     let str = '';
-    this.isBonusTime ?  str = 'Bonus Time: ' :  str = 'Remaining: '
+    this.isBonusTime ?  str = 'Bonus Time: ' :  str = 'Time: '
     return `${str} ${hours} : ${minutes} : ${seconds}`;
   }
 

@@ -20,7 +20,8 @@ const BLOCK_TYPES = [
 class Controls extends Component {
 
   render() {
-    const { state } = this.props.editor;
+
+    const { editor, editor: { state } } = this.props;
     const selection = state.getSelection();
     const blockType = state
       .getCurrentContent()
@@ -37,7 +38,7 @@ class Controls extends Component {
             active={type.value === blockType}
             icon={type.icon}
             iconTitle={type.title}
-            onToggle={this.props.editor.toggleBlockType}
+            onToggle={editor.toggleBlockType.bind(editor)}
             value={type.value}
           />
         )}
@@ -48,7 +49,7 @@ class Controls extends Component {
             active={currentStyle.has(type.value)}
             icon={type.icon}
             iconTitle={type.title}
-            onToggle={this.props.editor.toggleInlineStyle}
+            onToggle={editor.toggleInlineStyle.bind(editor)}
             value={type.value}
           />
         )}
