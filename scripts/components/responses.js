@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 import { observer, inject } from "mobx-react";
-
+import Pagination        from "./shared/pagination";
 import EntitiesList      from "./shared/entities-list";
 import Button            from "./shared/button";
-
 import Response    from "./responses/response";
 
 
@@ -19,6 +18,7 @@ class Responses extends Component {
           collection={responses.collection}
           component={Response}
         />
+        <Pagination collection={responses.collection} />
       </div>
     );
   }
