@@ -19,6 +19,7 @@ class Response extends Component {
         <Row>
           <Column large={4}>
             <Hash k='Name' v={model.name} />
+            <Hash k='Testee' v={model.user_name} />
           </Column>
           <Column large={3}>
             <Hash k='Sections' v={model.numsOfSections} />
@@ -30,7 +31,7 @@ class Response extends Component {
           </Column>
           <Column large={2}>
             <div className="button-group small float-right">
-              <Link to="editResponse" params={{ id: model.id }} button={{ icon: "mode_edit" }} />
+              <Link to="verifyResponse" params={{ id: model.id }} button={{ icon: "spellcheck" }} />
             </div>
           </Column>
         </Row>

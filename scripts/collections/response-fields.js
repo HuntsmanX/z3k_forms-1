@@ -2,7 +2,7 @@ import AppCollection from "./app-collection";
 
 import ResponseField from "./../models/response-field";
 
-class ResponsesFields extends AppCollection {
+class ResponseFields extends AppCollection {
 
   static get model() {
     return ResponseField;
@@ -10,4 +10,4 @@ class ResponsesFields extends AppCollection {
 
 }
 
-export default ResponsesFields;
+export default ResponseFields;

@@ -1,8 +1,14 @@
-import { computed, action } from "mobx";
+import { computed, action, autorun } from "mobx";
 
 import AppModel from "./app-model";
 
+import ResponseSections from "./../collections/response-sections";
+
 class Response extends AppModel {
+
+  static get urlRoot() {
+    return "/responses";
+  }
 
   static get defaults() {
     return {
@@ -10,8 +16,12 @@ class Response extends AppModel {
     };
   }
 
-}
+  static get associations() {
+    return {
+      sections: { collection: ResponseSections, parentKey: 'response' }
+    };
+  }
 
-Response.urlRoot = "/responses";
+}
 
 export default Response;

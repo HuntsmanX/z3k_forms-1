@@ -6,7 +6,7 @@ import Tests               from "./components/tests";
 import EditTest            from "./components/tests/edit-test";
 import NotFound            from "./components/not-found";
 import Responses           from "./components/responses";
-import EditResponse        from "./components/responses/edit-response";
+import VerifyResponse      from "./components/responses/verify-response";
 import NewResponse         from "./components/responses/new-response";
 import Start               from "./components/start";
 import Finish              from "./components/finish";
@@ -37,9 +37,9 @@ const views = {
     onEnter:   ({ s }) => s.responses.list()
   }),
 
-  editResponse: new Route({
+  verifyResponse: new Route({
     path:      '/responses/:id',
-    component: <EditResponse />,
+    component: <VerifyResponse />,
     onEnter:   ({ s, params }) => s.responses.show(params.id)
   }),
 

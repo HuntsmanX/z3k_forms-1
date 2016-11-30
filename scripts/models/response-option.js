@@ -9,4 +9,5 @@ class ResponseOption extends AppModel {
   }
 
 }
+
 export default ResponseOption;
