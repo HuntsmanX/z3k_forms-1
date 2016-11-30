@@ -19,7 +19,7 @@ class Response extends Component {
         <Row>
           <Column large={4}>
             <Hash k='Name' v={model.name} />
-            <Hash k='Testee' v={model.user_name} />
+            <Hash k='Testee' v={model.userFullNameEng} />
           </Column>
           <Column large={3}>
             <Hash k='Sections' v={model.numsOfSections} />
