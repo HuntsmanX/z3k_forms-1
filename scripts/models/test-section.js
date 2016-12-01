@@ -25,7 +25,7 @@ class TestSection extends AppModel {
       orderIndex:           0,
       shuffleQuestions:     false,
       questionsToShow:      0,
-      showNextSection:      'always',
+      showNextSection:      'show_next_regardless_of_score',
       isBeingEdited:        false,
       isExpanded:           false
     };
@@ -43,8 +43,8 @@ class TestSection extends AppModel {
   }
 
   showNextSectionMap = {
-    always: 'Regardless of Score',
-    score:  'Score is Acceptable'
+    show_next_regardless_of_score: 'Regardless of Score',
+    show_next_depending_of_score:  'Score is Acceptable'
   }
 
   @computed get questionsToShowLabel() {

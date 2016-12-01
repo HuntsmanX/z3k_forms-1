@@ -39,8 +39,8 @@ class ResponseSection extends AppModel {
   };
 
   showNextSectionMap = {
-    always: 'Regardless of Score',
-    score:  'Score is Acceptable'
+    show_next_regardless_of_score: 'Regardless of Score',
+    show_next_depending_of_score:  'Score is Acceptable'
   };
 
   @computed get questionsToShowLabel() {
