@@ -11,23 +11,9 @@ class ResponseStore {
 
   @observable collection = new ResponsesCollection();
   @observable model      = new Response();
-  @observable tests      = new TestsCollection();
-  @observable loading    = false;
-
-  constructor() {
-    this.tests.set('perPage', 50)
-  }
-
-  @action setLoading(val) {
-    this.loading = val;
-  }
 
   @action showNew() {
     this.model = new Response();
-    this.setLoading(true);
-    this.tests.fetch().then(
-      () => this.setLoading(false)
-    );
     ui.setPageTitle("New Response");
   }
 
