@@ -101,43 +101,6 @@ class FormField extends Component {
 }
 
 @observer
-class FormSelect extends Component {
-
-  handleChange = (event) => {
-    const value = event ? event.value : "";
-    this.props.model.set(this.props.attr, value);
-  }
-
-  render() {
-    const { model, attr, options } = this.props;
-
-    const label    = this.props.label || humanize(attr);
-    const opts     = options.map(o => ({ value: o.id, label: o.name }));
-    const hasError = model.errors.has(attr);
-
-    return (
-      <FormField_ grid error={hasError}>
-        <FormFieldLabel alignment="right" middle large={3}>
-          {label}
-        </FormFieldLabel>
-        <Column large={5}>
-          <Select
-            value={model.get(attr)}
-            options={opts}
-            onChange={this.handleChange}
-          />
-        </Column>
-        {hasError ? (
-          <FormFieldError large={9} largeOffset={3}>
-            {model.error(attr)[0]}
-          </FormFieldError>
-        ) : null}
-      </FormField_>
-    );
-  }
-}
-
-@observer
 class FormSelectWithAjax extends Component {
 
   handleChange = (event) => {
@@ -186,4 +149,4 @@ class FormSelectWithAjax extends Component {
 }
 
 export default Form;
-export { Fieldset, FormFooter, FormField, FormSelect, FormSelectWithAjax };
+export { Fieldset, FormFooter, FormField, FormSelectWithAjax };
