@@ -1,17 +1,18 @@
 import React, { Component } from "react";
 import { observer, inject } from "mobx-react";
 
-import Callout           from "./../shared/callout";
-import Button            from "./../shared/button";
-import Loader            from "./../shared/loader";
-import UserSelectOption  from "./new-response/user-select-forms";
-import SetSelectedValue  from "./new-response/set-selected-value";
+import Callout              from "./../shared/callout";
+import Button               from "./../shared/button";
+import Loader               from "./../shared/loader";
+import UserSelectOption     from "./new-response/user-select-forms";
+import SetSelectedValue     from "./new-response/set-selected-value";
+import TestSelectOption     from "./new-response/test-select-forms";
+import SetTestSelectedValue from "./new-response/set-test-selected-value"
 
 import Form, {
   Fieldset,
   FormFooter,
   FormField,
-  FormSelect,
   FormSelectWithAjax
 } from "./../shared/form";
 
@@ -28,14 +29,22 @@ class NewResponse extends Component {
     const formatOption = (el) => ({
       ...el,
       value: el.id,
-      label: el.fullNameEng
+      label: (el.fullNameEng || el.name)
     });
 
     return (
       <Form onSubmit={responses.create.bind(responses)} model={response}>
         <Callout>
           <Fieldset legend="New Response">
-            <FormSelect model={response} attr="testId" label="Test" options={tests} />
+            <FormSelectWithAjax
+               model={response}
+               url="/tests/find_test"
+               attr="testId"
+               label="Test"
+               optionComponent={TestSelectOption}
+               valueComponent={SetTestSelectedValue}
+               formatOption={formatOption}
+            />
             <FormSelectWithAjax
               model={response}
               url="/testees/find"
