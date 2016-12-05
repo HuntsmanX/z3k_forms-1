@@ -14,11 +14,12 @@ class Question extends Component {
 
   render() {
     const { question } = this.props;
-    const questionClassName = question.isBeingEdited ? "question edited" : "question";
-    const className = questionClassName + (question.isChecked ? ' checked' : ' unchecked');
+    const className = question.isBeingEdited ? "question edited" : "question";
 
     return (
       <div className={className}>
+        <div className="score-indicator" style={{ backgroundColor: question.scoreColor }} />
+
         <ActionsRight question={question} />
 
           <div className="main-content">
@@ -29,10 +30,6 @@ class Question extends Component {
             ) : (
               <QuestionStats question={question} />
             )}
-
-            {question.formattedErrors.length ? (
-              <div className="errors">{question.formattedErrors}</div>
-            ) : null}
 
           </div>
       </div>
@@ -81,24 +78,12 @@ class QuestionStats extends Component {
     return (
       <div className="question-stats">
         <Row>
-          <Column large={3}>
+          <Column large={2}>
+            <Hash k='Scored' v={question.userScore} />
+          </Column>
+
+          <Column large={2}>
             <Hash k='Max Score' v={question.maxScore} />
-          </Column>
-
-          <Column large={2}>
-            <Hash k='Auto' v={question.autoScore} />
-          </Column>
-
-          <Column large={3}>
-            <Hash k='Manually' v={question.manualScore} />
-          </Column>
-
-          <Column large={2}>
-            <Hash k='User Score' v={question.userScore} />
-          </Column>
-
-          <Column large={2}>
-            <Hash k='Percentage' v={question.userResultPercentage} />
           </Column>
         </Row>
       </div>

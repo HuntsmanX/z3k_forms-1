@@ -7,10 +7,10 @@ import EditTest            from "./components/tests/edit-test";
 import NotFound            from "./components/not-found";
 import Responses           from "./components/responses";
 import VerifyResponse      from "./components/responses/verify-response";
-import NewResponse         from "./components/responses/new-response";
-import Start               from "./components/start";
-import Finish              from "./components/finish";
-import EditResponseSection from "./components/responses/edit-response-section";
+import NewResponse         from "./components/active-test/new-response";
+import Start               from "./components/active-test/start";
+import Finish              from "./components/active-test/finish";
+import ResponseSection     from "./components/active-test/response-section";
 
 const views = {
 
@@ -37,34 +37,34 @@ const views = {
     onEnter:   ({ s }) => s.responses.list()
   }),
 
+  NewResponse: new Route({
+    path:      '/responses/new',
+    component: <NewResponse />,
+    onEnter:   ({ s }) => s.activeTest.newResponse()
+  }),
+
   verifyResponse: new Route({
     path:      '/responses/:id',
     component: <VerifyResponse />,
     onEnter:   ({ s, params }) => s.responses.show(params.id)
   }),
 
-  NewResponse: new Route({
-    path:      '/new-response',
-    component: <NewResponse />,
-    onEnter:   ({ s }) => s.responses.showNew()
-  }),
-
   start: new Route({
     path:       '/start/:id',
     component:  <Start />,
-    onEnter:   ({ s, params }) => s.responses.start(params.id)
+    onEnter:   ({ s, params }) => s.activeTest.start(params.id)
   }),
 
   editResponseSection: new Route({
     path:       '/test/:uid',
-    component:   <EditResponseSection />,
-    onEnter:   ({ s, params }) => s.sections.edit(params.uid)
+    component:   <ResponseSection />,
+    onEnter:   ({ s, params }) => s.activeTest.showSection(params.uid)
   }),
 
   finish: new Route({
     path:       '/finish',
     component:   <Finish />,
-    onEnter:    ({ s }) => s.ui.setPageTitle('Thank you!')
+    onEnter:    ({ s }) => s.activeTest.finish()
   }),
 
   notFound: new Route({

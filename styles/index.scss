@@ -5,6 +5,7 @@
 @import 'foundation-sites/scss/foundation';
 @include foundation-everything(true);
 @import 'react-select/dist/react-select';
+@import 'rc-slider/assets/index';
 
 @import 'global';
 
@@ -18,3 +19,5 @@
 @import 'components/pagination';
 @import 'components/react-select';
 @import 'components/timer';
+@import 'components/slider';
+@import 'components/field-expand';

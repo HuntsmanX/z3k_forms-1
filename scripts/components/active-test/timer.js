@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import { observer, inject } from "mobx-react";
+import { observer } from "mobx-react";
 
 @observer
-class ResponseTimer extends React.Component {
+class Timer extends React.Component {
 
   render() {
     const { timer } = this.props;
@@ -11,9 +11,7 @@ class ResponseTimer extends React.Component {
 
     return (
       <div className="timer">
-        {timer.isBonusTime ? (
-          <h3>bonus time</h3>
-        ) : null}
+        {timer.isBonusTime ? <h3>bonus time</h3> : null}
         <h1>{timer.formattedRemainingTime}</h1>
       </div>
     );
@@ -21,4 +19,4 @@ class ResponseTimer extends React.Component {
 
 }
 
-export default ResponseTimer;
+export default Timer;

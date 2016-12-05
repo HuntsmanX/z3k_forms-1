@@ -1,7 +1,6 @@
 import { action, computed, observable } from "mobx";
 
 import AppModel from "./app-model";
-import Editor   from "./editor";
 
 import FIELD_TYPES from "./../helpers/field-types";
 
@@ -47,11 +46,6 @@ class Field extends AppModel {
 
   @action moveOption(dragId, hoverId) {
     this.options.move(dragId, hoverId);
-  }
-
-  @action fromJSON(data) {
-    super.fromJSON(data);
-    this.editor = new Editor(this.content);
   }
 
 }

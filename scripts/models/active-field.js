@@ -1,21 +1,28 @@
-import { action, computed } from "mobx";
-import Field           from "./field";
-import ResponseOptions from "./../collections/response-options";
+import { computed, action } from "mobx";
 
-import Editor   from "./editor";
+import Field from "./field";
 
-class ResponseField extends Field {
+import ActiveOptions from "./../collections/active-options";
+
+import Editor from "./editor";
+
+class ActiveField extends Field {
 
   static get associations() {
     return {
-      options: { collection: ResponseOptions, parentKey: 'field' }
+      options: { collection: ActiveOptions, parentKey: 'field' }
     };
   }
 
-  static get defaults() {
-    return {
-      isExpanded: false
-    };
+  @action initialize() {
+    if (this.fieldType !== "dropdown" && this.fieldType !== "inline_dropdown") return;
+
+    this.options.add({ content: 'Please select', _destroy: true });
+    this.options.move(this.options.last().uuid, this.options.first().uuid);
+
+    if (this.options.find({ userSelected: true })) return;
+
+    this.options.find({ content: "Please select", _destroy: true }).set('userSelected', true);
   }
 
   @computed get availableOptions() {
@@ -28,18 +35,6 @@ class ResponseField extends Field {
 
   @computed get value() {
     return this.get('userContent') || "";
-  }
-
-  get readOnly() {
-    return true;
-  }
-
-  get isExpandable() {
-    return this.question.isBeingEdited;
-  }
-
-  @action toggleExpand() {
-    this.isExpanded = !this.isExpanded;
   }
 
   @action _selectSingleSelectedOption(option) {
@@ -60,11 +55,11 @@ class ResponseField extends Field {
     const data = super.serialize(options);
 
     if (this.fieldType === "text_editor")
-      data.content = this.editor.serialize();
+      data.userContent = this.editor.serialize();
 
     return data;
   }
 
 }
 
-export default ResponseField;
+export default ActiveField;

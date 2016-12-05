@@ -15,6 +15,11 @@
     input[type='text'], select, textarea {
       width:     25rem;
       max-width: 25rem;
+      display:   inline-block;
+    }
+
+    .box-inputs {
+      display: inline-block;
     }
   }
 

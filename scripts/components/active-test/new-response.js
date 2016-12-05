@@ -21,10 +21,7 @@ import Form, {
 class NewResponse extends Component {
 
   render() {
-    const { s: { responses } } = this.props;
-    const { model: response, tests, loading } = responses;
-
-    if (loading) return <Loader />;
+    const { s: { activeTest, activeTest: { response } } } = this.props;
 
     const formatOption = (el) => ({
       ...el,
@@ -33,7 +30,7 @@ class NewResponse extends Component {
     });
 
     return (
-      <Form onSubmit={responses.create.bind(responses)} model={response}>
+      <Form onSubmit={activeTest.createResponse.bind(activeTest)} model={response}>
         <Callout>
           <Fieldset legend="New Response">
             <FormSelectWithAjax

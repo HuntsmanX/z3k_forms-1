@@ -34,9 +34,8 @@
     color:          #666;
     vertical-align: top;
 
-    &.w-45 {
-      width: 45%;
-    }
+    &.w-45 { width: 45%; }
+    &.w-20 { width: 20%; }
   }
 
   .value {
@@ -46,8 +45,7 @@
     padding-left:  0.5rem;
     padding-right: 0.5rem;
 
-    &.w-55 {
-      width: 55%;
-    }
+    &.w-55 { width: 55%; }
+    &.w-80 { width: 80%; }
   }
 }

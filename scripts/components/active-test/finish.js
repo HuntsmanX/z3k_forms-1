@@ -1,16 +1,12 @@
 import React, { Component } from "react";
-import { observer, inject } from "mobx-react";
 
-@observer
 class Finish extends Component {
 
   render() {
     return (
-      <div>
-        <p>
-          Finish
-        </p>
-      </div>
+      <p>
+        Thank you for submitting the test. Please contact recruitment team for further instructions.
+      </p>
     );
   }
 

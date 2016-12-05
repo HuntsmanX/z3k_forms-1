@@ -170,18 +170,15 @@
         }
       }
 
-      &:not(.edited) {
-        &.checked {
-          background-color: #e4ffe5;
-        }
-        &.unchecked {
-          background-color: whitesmoke;
-        }
-      }
-
-
       &:first-child {
         border-top: 1px solid $light-gray;
+      }
+
+      .score-indicator {
+        position: absolute;
+        top:      0;
+        bottom:   0;
+        width:    0.5rem;
       }
 
       .main-content {

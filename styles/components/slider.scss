@@ -1,0 +1,22 @@
+.rc-slider-rail {
+  background-color: $medium-gray;
+}
+
+.rc-slider-track {
+  border-radius: 0;
+  background-color: $primary-color;
+}
+
+.rc-slider-handle,
+.rc-slider-handle:hover {
+  border-color: $primary-color;
+}
+
+.rc-slider-tooltip-inner {
+  background-color: $black;
+  border-radius: 0;
+}
+
+.rc-slider-tooltip-placement-top .rc-slider-tooltip-arrow {
+  border-top-color: $black;
+}

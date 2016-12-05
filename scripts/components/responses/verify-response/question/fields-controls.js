@@ -1,10 +1,13 @@
-import React, {Component} from "react";
-import {observer} from "mobx-react";
+import React, { Component } from "react";
+import { observer } from "mobx-react";
 
-import {Row, Column}     from "react-foundation-components/lib/global/grid-flex";
-import {LinkWithTooltip} from "react-foundation-components/lib/global/tooltip";
+import { Row, Column }     from "react-foundation-components/lib/global/grid-flex";
+import { LinkWithTooltip } from "react-foundation-components/lib/global/tooltip";
+
+import Slider from "rc-slider";
 
 import Icon from "../../../shared/icon";
+import Hash from "../../../shared/hash";
 
 @observer
 class FieldsControls extends Component {
@@ -31,8 +34,7 @@ class FieldControls extends Component {
   }
 
   render() {
-    const {field, index} = this.props;
-    const autocheckIcon = field.autocheck ? 'done' : 'block';
+    const { field, index } = this.props;
 
     return (
       <div className="field-controls">
@@ -43,82 +45,29 @@ class FieldControls extends Component {
               <span tabIndex="1">{field.label}</span>
             </LinkWithTooltip>
           </Column>
-          <Column large={2}>
-            <span className="control-label">Autocheck</span>
-            <Icon className="control-icon not-clickable">{autocheckIcon}</Icon>
-          </Column>
-          <Column large={2}>
-            <span className="control-label">Max Score</span>
-            <span>{field.score}</span>
-          </Column>
-          <Column large={2}>
-            <span className="control-label">User Score</span>
-            <input type="text" className="score-input" value={field.userScore}
-                   onChange={this.handleChange.bind(this, 'userScore')}/>
-          </Column>
-        </Row>
-        <Row>
-          <Column large={4}>
-            <FieldResultTable field={field}/>
+
+          <Column large={3}>
+            <Hash
+              w='20/80'
+              k='Score'
+              v={
+                <span style={{ display: 'inline-block', paddingTop: '0.2rem', width: '100%' }}>
+                  <Slider
+                    min={0}
+                    max={field.score}
+                    step={0.01}
+                    value={field.userScore}
+                    onChange={(val) => field.set('userScore', val)}
+                  />
+                </span>
+              }
+            />
           </Column>
         </Row>
       </div>
     );
   }
 
-}
-
-class FieldResultTable extends React.Component {
-  render() {
-
-    const {field} = this.props;
-    if (!field.hasOptions) return null;
-
-    var rows = [];
-
-    {field.availableOptions.map((option, index) => {
-      rows.push(<FieldResultRow option={option} field={field} key={index}/>);
-    })}
-
-    return (
-      <table className="results-table" >
-        <thead>
-        <tr>
-          <th>Option</th>
-          <th>User Result</th>
-        </tr>
-        </thead>
-        <tbody>{rows}</tbody>
-      </table>
-    );
-  }
-}
-
-class FieldResultRow extends React.Component {
-  render() {
-    const {option, field} = this.props;
-    const color = option.isCorrect ? 'green' : 'red';
-
-    return (
-      <tr>
-        <td><span style={{color: color}}>{option.content}</span></td>
-        <UserResultColumn option={option} field={field}/>
-      </tr>
-    );
-  }
-}
-
-class UserResultColumn extends React.Component {
-  render() {
-    const { option } = this.props;
-    const color = option.userSelected && option.isCorrect ? 'green' : 'red';
-    const selectedIcon = option.userSelected ? <Icon className="action" style={{color: color}}>done</Icon> : null;
-
-    return (
-      <td>{selectedIcon}</td>
-    )
-
-  }
 }
 
 export default FieldsControls;

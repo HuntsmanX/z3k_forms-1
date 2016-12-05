@@ -1,16 +1,15 @@
 import React, { Component } from "react";
 import { observer, inject } from "mobx-react";
 
-import Link   from "./shared/link";
-import Loader from "./shared/loader";
+import Link   from "./../shared/link";
+import Loader from "./../shared/loader";
 
 @inject("s")
 @observer
 class Start extends Component {
 
   render() {
-    const { s: { responses, sections } } = this.props;
-    const response = this.props.s.responses.model;
+    const { s: { activeTest: { response } } } = this.props;
 
     if (response.isBeingFetched) return <Loader />;
 

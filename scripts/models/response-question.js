@@ -6,6 +6,8 @@ import AppModel       from "./app-model";
 import ResponseFields from "./../collections/response-fields";
 import QuestionEditor from "./question-editor";
 
+import { scoreRainbow } from "./../helpers/rainbow";
+
 class ResponseQuestion extends AppModel {
 
   static get urlRoot() {
@@ -35,49 +37,32 @@ class ResponseQuestion extends AppModel {
     return this.fields.every('checked')
   }
 
-  @computed get userScore() {
-    return sumBy(this.availableFields, 'userScore')
-  }
-
-  @computed get userResultPercentage() {
-    const userScore = this.userScore || 0;
-    const maxScore = this.maxScore || 0;
-    return Math.round(userScore * 100 / maxScore)
-  }
-
   @computed get readOnly() {
-    return !this.isBeingEdited || this.fieldActive;
+    return true;
   }
 
   @computed get availableFields() {
-    return this.fields.notMarkedForDestruction;
+    return this.fields;
   }
 
   @computed get maxScore() {
-    return sumBy(this.availableFields, 'score');
+    return sumBy(this.fields.models, 'score');
   }
 
-  @computed get autoScore() {
-    return sumBy(
-      this.availableFields.filter(f => f.autocheck), 'score'
-    );
+  @computed get userScore() {
+    return sumBy(this.fields.models, 'userScore');
   }
 
-  @computed get manualScore() {
-    return sumBy(
-      this.availableFields.filter(f => !f.autocheck), 'score'
-    );
-  }
+  @computed get scoreColor() {
+    if (!this.isChecked) return 'white';
 
-  @computed get formattedErrors() {
-    return this.errors.entries().map(entry => {
-      return `${humanize(entry[0])} ${entry[1].join(', ')}`;
-    }).join("\n");
+    const percent = Math.round((this.userScore || 0) * 100 / this.maxScore);
+    return `#${scoreRainbow.colorAt(percent)}`;
   }
 
   @action edit() {
+    this.fields.each(f => f.set('checked', true));
     this.set('isBeingEdited', true);
-    this.focus();
   }
 
   @action save() {
@@ -93,35 +78,6 @@ class ResponseQuestion extends AppModel {
     });
     data.content = this.editor.serialize();
     return data;
-  }
-
-  @action setErrors(errors) {
-    const errorKeys = Object.keys(errors).filter(attr => !/^fields/.test(attr));
-    errorKeys.forEach(key => this.errors.set(key, errors[key]));
-
-    errors.fields && errors.fields.forEach(
-      f => this.fields.find({ blockKey: f.blockKey }).setErrors(f.errors)
-    );
-  }
-
-  @action unsetErrors() {
-    this.errors.clear();
-    this.fields.each(field => field.unsetErrors());
-  }
-
-  @action insertField(type) {
-    const fieldBlockKey = this.editor.insertField(type);
-    this.fields.add({ fieldType: type, blockKey: fieldBlockKey });
-  }
-
-  @action assignInputRef(input) {
-    this.inputRef = input;
-  }
-
-  @action focus() {
-    setTimeout(() => {
-      this.inputRef && this.inputRef.focus();
-    }, 0);
   }
 
 }

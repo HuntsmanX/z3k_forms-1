@@ -4,6 +4,8 @@ import humanize from "underscore.string/humanize";
 import Field       from "./field";
 import TestOptions from "./../collections/test-options";
 
+import Editor   from "./editor";
+
 class TestField extends Field {
 
   static get defaults() {
@@ -73,6 +75,11 @@ class TestField extends Field {
 
   @action _selectMultipeSelectedOption(option) {
     option.set('isCorrect', !option.isCorrect);
+  }
+
+  @action fromJSON(data) {
+    super.fromJSON(data);
+    this.editor = new Editor(this.content);
   }
 
   serialize(options) {

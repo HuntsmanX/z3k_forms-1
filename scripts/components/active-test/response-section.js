@@ -2,17 +2,17 @@ import React, { Component } from "react";
 import { observer, inject } from "mobx-react";
 
 import QuestionsList  from "./question-list";
-import ResponseTimer  from "./response-timer";
+import Timer          from "./timer";
 import Loader         from "./../shared/loader";
 import LoadingWrapper from "./../shared/loading-wrapper";
 import Button         from "./../shared/button";
 
 @inject("s")
 @observer
-class EditResponseSection extends Component {
+class ResponseSection extends Component {
 
   render() {
-    const { sections, sections: { model: section, timer } } = this.props.s;
+    const { activeTest, activeTest: { section, timer } } = this.props.s;
 
     if (section.isBeingFetched) return <Loader />;
 
@@ -31,13 +31,13 @@ class EditResponseSection extends Component {
           type="submit"
           label="Submit"
           icon="done"
-          onClick={() => sections.updateSection(section)}
+          onClick={activeTest.submitSection.bind(activeTest)}
         />
-        <ResponseTimer timer={timer} />
+        <Timer timer={timer} />
       </div>
     );
   }
 
 }
 
-export default EditResponseSection;
+export default ResponseSection;
