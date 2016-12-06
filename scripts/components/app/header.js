@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 
 import { Row, Column } from "react-foundation-components/lib/global/grid-flex";
+import { Dropdown, LinkWithDropdown } from "react-foundation-components/lib/global/dropdown";
+import { Button } from 'react-foundation-components/lib/global/button';
 
 import Link from "./../shared/link";
 
@@ -26,6 +28,18 @@ class Header extends Component {
                   </li>
                   <li>
                     <Link to="NewResponse">New Response</Link>
+                  </li>
+                  <li>
+                    <LinkWithDropdown
+                      dropdownContent={
+                        <div>
+                          <Link to="mistakeTypes">Mistake Types</Link>
+                        </div>
+                      }
+                      closeOnClickOutside
+                    >
+                      <Button dropdown>Settings</Button>
+                    </LinkWithDropdown>
                   </li>
                 </ul>
               </div>
