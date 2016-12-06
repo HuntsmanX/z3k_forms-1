@@ -3,6 +3,7 @@ import { Route } from 'mobx-router';
 
 import Dashboard           from "./components/dashboard";
 import Tests               from "./components/tests";
+import MistakeTypes        from "./components/config/mistake-types";
 import EditTest            from "./components/tests/edit-test";
 import NotFound            from "./components/not-found";
 import Responses           from "./components/responses";
@@ -54,6 +55,12 @@ const views = {
     path:      '/responses/:id',
     component: <VerifyResponse />,
     onEnter:   ({ s, params }) => s.responses.show(params.id)
+  }),
+
+  mistakeTypes: new Route({
+    path:      '/config/mistake-types',
+    component: <MistakeTypes />,
+    onEnter:   ({ s }) => s.mistakeTypes.list()
   }),
 
   start: new Route({
