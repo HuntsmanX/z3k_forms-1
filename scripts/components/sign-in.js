@@ -18,7 +18,7 @@ class SignIn extends Component {
   render() {
     const { s: { session } } = this.props;
     const currentUser = session.currentUser
-  
+
     return (
       <Modal
         title="Sign In"
@@ -29,7 +29,7 @@ class SignIn extends Component {
         <Callout>
           <Fieldset legend="Sign In">
             <FormField model={currentUser} attr="email" />
-            <FormField model={currentUser} attr="password" />
+            <FormField model={currentUser} attr="password" type="password"/>
           </Fieldset>
           <FormFooter>
             <Button type="submit" label="Log In" icon="done" />
