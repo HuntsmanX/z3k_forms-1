@@ -29,6 +29,13 @@ class Header extends Component {
                   </li>
                 </ul>
               </div>
+              <div className="top-bar-right">
+                <ul className="menu">
+                  <li>
+                    <Link to="signIn">Sign In</Link>
+                  </li>
+                </ul>
+              </div>
             </div>
           </Column>
         </Row>

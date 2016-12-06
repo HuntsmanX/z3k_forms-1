@@ -18,6 +18,7 @@ const setDefaults = (options) => {
     url:         '/',
     method:      'GET',
     dataType:    'json',
+    prefix:      '/v1/forms',
     contentType: 'application/json',
     headers:     { 'X-Key-Inflection' : 'camel' }
   });
@@ -26,7 +27,9 @@ const setDefaults = (options) => {
 const ajax = (options = {}) => {
   setDefaults(options);
 
-  options.url  = ENV_API_URL + options.url;
+  const baseURL = options.prefix ? ENV_API_URL + options.prefix : ENV_API_URL;
+
+  options.url  = baseURL + options.url;
   options.data = options.method === 'GET' ?
     options.payload :
     JSON.stringify(options.payload)
