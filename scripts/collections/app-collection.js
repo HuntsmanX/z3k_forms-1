@@ -1,5 +1,6 @@
 import {
   observable,
+  asMap,
   action,
   extendObservable,
   computed
@@ -22,6 +23,7 @@ class AppCollection {
   @observable totalPages     = 0;
   @observable totalItems     = 0;
   @observable perPage        = 25;
+  @observable query          = asMap({});
 
   constructor(data = [], parent = {}) {
     this.parent = parent;
@@ -103,12 +105,17 @@ class AppCollection {
     this[attr] = val;
   }
 
+  @action setQuery(attr, val) {
+    this.query.set(attr, val);
+  }
+
   @action fetch() {
     this.set('isBeingFetched', true);
 
     const request = ajax({
       url:     this.getUrl('fetch'),
       payload: {
+        q:    this.query.toJSON(),
         page: this.currentPage,
         per:  this.perPage
       }
