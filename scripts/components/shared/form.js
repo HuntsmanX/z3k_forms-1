@@ -88,7 +88,7 @@ class FormField extends Component {
         <FormFieldLabel alignment="right" middle large={3}>
           {label}
         </FormFieldLabel>
-        <FormFieldInput large={9} value={model.get(attr)} onChange={this.onChange} type={this.props.type ? 'password' : 'text'} />
+        <FormFieldInput large={9} value={model.get(attr)} onChange={this.onChange} type={this.props.type} />
         {hasError ? (
           <FormFieldError large={9} largeOffset={3}>
             {model.error(attr)[0]}
@@ -97,7 +97,10 @@ class FormField extends Component {
       </FormField_>
     );
   }
+}
 
+FormFieldInput.defaultProps = {
+  type: 'text'
 }
 
 @observer

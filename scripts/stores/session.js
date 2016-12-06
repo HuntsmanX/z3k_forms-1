@@ -1,6 +1,6 @@
 import { observable, action } from "mobx";
 
-import ui     from     "./ui";
+import ui     from "./ui";
 import router from "./router";
 import User   from "./../models/user"
 import ajax   from "./../helpers/ajax";
