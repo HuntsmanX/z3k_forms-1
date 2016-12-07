@@ -14,17 +14,6 @@ class ActiveField extends Field {
     };
   }
 
-  @action initialize() {
-    if (this.fieldType !== "dropdown" && this.fieldType !== "inline_dropdown") return;
-
-    this.options.add({ content: 'Please select', _destroy: true });
-    this.options.move(this.options.last().uuid, this.options.first().uuid);
-
-    if (this.options.find({ userSelected: true })) return;
-
-    this.options.find({ content: "Please select", _destroy: true }).set('userSelected', true);
-  }
-
   @computed get availableOptions() {
     return this.options;
   }

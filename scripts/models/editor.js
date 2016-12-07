@@ -38,6 +38,14 @@ class Editor {
     );
   }
 
+  @action handleBeforeInput(chars) {
+    return 'not-handled';
+  }
+
+  @action handleReturn() {
+    return 'not-handled';
+  }
+
   serialize() {
     return JSON.stringify(
       convertToRaw(this.state.getCurrentContent())

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { observer } from "mobx-react";
+import { observer, inject } from "mobx-react";
 
 import { Row, Column }     from "react-foundation-components/lib/global/grid-flex";
 import { LinkWithTooltip } from "react-foundation-components/lib/global/tooltip";
@@ -26,6 +26,7 @@ class FieldsControls extends Component {
 
 }
 
+@inject("s")
 @observer
 class FieldControls extends Component {
 
@@ -35,6 +36,7 @@ class FieldControls extends Component {
 
   render() {
     const { field, index } = this.props;
+    const mistakeTypes = this.props.s.ui.getData('mistakeTypes');
 
     return (
       <div className="field-controls">
@@ -64,6 +66,19 @@ class FieldControls extends Component {
             />
           </Column>
         </Row>
+        {field.fieldType === "text_editor" ? (
+          <Row>
+            <Column large={12}>
+              {mistakeTypes.map(mt => {
+                return (
+                  <div key={mt.id}>
+                    {`${mt.name} - ${field.editor.mistakesCount(mt.identifier)}`}
+                  </div>
+                );
+              })}
+            </Column>
+          </Row>
+        ) : null}
       </div>
     );
   }

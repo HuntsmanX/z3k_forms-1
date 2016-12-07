@@ -9,7 +9,7 @@ import Icon from "./../shared/icon";
 class FieldExpand extends Component {
 
   render() {
-    const { field, children } = this.props;
+    const { field, children, type } = this.props;
 
     if (!field.isExpandable) return null;
 
@@ -22,7 +22,7 @@ class FieldExpand extends Component {
       'Show correct answer';
 
     return (
-      <div className="field-expand">
+      <div className={`field-expand ${type === 'inline' ? 'inline' : ''}`}>
         <Icon
           className="action"
           onClick={() => field.toggleExpand()}
@@ -35,6 +35,10 @@ class FieldExpand extends Component {
     );
   }
 
+}
+
+FieldExpand.defaultProps = {
+  type: 'block'
 }
 
 export default FieldExpand;

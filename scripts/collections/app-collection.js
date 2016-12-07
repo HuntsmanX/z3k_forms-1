@@ -203,7 +203,9 @@ class AppCollection {
   @action _setPagination(data = {}) {
     const { totalPages, totalItems, currentPage } = data;
 
-    if (!totalPages || !totalItems || !currentPage) return;
+    if (!totalPages && totalPages !== 0 ||
+      !totalItems && totalItems !== 0 ||
+      !currentPage && currentPage !== 0) return;
 
     this.set('totalPages',  totalPages);
     this.set('totalItems',  totalItems);

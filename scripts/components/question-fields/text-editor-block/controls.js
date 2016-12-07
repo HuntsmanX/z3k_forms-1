@@ -19,9 +19,8 @@ const BLOCK_TYPES = [
 @observer
 class Controls extends Component {
 
-  render() {
-
-    const { editor, editor: { state } } = this.props;
+  renderControls() {
+    const { editor, editor: { state }, mistakeTypes } = this.props;
     const selection = state.getSelection();
     const blockType = state
       .getCurrentContent()
@@ -55,6 +54,32 @@ class Controls extends Component {
         )}
       </div>
     );
+  }
+
+  renderMistakeControls() {
+    const { editor, mistakeTypes } = this.props;
+
+    return (
+      <div className="controls">
+        {mistakeTypes.map(mt => {
+          return <span
+            key={mt.id}
+            className={`style-button`}
+            onMouseDown={editor.markMistake.bind(editor, mt.identifier)}
+          >
+            {`${mt.name} `}
+          </span>;
+        })}
+      </div>
+    );
+  }
+
+  render() {
+    const { editor: { showMistakeControls } } = this.props;
+
+    return showMistakeControls ?
+      this.renderMistakeControls() :
+      this.renderControls();
   }
 
 }
