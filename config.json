@@ -1,6 +1,6 @@
 {
   "development": {
-    "ENV_API_URL": "http://localhost:3000/v1/forms"
+    "ENV_API_URL": "http://localhost:3000"
   },
   "production": {
     "ENV_API_URL": ""

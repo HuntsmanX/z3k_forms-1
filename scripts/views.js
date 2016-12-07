@@ -12,6 +12,7 @@ import NewResponse         from "./components/active-test/new-response";
 import Start               from "./components/active-test/start";
 import Finish              from "./components/active-test/finish";
 import ResponseSection     from "./components/active-test/response-section";
+import SignIn              from "./components/sign-in";
 
 const views = {
 
@@ -42,6 +43,12 @@ const views = {
     path:      '/responses/new',
     component: <NewResponse />,
     onEnter:   ({ s }) => s.activeTest.newResponse()
+  }),
+
+  signIn: new Route({
+    path:      '/sign-in',
+    component: <SignIn />,
+    onEnter:   ({ s, params }) => s.session.signInForm(true)
   }),
 
   verifyResponse: new Route({
