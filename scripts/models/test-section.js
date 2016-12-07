@@ -44,7 +44,7 @@ class TestSection extends AppModel {
 
   showNextSectionMap = {
     show_next_regardless_of_score: 'Regardless of Score',
-    show_next_depending_on_score:  'Depending on Score'
+    show_next_depending_of_score:  'Depending on Score'
   }
 
   @computed get questionsToShowLabel() {
@@ -95,7 +95,7 @@ class TestSection extends AppModel {
   }
 
   @computed get acceptableScoreRequired() {
-    return this.showNextSection === 'show_next_depending_on_score';
+    return this.showNextSection === 'show_next_depending_of_score';
   }
 
   @computed get acceptableScoreUnitsLabel() {
