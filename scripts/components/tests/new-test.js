@@ -5,13 +5,7 @@ import Modal   from "./../shared/modal";
 import Callout from "./../shared/callout";
 import Button  from "./../shared/button";
 
-import Form, {
-  Fieldset,
-  FormFooter,
-  FormField
-} from "./../shared/form";
-
-import { Row, Column } from 'react-foundation-components/lib/global/grid-flex';
+import Form, { Fieldset, FormFooter, TextField } from "./../shared/form";
 
 @inject("s")
 @observer
@@ -30,7 +24,7 @@ class NewTest extends Component {
         <Form onSubmit={tests.create.bind(tests)} model={test}>
           <Callout>
             <Fieldset legend="New Test">
-              <FormField model={test} attr="name" />
+              <TextField model={test} attr="name" />
             </Fieldset>
             <FormFooter>
               <Button type="submit" label="Save" icon="done" />
