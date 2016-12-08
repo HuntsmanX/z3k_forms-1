@@ -1,6 +1,6 @@
-import { computed, action } from "mobx";
-
 import AppModel from "./app-model";
+
+import { Entity } from "draft-js";
 
 class MistakeType extends AppModel {
 
@@ -10,9 +10,16 @@ class MistakeType extends AppModel {
 
   static get defaults() {
     return {
-      color: ""
+      color:   "",
+      name:    "",
+      penalty: 1
     };
   }
+
+  get identifier() {
+    return `mistake-${this.id}`;
+  }
+
 }
 
 export default MistakeType;

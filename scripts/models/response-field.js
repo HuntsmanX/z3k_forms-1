@@ -2,7 +2,7 @@ import { action, computed } from "mobx";
 import Field           from "./field";
 import ResponseOptions from "./../collections/response-options";
 
-import Editor   from "./editor";
+import ReviewEditor from "./review-editor";
 
 class ResponseField extends Field {
 
@@ -30,7 +30,8 @@ class ResponseField extends Field {
     return this.get('userContent') || "";
   }
 
-  get readOnly() {
+  @computed get readOnly() {
+    if (this.fieldType === "text_editor" && this.question.isBeingEdited) return false;
     return true;
   }
 
@@ -53,14 +54,14 @@ class ResponseField extends Field {
 
   @action fromJSON(data) {
     super.fromJSON(data);
-    this.editor = new Editor(this.userContent);
+    this.editor = new ReviewEditor(this.userContent);
   }
 
   serialize(options) {
     const data = super.serialize(options);
 
     if (this.fieldType === "text_editor")
-      data.content = this.editor.serialize();
+      data.userContent = this.editor.serialize();
 
     return data;
   }

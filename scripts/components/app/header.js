@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 
 import { Row, Column } from "react-foundation-components/lib/global/grid-flex";
-import { Dropdown, LinkWithDropdown } from "react-foundation-components/lib/global/dropdown";
 import { Button } from 'react-foundation-components/lib/global/button';
 
 import Link from "./../shared/link";
@@ -16,31 +15,33 @@ class Header extends Component {
           <Column large={12}>
             <div className="top-bar">
               <div className="top-bar-left">
-                <ul className="menu">
+                <ul className="dropdown menu" data-dropdown-menu>
+
                   <li className="menu-text app-title">
                     <Link to="dashboard">Z3K Forms</Link>
                   </li>
+
                   <li>
                     <Link to="tests">Tests</Link>
                   </li>
+
                   <li>
                     <Link to="responses">Responses</Link>
                   </li>
+
                   <li>
                     <Link to="NewResponse">New Response</Link>
                   </li>
+
                   <li>
-                    <LinkWithDropdown
-                      dropdownContent={
-                        <div>
-                          <Link to="mistakeTypes">Mistake Types</Link>
-                        </div>
-                      }
-                      closeOnClickOutside
-                    >
-                      <Button dropdown>Settings</Button>
-                    </LinkWithDropdown>
+                    <a>Settings</a>
+                    <ul className="menu vertical">
+                      <li>
+                        <Link to="mistakeTypes">Mistake Types</Link>
+                      </li>
+                    </ul>
                   </li>
+
                 </ul>
               </div>
               <div className="top-bar-right">

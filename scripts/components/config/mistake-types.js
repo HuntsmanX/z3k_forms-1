@@ -16,6 +16,7 @@ class MistakeTypes extends Component {
   render() {
 
     const { s: { mistakeTypes } } = this.props;
+    
     return (
       <div>
         <NewMistakeType />

@@ -1,6 +1,6 @@
 import { observable, action } from "mobx";
 
-import ui from     "./ui";
+import ui     from "./ui";
 import router from "./router";
 
 import MistakeType            from "./../models/mistake-type";
@@ -15,12 +15,12 @@ class MistakeTypesStore {
 
   @action showNew(val) {
     if (val) this.model = new MistakeType();
-    this.showModal(val)
+    this.showModal(val);
   }
 
   @action list() {
     this.collection.fetch();
-    ui.setPageTitle("MistakeTypes");
+    ui.setPageTitle("Mistake Types");
   }
 
   @action show(id) {
