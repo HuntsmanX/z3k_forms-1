@@ -13,6 +13,10 @@ import {
   FormFieldError
 } from 'react-foundation-components/lib/global/forms-flex';
 
+import TextField  from "./form/text-field";
+import Fieldset   from "./form/fieldset";
+import FormFooter from "./form/form-footer";
+
 @observer
 class Form extends Component {
 
@@ -22,13 +26,13 @@ class Form extends Component {
   }
 
   render() {
-    const { children, model } = this.props;
+    const { children, model, collection } = this.props;
 
     return (
       <form onSubmit={this.onSubmit}>
-        {model && model.isBeingSaved ? (
+        {model && model.isBeingSaved || collection && collection.isBeingFetched ? (
           <div className="form-loader" />
-        ): null}
+        ) : null}
         {children}
       </form>
     );
@@ -36,40 +40,6 @@ class Form extends Component {
 
 }
 
-class Fieldset extends Component {
-
-  render() {
-    const { legend, children } = this.props;
-
-    return (
-      <fieldset>
-        <legend>{legend}</legend>
-        {children}
-      </fieldset>
-    );
-  }
-
-}
-
-class FormFooter extends Component {
-
-  render() {
-    const { float, children } = this.props;
-
-    return (
-      <footer className="clearfix">
-        <div className={`float-${float}`}>
-          {children}
-        </div>
-      </footer>
-    );
-  }
-
-}
-
-FormFooter.defaultProps = {
-  float: 'right'
-}
 
 @observer
 class FormField extends Component {
@@ -152,4 +122,4 @@ class FormSelectWithAjax extends Component {
 }
 
 export default Form;
-export { Fieldset, FormFooter, FormField, FormSelectWithAjax };
+export { Fieldset, FormFooter, FormField, FormSelectWithAjax, TextField };

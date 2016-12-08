@@ -16,6 +16,12 @@ class Test extends AppModel {
     };
   }
 
+  static get defaults() {
+    return {
+      name: ""
+    }
+  }
+
   @action addSection() {
     this.sections.add({ isBeingEdited: true });
     this.sections.last().focus();
