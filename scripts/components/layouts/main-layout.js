@@ -5,12 +5,12 @@ import HTML5Backend from "react-dnd-html5-backend";
 
 import { Row, Column } from 'react-foundation-components/lib/global/grid-flex';
 
-import Header from "./header";
+import Header from "./../app/header";
 
 @DragDropContext(HTML5Backend)
 @inject("s")
 @observer
-class ContentWrapper extends Component {
+class MainLayout extends Component {
 
   render() {
     const { s: { ui }, children } = this.props;
@@ -43,4 +43,4 @@ class ContentWrapper extends Component {
 
 };
 
-export default ContentWrapper;
+export default MainLayout;

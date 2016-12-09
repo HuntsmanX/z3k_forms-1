@@ -1,5 +1,5 @@
 import { RouterStore as Router, startRouter } from "mobx-router";
-import { action, toJS } from "mobx";
+import { action, toJS, when } from "mobx";
 
 import views from "./../views";
 
@@ -9,18 +9,37 @@ class RouterStore extends Router {
     this.stores = stores;
     this.views  = views;
 
-    startRouter(this.views, this.stores);
+    when(
+      () => this.stores.ui.isInitializing === false,
+      () => startRouter(this.views, this.stores)
+    );
   }
 
   @action navigate(to, params = {}) {
-    this.goTo(this.views[to], params, this.stores);
+    this.goTo(this.views[to], params);
+  }
+
+  @action checkAuth(options) {
+    if (!this.stores.session.user.isSignedIn) {
+      this.beforeSignIn = options;
+      this.navigate('signIn');
+      return false;
+    }
+    return true;
+  }
+
+  @action redirectAfterSignIn() {
+    this.beforeSignIn ?
+      this.goTo(this.beforeSignIn.route, this.beforeSignIn.nextParams) :
+      this.navigate('dashboard');
+    this.beforeSignIn = null;
   }
 
   @action replaceUrlParamsForView(view, params) {
     return this.views[view].replaceUrlParams(params);
   }
 
-  @action goTo(view, paramsObj, store) {
+  @action goTo(view, paramsObj, store = this.stores) {
     const currentParams = toJS(this.params);
 
     const beforeExitResult = this.currentView && this.currentView.beforeExit ?
@@ -30,7 +49,7 @@ class RouterStore extends Router {
     if (beforeExitResult === false) return;
 
     const beforeEnterResult = view.beforeEnter ?
-      view.beforeEnter({ route: view,  params: currentParams, s: store }) :
+      view.beforeEnter({ route: view, params: currentParams, nextParams: paramsObj, s: store }) :
       true;
 
     if (beforeEnterResult === false) return;

@@ -14,5 +14,3 @@ render(
   <App />,
   document.getElementById("root")
 );
-
-$(document).foundation();

@@ -1,6 +1,9 @@
 import React from "react";
 import { Route } from 'mobx-router';
 
+import MainLayout   from "./components/layouts/main-layout";
+import SignInLayout from "./components/layouts/sign-in-layout";
+
 import Dashboard           from "./components/dashboard";
 import Tests               from "./components/tests";
 import MistakeTypes        from "./components/config/mistake-types";
@@ -16,76 +19,105 @@ import SignIn              from "./components/sign-in";
 
 const views = {
 
-  dashboard: new Route({
+  signIn: {
+    path:        '/sign-in',
+    component:   SignIn,
+    layout:      SignInLayout,
+    skipAuth:    true,
+    beforeEnter: ({ s }) => {
+      if (!s.session.user.isSignedIn) return true;
+      if (s.router.currentView) return false;
+      s.router.navigate('dashboard');
+      return false;
+    },
+    onEnter:     ({ s, params }) => s.session.newSession()
+  },
+
+  dashboard: {
     path:      '/',
-    component: <Dashboard />
-  }),
+    component: Dashboard
+  },
 
-  tests: new Route({
+  tests: {
     path:      '/tests',
-    component: <Tests />,
+    component: Tests,
     onEnter:   ({ s }) => s.tests.list()
-  }),
+  },
 
-  editTest: new Route({
+  editTest: {
     path:      '/tests/:id',
-    component: <EditTest />,
+    component: EditTest,
     onEnter:   ({ s, params }) => s.tests.show(params.id)
-  }),
+  },
 
-  responses: new Route({
-    path:       '/responses',
-    component:  <Responses />,
+  responses: {
+    path:      '/responses',
+    component: Responses,
     onEnter:   ({ s }) => s.responses.list()
-  }),
+  },
 
-  NewResponse: new Route({
+  newResponse: {
     path:      '/responses/new',
-    component: <NewResponse />,
+    component: NewResponse,
     onEnter:   ({ s }) => s.activeTest.newResponse()
-  }),
+  },
 
-  signIn: new Route({
-    path:      '/sign-in',
-    component: <SignIn />,
-    onEnter:   ({ s, params }) => s.session.signInForm(true)
-  }),
-
-  verifyResponse: new Route({
+  verifyResponse: {
     path:      '/responses/:id',
-    component: <VerifyResponse />,
+    component: VerifyResponse,
     onEnter:   ({ s, params }) => s.responses.show(params.id)
-  }),
+  },
 
-  mistakeTypes: new Route({
+  mistakeTypes: {
     path:      '/config/mistake-types',
-    component: <MistakeTypes />,
+    component: MistakeTypes,
     onEnter:   ({ s }) => s.mistakeTypes.list()
-  }),
+  },
 
-  start: new Route({
-    path:       '/start/:id',
-    component:  <Start />,
+  start: {
+    path:      '/start/:id',
+    component: Start,
+    skipAuth:  true,
     onEnter:   ({ s, params }) => s.activeTest.start(params.id)
-  }),
+  },
 
-  editResponseSection: new Route({
-    path:       '/test/:uid',
-    component:   <ResponseSection />,
+  editResponseSection: {
+    path:      '/test/:uid',
+    component: ResponseSection,
+    skipAuth:  true,
     onEnter:   ({ s, params }) => s.activeTest.showSection(params.uid)
-  }),
+  },
 
-  finish: new Route({
-    path:       '/finish',
-    component:   <Finish />,
-    onEnter:    ({ s }) => s.activeTest.finish()
-  }),
+  finish: {
+    path:      '/finish',
+    component: Finish,
+    skipAuth:  true,
+    onEnter:   ({ s }) => s.activeTest.finish()
+  },
 
-  notFound: new Route({
-    path:     '*',
-    component: <NotFound />
-  })
+  notFound: {
+    path:      '*',
+    component: NotFound
+  }
 
 }
+
+Object.keys(views).forEach(key => {
+  const route = Object.assign({}, views[key]);
+
+  const Layout    = route.layout || MainLayout;
+  const Component = route.component;
+
+  route.component = <Layout><Component/></Layout>;
+
+  if (!route.skipAuth) {
+    route.beforeEnter = (options) => options.s.router.checkAuth(options)
+  }
+
+  delete route.layout;
+  delete route.skipAuth;
+
+  views[key] = new Route(route);
+});
 
 export default views;

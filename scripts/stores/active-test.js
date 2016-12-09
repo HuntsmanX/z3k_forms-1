@@ -1,7 +1,8 @@
 import { action, observable } from "mobx";
 
-import ui     from "./ui";
-import router from "./router";
+import ui      from "./ui";
+import router  from "./router";
+import session from "./session";
 
 import Response        from "./../models/response";
 import ResponseSection from "./../models/active-section";
@@ -27,7 +28,10 @@ class ActiveTestStore {
   @action start(id) {
     this.response.set('id', id);
     this.response.fetch().then(
-      () => ui.setPageTitle(this.response.name)
+      () => {
+        ui.setPageTitle(this.response.name);
+        session.destroy(false);
+      }
     );
   }
 

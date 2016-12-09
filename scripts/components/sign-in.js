@@ -1,43 +1,37 @@
 import React, { Component } from "react";
 import { observer, inject } from "mobx-react";
-import Modal   from "./shared/modal";
+
+import { Row, Column } from "react-foundation-components/lib/global/grid-flex";
+
 import Callout from "./shared/callout";
 import Button  from "./shared/button";
-
-import Form, {
-  Fieldset,
-  FormFooter,
-  FormField
-} from "./shared/form";
-
-import { Row, Column } from 'react-foundation-components/lib/global/grid-flex';
+import Form, { Fieldset, FormFooter, TextField} from "./shared/form";
 
 @inject("s")
 @observer
 class SignIn extends Component {
+
   render() {
-    const { s: { session } } = this.props;
-    const currentUser = session.currentUser
+    const { session, session: { user } } = this.props.s;
 
     return (
-      <Modal
-        title="Sign In"
-        show={session.signInFormShown}
-        onHide={session.signInForm.bind(session, false)}
-      >
-      <Form onSubmit={session.create.bind(session)} model={currentUser}>
-        <Callout>
-          <Fieldset legend="Sign In">
-            <FormField model={currentUser} attr="email" />
-            <FormField model={currentUser} attr="password" type="password"/>
-          </Fieldset>
-          <FormFooter>
-            <Button type="submit" label="Log In" icon="done" />
-          </FormFooter>
-        </Callout>
-      </Form>
-      </Modal>
+      <Row>
+        <Column large={6} largeOffset={3}>
+          <Form onSubmit={session.create.bind(session)} model={user}>
+            <Callout>
+              <Fieldset legend="Sign In">
+                <TextField model={user} attr="email" />
+                <TextField model={user} attr="password" type="password"/>
+              </Fieldset>
+              <FormFooter>
+                <Button type="submit" label="Sign In" icon="done" />
+              </FormFooter>
+            </Callout>
+          </Form>
+        </Column>
+      </Row>
     )
-}
+  }
+
 }
 export default SignIn;

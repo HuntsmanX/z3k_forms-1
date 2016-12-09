@@ -1,35 +1,35 @@
-import { observable, action } from "mobx";
+import { observable, action, extendObservable } from "mobx";
 
 import ui     from "./ui";
 import router from "./router";
 import User   from "./../models/user"
-import ajax   from "./../helpers/ajax";
-import auth   from "./../helpers/j-toker-config";
 
 class SessionStore {
 
-  @observable currentUser     = new User();
   @observable signInFormShown = false;
 
-  @action signInForm(val) {
-    this.currentUser = new User();
-    this.signInFormShown = val;
+  constructor() {
+    extendObservable(this, {
+      user: new User()
+    });
+  }
+
+  @action newSession() {
+    ui.setPageTitle("Sign In");
   }
 
   @action create() {
-    auth.emailSignIn({
-      email:    this.currentUser.email,
-      password: this.currentUser.password
-    }).then(
-      ({ data }) => {
-        this.currentUser.email = data.email
-        this.currentUser.firstNameEng = data.firstNameEng
-        this.currentUser.lastNameEng  = data.lastNameEng
-        this.signInForm(false);
-        router.navigate('dashboard');
-      }
+    this.user.signIn().then(
+      () => router.redirectAfterSignIn()
+    );
+  }
+
+  @action destroy(navigate = true) {
+    this.user.signOut().then(
+      () => navigate && router.navigate('signIn')
     );
   }
 
 }
+
 export default new SessionStore();

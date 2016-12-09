@@ -1,8 +1,20 @@
-import React from "react";
-import { observer } from "mobx-react";
+import React, { Component } from "react";
+import { observer, inject } from "mobx-react";
 
-const Router = ({ s: { router } }) => (
-  <div>{router.currentView && router.currentView.component}</div>
-);
+@inject("s")
+@observer
+class Router extends Component {
 
-export default observer(['s'], Router);
+  render() {
+    const { s: { router } } = this.props;
+
+    return (
+      <div>
+        {router.currentView && router.currentView.component}
+      </div>
+    );
+  }
+
+}
+
+export default Router;
