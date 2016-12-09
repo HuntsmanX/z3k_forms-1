@@ -8,11 +8,7 @@ import {CompactPicker} from 'react-color'
 import {Row, Column} from "react-foundation-components/lib/global/grid-flex";
 import Modal   from "./../../shared/modal";
 
-import Form, {
-  Fieldset,
-  FormFooter,
-  FormField
-} from "./../../shared/form";
+import Form, { Fieldset, FormFooter, TextField } from "./../../shared/form";
 
 @inject("s")
 @observer
@@ -77,7 +73,7 @@ class MistakeForm extends Component {
         <Form onSubmit={mistakeTypes.create.bind(mistakeTypes)} model={mistakeType}>
           <Callout>
             <Fieldset legend="New Mistake Type">
-              <FormField model={mistakeType} attr="name"/>
+              <TextField model={mistakeType} attr="name" hint=""/>
               <div className="form-field row">
                 <Column large={3}>
                   <label className="middle text-right">Color</label>
@@ -94,7 +90,7 @@ class MistakeForm extends Component {
                 </Column>
 
               </div>
-              <FormField model={mistakeType} attr="penalty"/>
+              <TextField model={mistakeType} attr="penalty" hint=""/>
             </Fieldset>
             <FormFooter>
               <Button type="submit" label="Save" icon="done"/>

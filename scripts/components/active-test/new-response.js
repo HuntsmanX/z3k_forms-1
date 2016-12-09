@@ -8,13 +8,7 @@ import UserSelectOption     from "./new-response/user-select-forms";
 import SetSelectedValue     from "./new-response/set-selected-value";
 import TestSelectOption     from "./new-response/test-select-forms";
 import SetTestSelectedValue from "./new-response/set-test-selected-value"
-
-import Form, {
-  Fieldset,
-  FormFooter,
-  FormField,
-  FormSelectWithAjax
-} from "./../shared/form";
+import Form, { Fieldset, FormFooter, AjaxSelect, TextField } from "./../shared/form";
 
 @inject("s")
 @observer
@@ -33,7 +27,7 @@ class NewResponse extends Component {
       <Form onSubmit={activeTest.createResponse.bind(activeTest)} model={response}>
         <Callout>
           <Fieldset legend="New Response">
-            <FormSelectWithAjax
+            <AjaxSelect
                model={response}
                url="/tests/find_test"
                attr="testId"
@@ -41,8 +35,9 @@ class NewResponse extends Component {
                optionComponent={TestSelectOption}
                valueComponent={SetTestSelectedValue}
                formatOption={formatOption}
+               hint=""
             />
-            <FormSelectWithAjax
+            <AjaxSelect
               model={response}
               url="/testees/find"
               attr="userId"
@@ -50,6 +45,7 @@ class NewResponse extends Component {
               optionComponent={UserSelectOption}
               valueComponent={SetSelectedValue}
               formatOption={formatOption}
+              hint=""
             />
           </Fieldset>
           <FormFooter>
