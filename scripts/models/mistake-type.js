@@ -12,17 +12,12 @@ class MistakeType extends AppModel {
     return {
       color:   "",
       name:    "",
-      penalty: 1,
-      colors: ['#E8E3E3', '#FFCCCC', '#E6A119', '#EBEB47', '#47EBEB', '#A3BEF5', '#F5A3F5', '#FFEB3B']
+      penalty: 1
     };
   }
 
   get identifier() {
     return `mistake-${this.id}`;
-  }
-
-  @action handleChange(model, color, event) {
-    model.set('color', color.hex);
   }
 
 }

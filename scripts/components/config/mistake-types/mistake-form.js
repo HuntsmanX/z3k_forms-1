@@ -30,7 +30,11 @@ class MistakeForm extends Component {
                 <Column large={3}>
                   <label className="middle text-right">Color</label>
                 </Column>
-                  <ColorPicker model={mistakeType}/>
+                  <ColorPicker
+                    model={mistakeType}
+                    attr="color"
+                    colors={['#E8E3E3', '#FFCCCC', '#E6A119', '#EBEB47', '#47EBEB', '#A3BEF5', '#F5A3F5', '#FFEB3B']}
+                  />
               </div>
               <TextField model={mistakeType} attr="penalty"/>
             </Fieldset>

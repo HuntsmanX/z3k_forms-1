@@ -18,8 +18,12 @@ class ColorPicker extends Component {
     this.setState({displayColorPicker: false})
   };
 
+  handleChange(attr, event) {
+    this.props.model.set(attr, event.hex)
+  }
+
   render() {
-    const {model} = this.props;
+    const {model, attr, colors} = this.props;
     const styles = reactCSS({
       'default': {
         color: {
@@ -57,8 +61,10 @@ class ColorPicker extends Component {
         </div>
         {this.state.displayColorPicker ? <div style={ styles.popover }>
           <div style={ styles.cover } onClick={ this.handleClose }/>
-          <CompactPicker colors={model.colors} color={ model.color }
-                         onChange={ model.handleChange.bind(this, model) }/>
+          <CompactPicker
+            colors={colors}
+            attr={attr}
+            onChange={this.handleChange.bind(this, attr)}/>
         </div> : null }
       </Column>
     );
