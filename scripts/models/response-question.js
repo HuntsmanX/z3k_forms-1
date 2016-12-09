@@ -56,7 +56,9 @@ class ResponseQuestion extends AppModel {
   @computed get scoreColor() {
     if (!this.isChecked) return 'white';
 
-    const percent = Math.round((this.userScore || 0) * 100 / this.maxScore);
+    const dividend = (this.userScore || 0) * 100;
+    const divider = this.maxScore > 0 ? this.maxScore : 1;
+    const percent = Math.round(dividend / divider);
     return `#${scoreRainbow.colorAt(percent)}`;
   }
 
