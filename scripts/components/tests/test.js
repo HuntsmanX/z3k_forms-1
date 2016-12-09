@@ -35,6 +35,9 @@ class Test extends Component {
             </div>
           </Column>
         </Row>
+        {test.warnings.length ? (
+          <div className="warnings">{test.warnings}</div>
+        ) : null}
       </li>
     );
   }
