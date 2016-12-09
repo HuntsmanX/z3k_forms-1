@@ -32,3 +32,9 @@
   background-color: $primary-color;
   color:            white;
 }
+
+.Select.is-invalid-input {
+  .Select-placeholder {
+    background-color: #d9d9d9;
+  }
+}
