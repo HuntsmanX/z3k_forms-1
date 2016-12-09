@@ -1,13 +1,20 @@
 import React, { Component } from "react";
+import { observer, inject } from "mobx-react";
 
 import { Row, Column } from "react-foundation-components/lib/global/grid-flex";
-import { Button } from 'react-foundation-components/lib/global/button';
 
 import Link from "./../shared/link";
 
+@inject("s")
+@observer
 class Header extends Component {
 
+  componentDidMount() {
+    $(document).foundation();
+  }
+
   render() {
+    const { session, session: { user } } = this.props.s;
 
     return (
       <div id="header" >
@@ -30,7 +37,7 @@ class Header extends Component {
                   </li>
 
                   <li>
-                    <Link to="NewResponse">New Response</Link>
+                    <Link to="newResponse">New Response</Link>
                   </li>
 
                   <li>
@@ -47,7 +54,9 @@ class Header extends Component {
               <div className="top-bar-right">
                 <ul className="menu">
                   <li>
-                    <Link to="signIn">Sign In</Link>
+                    {user.isSignedIn ? (
+                      <a onClick={session.destroy.bind(session)}>Sign Out</a>
+                    ) : null}
                   </li>
                 </ul>
               </div>

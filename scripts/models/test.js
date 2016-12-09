@@ -16,12 +16,15 @@ class Test extends AppModel {
     };
   }
 
+  static get defaults() {
+    return {
+      name: ""
+    }
+  }
+
   @computed get warnings() {
     var ret = [];
-
-    this.sections.forEach(
-      s => ret = _.union(ret ,s.warnings.split("\n"))
-    );
+    this.sections.forEach( s => ret = _.union(ret ,s.warnings.split("\n")));
 
     return ret.join("\n");
   }

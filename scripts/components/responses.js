@@ -26,6 +26,7 @@ class Responses extends Component {
             <Fieldset legend="Filter">
               <div className="row small-up-1 medium-up-2 large-up-4">
                 <FormField collection={responses.collection} label="Name"    attr="name_cont" />
+                <FormField collection={responses.collection} label="Testee"  attr="user_first_name_eng_cont" />
               </div>
             </Fieldset>
             <FormFooter>
