@@ -7,13 +7,8 @@ import {CompactPicker}    from 'react-color';
 @observer
 class ColorPicker extends Component {
   state = {
-    displayColorPicker: false,
-    colors: ['#E8E3E3', '#FFCCCC', '#E6A119', '#EBEB47', '#47EBEB', '#A3BEF5', '#F5A3F5', '#FFEB3B']
+    displayColorPicker: false
   };
-
-  handleChange(mistakeType, color, event) {
-    mistakeType.set('color', color.hex);
-  }
 
   handleClick = () => {
     this.setState({displayColorPicker: !this.state.displayColorPicker})
@@ -24,15 +19,14 @@ class ColorPicker extends Component {
   };
 
   render() {
-    const {mistakeType} = this.props;
-
+    const {model} = this.props;
     const styles = reactCSS({
       'default': {
         color: {
           width: '36px',
           height: '14px',
           borderRadius: '2px',
-          background: `${ mistakeType.color }`,
+          background: `${ model.color }`,
         },
         swatch: {
           padding: '5px',
@@ -63,8 +57,8 @@ class ColorPicker extends Component {
         </div>
         {this.state.displayColorPicker ? <div style={ styles.popover }>
           <div style={ styles.cover } onClick={ this.handleClose }/>
-          <CompactPicker colors={this.state.colors} color={ mistakeType.color }
-                         onChange={ this.handleChange.bind(this, mistakeType) }/>
+          <CompactPicker colors={model.colors} color={ model.color }
+                         onChange={ model.handleChange.bind(this, model) }/>
         </div> : null }
       </Column>
     );
