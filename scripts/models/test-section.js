@@ -103,16 +103,10 @@ class TestSection extends AppModel {
   }
 
   @computed get warnings() {
-    var ret = [];
+    var ret = this.alerts;
 
     if (!this.isExpanded && this.questions.find('isBeingEdited'))
       ret.push('This section has unsaved questions');
-
-    if (this.requiredScore > this.maxScore && this.requiredScoreUnits === 'points')
-      ret.push('Required score is larger than max score');
-
-    if (this.acceptableScore > this.maxAutoScore && this.acceptableScoreUnits === 'points')
-      ret.push('Acceptable autoscore is larger than max autoscore');
 
     return ret.join("\n");
   }

@@ -22,6 +22,13 @@ class Test extends AppModel {
     }
   }
 
+  @computed get warnings() {
+    var ret = [];
+    this.sections.forEach( s => ret = _.union(ret ,s.warnings.split("\n")));
+
+    return ret.join("\n");
+  }
+
   @action addSection() {
     this.sections.add({ isBeingEdited: true });
     this.sections.last().focus();

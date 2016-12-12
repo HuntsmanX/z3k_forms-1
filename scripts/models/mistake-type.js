@@ -1,5 +1,5 @@
 import AppModel from "./app-model";
-
+import { action } from "mobx";
 import { Entity } from "draft-js";
 
 class MistakeType extends AppModel {
