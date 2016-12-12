@@ -372,8 +372,8 @@ class EditableContent extends Component {
                 k='Score Units'
                 v={<select
                   className="edit-input select"
-                  value={section.acceptableScoreUnits}
-                  onChange={this.handleChange.bind(this, 'acceptableScoreUnits')}
+                  value={section.acceptableScoreUnit}
+                  onChange={this.handleChange.bind(this, 'acceptableScoreUnit')}
                 >
                   {Object.keys(section.scoreUnitsMap).map(key => {
                     return <option key={key} value={key}>
