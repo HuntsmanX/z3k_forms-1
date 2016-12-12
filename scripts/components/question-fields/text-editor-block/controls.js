@@ -64,12 +64,18 @@ class Controls extends Component {
         {mistakeTypes.map(mt => {
           return <span
             key={mt.id}
-            className={`style-button`}
+            className="style-button"
             onMouseDown={editor.markMistake.bind(editor, mt.identifier)}
           >
             {`${mt.name} `}
           </span>;
         })}
+        <span
+          className="style-button"
+          onMouseDown={editor.markMistake.bind(editor, null)}
+        >
+          {'Clear '}
+        </span>
       </div>
     );
   }

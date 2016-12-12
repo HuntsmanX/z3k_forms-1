@@ -22,13 +22,6 @@ class TextEditorBlock extends Component {
     );
   }
 
-  get styleMap() {
-    this.props.s.ui.getData('mistakeTypes').each(
-      mt => styleMap[mt.identifier] = { backgroundColor: mt.color }
-    )
-    return styleMap;
-  }
-
   render() {
     const { field, field: { editor }, onFocus, onBlur } = this.props.blockProps;
     const mistakeTypes = this.props.s.ui.getData('mistakeTypes');
@@ -47,7 +40,7 @@ class TextEditorBlock extends Component {
           handleKeyCommand={editor.handleKeyCommand.bind(editor)}
           handleBeforeInput={editor.handleBeforeInput.bind(editor)}
           handleReturn={editor.handleReturn.bind(editor)}
-          customStyleMap={this.styleMap}
+          customStyleMap={styleMap}
           readOnly={field.readOnly}
         />
       </div>

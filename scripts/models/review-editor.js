@@ -7,8 +7,29 @@ import ui from "./../stores/ui";
 
 class ReviewEditor extends Editor {
 
+  initialize() {
+    this.decorators = this._getDecorators();
+    this.decorateState();
+  }
+
   get showMistakeControls() {
     return true;
+  }
+
+  mistakesCount(identifier) {
+    let count = 0;
+
+    const { entityMap } = this.rawContent;
+
+    Object.keys(entityMap).forEach(key => {
+      if (entityMap[key].data.identifier === identifier) count++;
+    });
+
+    return count;
+  }
+
+  @action decorateState() {
+    this.state = EditorState.set(this.state, { decorator: this.decorators });
   }
 
   @action markMistake(identifier) {
@@ -25,6 +46,7 @@ class ReviewEditor extends Editor {
     );
 
     this.state = EditorState.createWithContent(nextContent);
+    this.decorateState();
   }
 
   @action handleBeforeInput(chars) {
@@ -39,16 +61,23 @@ class ReviewEditor extends Editor {
     return 'handled';
   }
 
-  mistakesCount(identifier) {
-    let count = 0;
+  @computed get rawContent() {
+    return convertToRaw(this.state.getCurrentContent());
+  }
 
-    const { entityMap } = convertToRaw(this.state.getCurrentContent());
-
-    Object.keys(entityMap).forEach(key => {
-      if (entityMap[key].data.identifier === identifier) count++;
+  _getDecorators() {
+    const decorators = ui.getData('mistakeTypes').map(type => {
+      return {
+        strategy: (block, callback) => {
+          block.findEntityRanges(
+            (meta) => Entity.get(meta.getEntity()).data.identifier === type.identifier,
+            callback
+          );
+        },
+        component: (props) => <span style={{ backgroundColor: type.color }}>{props.children}</span>
+      }
     });
-
-    return count;
+    return new CompositeDecorator(decorators);
   }
 
 }

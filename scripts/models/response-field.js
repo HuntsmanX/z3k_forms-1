@@ -54,7 +54,8 @@ class ResponseField extends Field {
 
   @action fromJSON(data) {
     super.fromJSON(data);
-    this.editor = new ReviewEditor(this.userContent);
+    if (this.fieldType === "text_editor")
+      this.editor = new ReviewEditor(this.userContent);
   }
 
   serialize(options) {
