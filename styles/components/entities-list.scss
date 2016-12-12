@@ -21,6 +21,11 @@
   li:last-child {
     border-bottom: 1px solid $medium-gray;
   }
+
+  .warnings {
+    color: $warning-color;
+    white-space: pre-wrap;
+  }
 }
 
 .hash {
