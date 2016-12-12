@@ -1,7 +1,10 @@
 import React, { Component } from "react";
 import { observer } from "mobx-react";
 
+import { Row, Column } from "react-foundation-components/lib/global/grid-flex";
+
 import Icon from "../../shared/icon";
+import Hash from "../../shared/hash";
 
 import QuestionsList from "./questions-list";
 
@@ -64,9 +67,48 @@ class Content extends Component {
     const { section } = this.props;
 
     return (
-      <div className="content">
+      <div>
         <h2 className="title">{section.title}</h2>
         <div className="description">{section.description}</div>
+
+        <div className="attributes">
+          <Row>
+            <Column large={3}>
+              <Hash
+                w='45/55'
+                k='Questions Count'
+                v={section.questions.length}
+              />
+            </Column>
+
+            <Column large={3}>
+              <Hash
+                w='45/55'
+                k='Required Score'
+                v={section.requiredScore}
+              />
+              <Hash
+                w='45/55'
+                k='Acceptable Score'
+                v={section.acceptableScore}
+              />
+              <Hash
+                w='45/55'
+                k='User Score'
+                v={section.userScore}
+              />
+            </Column>
+
+            <Column large={3}>
+              <Hash
+                w='45/55'
+                k='Passed'
+                v={section.isPassed}
+              />
+            </Column>
+
+          </Row>
+        </div>
       </div>
     );
   }
