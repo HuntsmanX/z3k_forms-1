@@ -22,7 +22,7 @@ class Response extends Component {
             <Hash k='Testee' v={model.userFullNameEng} />
           </Column>
           <Column large={3}>
-            <Hash k='Sections' v={model.numsOfSections} />
+            <Hash k='Sections' v={model.sectionsCount} />
             <Hash k='Total Questions' v={model.totalQuestions} />
           </Column>
           <Column large={3}>
