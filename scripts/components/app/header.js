@@ -52,16 +52,12 @@ class Header extends Component {
                 </ul>
               </div>
               <div className="top-bar-right">
-                <ul className="menu">
-                  <li>
-                    {user.isSignedIn ? (
-                      <div>
-                        <li className="user-avatar" style={{backgroundImage: 'url(' + STAFF_API_URL+user.avatarUrl + ')'}}></li>
-                        <li><a onClick={session.destroy.bind(session)}>Sign Out</a></li>
-                      </div>
-                    ) : null}
-                  </li>
-                </ul>
+                {user.isSignedIn ? (
+                  <ul className="menu">
+                    <li className="user-avatar" style={{ backgroundImage: `url('${user.avatarUrl})'` }}></li>
+                    <li><a onClick={session.destroy.bind(session)}>Sign Out</a></li>
+                  </ul>
+                ) : null}
               </div>
             </div>
           </Column>

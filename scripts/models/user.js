@@ -37,8 +37,8 @@ class User extends AppModel {
   }
 
   @action fromAuth(data) {
-    this.set('avatarUrl', data.avatar_url)
     this.set('id', data.id);
+    this.set('avatarUrl', STAFF_API_URL + data.avatar_url);
   }
 
   @action clearAttrs() {
