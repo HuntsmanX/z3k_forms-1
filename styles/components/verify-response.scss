@@ -14,6 +14,21 @@
     color: $alert-color;
   }
 
+  .score-indicator {
+    position: absolute;
+    top:      0;
+    bottom:   0;
+    width:    0.5rem;
+
+    &.alert {
+      background-color: $alert-color;
+    }
+
+    &.success {
+      background-color: $success-color;
+    }
+  }
+
   .actions {
 
     .action {
@@ -142,13 +157,6 @@
         border-top: 1px solid $light-gray;
       }
 
-      .score-indicator {
-        position: absolute;
-        top:      0;
-        bottom:   0;
-        width:    0.5rem;
-      }
-
       .main-content {
         padding:       0 3rem;
         padding-right: 5rem;
@@ -162,6 +170,30 @@
         .fields-controls {
           margin-top:  0.5rem;
           font-size:   0.875rem;
+
+          .score-slider {
+            display:     inline-block;
+            width:       100%;
+
+            .left {
+              display: inline-block;
+              width: 10%;
+              vertical-align: top;
+            }
+
+            .slider-input {
+              display: inline-block;
+              width: 80%;
+              padding-top: 0.2rem;
+            }
+
+            .right {
+              display: inline-block;
+              width: 10%;
+              vertical-align: top;
+              text-align: right;
+            }
+          }
 
           .field-controls {
             border-top: 1px dashed $light-gray;
@@ -195,16 +227,6 @@
               width:       5rem;
               height:      1.35rem;
               line-height: 1.35rem;
-            }
-
-            .results-table {
-              margin-top: 1rem;
-              border: none;
-
-              th, tr, td {
-                background-color: rgba(238, 247, 253, 0.3);
-              }
-
             }
           }
         }

@@ -22,6 +22,14 @@
 .Select-option {
   color: #0a0a0a;
   border-radius: 0 !important;
+
+  .sub {
+    font-size: 0.75rem;
+
+    &.warning {
+      color: $warning-color;
+    }
+  }
 }
 
 .Select-option.is-selected {
@@ -31,6 +39,10 @@
 .Select-option.is-focused {
   background-color: $primary-color;
   color:            white;
+}
+
+.Select-option.is-disabled {
+  color: $dark-gray;
 }
 
 .Select.is-invalid-input {

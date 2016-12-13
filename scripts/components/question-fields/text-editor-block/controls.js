@@ -20,7 +20,7 @@ const BLOCK_TYPES = [
 class Controls extends Component {
 
   renderControls() {
-    const { editor, editor: { state }, mistakeTypes } = this.props;
+    const { editor, editor: { state } } = this.props;
     const selection = state.getSelection();
     const blockType = state
       .getCurrentContent()
@@ -57,7 +57,7 @@ class Controls extends Component {
   }
 
   renderMistakeControls() {
-    const { editor, mistakeTypes } = this.props;
+    const { editor, editor: { mistakeTypes } } = this.props;
 
     return (
       <div className="controls">
@@ -68,6 +68,7 @@ class Controls extends Component {
             onMouseDown={editor.markMistake.bind(editor, mt.identifier)}
           >
             {`${mt.name} `}
+            &nbsp;&nbsp;|&nbsp;&nbsp;
           </span>;
         })}
         <span

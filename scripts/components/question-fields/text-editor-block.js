@@ -24,13 +24,12 @@ class TextEditorBlock extends Component {
 
   render() {
     const { field, field: { editor }, onFocus, onBlur } = this.props.blockProps;
-    const mistakeTypes = this.props.s.ui.getData('mistakeTypes');
 
     return (
       <div className="text-editor-field">
         {field.readOnly ? this.renderBlocker() : null}
 
-        <Controls editor={editor} mistakeTypes={mistakeTypes} />
+        <Controls editor={editor} />
 
         <Editor
           editorState={editor.state}

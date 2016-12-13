@@ -81,7 +81,7 @@ class Field extends Component {
     if (this.layout === 'col') return null;
 
     return (
-      <Column large={3}>
+      <Column large={4}>
         <label className="middle">
           {this.hint}
         </label>
@@ -104,7 +104,7 @@ class Field extends Component {
   render() {
     const Wrapper      = this.wrapper;
     const InputWrapper = this.inputWrapper;
-    
+
     return (
       <Wrapper>
         {this.renderLabel()}
@@ -169,7 +169,7 @@ class RowHintInputWrapper extends Component {
 
   render() {
     return (
-      <Column large={6}>
+      <Column large={5}>
         {this.props.children}
       </Column>
     );

@@ -1,11 +1,13 @@
-import React, { Component } from "react";
-import uuid from "node-uuid";
+import React        from "react";
 import { observer } from "mobx-react";
-import { Row, Column } from 'react-foundation-components/lib/global/grid-flex';
-import Field  from "./field"
-import Select               from 'react-select';
-import humanize from "underscore.string/humanize";
-import ajax                 from '../../../helpers/ajax';
+import Select       from "react-select";
+
+import ajax from "../../../helpers/ajax";
+
+import Field from "./field"
+
+import Option from "./ajax-select/option";
+import Value  from "./ajax-select/value";
 
 @observer
 class AjaxSelect extends Field {
@@ -15,24 +17,25 @@ class AjaxSelect extends Field {
     this.props.model.set(this.props.attr, value);
   }
 
-  loadOptions = (input) => {
-    const { url, formatOption } = this.props;
+  loadOptions = (query) => {
+    const { url, formatOption, minLength } = this.props;
 
-    if (input.length < 2) return Promise.resolve({ options: [] });
+    if (minLength && query.length < minLength) return Promise.resolve({ options: [] });
 
-    return ajax({ url: url, method: 'GET', payload: { q: input } }).then(
+    return ajax({ url: url, method: 'GET', payload: { q: query } }).then(
       json => ({ options: Array.from(json).map(formatOption) })
     );
   }
 
   renderInput() {
     const { model, attr, optionComponent, valueComponent } = this.props;
+
     return (
       <Select.Async
         value={model.get(attr)}
         loadOptions={this.loadOptions}
-        optionComponent={optionComponent}
-        valueComponent={valueComponent}
+        optionComponent={optionComponent ? Option(optionComponent) : undefined}
+        valueComponent={valueComponent ? Value(valueComponent) : undefined}
         onChange={this.handleChange}
         className={this.inputClassName}
       />

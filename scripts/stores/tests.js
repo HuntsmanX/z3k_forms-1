@@ -24,6 +24,7 @@ class TestsStore {
   }
 
   @action show(id) {
+    this.model = new Test();
     this.model.set('id', id);
     this.model.fetch().then(
       () => ui.setPageTitle(this.model.name)

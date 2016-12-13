@@ -11,7 +11,7 @@ class VerifyResponse extends Component {
 
   render() {
     const response = this.props.s.responses.model;
-
+    
     if (response.isBeingFetched) return <Loader />;
 
     return(

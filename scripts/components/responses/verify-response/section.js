@@ -16,6 +16,10 @@ class Section extends Component {
 
     return (
       <div className="section">
+        {section.isChecked ? (
+          <div className={`score-indicator ${section.isSuccessful ? 'success' : 'alert'}`} />
+        ) : null}
+
         <ActionsRight section={section} />
 
         <Content section={section} />
@@ -67,7 +71,7 @@ class Content extends Component {
     const { section } = this.props;
 
     return (
-      <div>
+      <div className="content">
         <h2 className="title">{section.title}</h2>
         <div className="description">{section.description}</div>
 
@@ -76,8 +80,16 @@ class Content extends Component {
             <Column large={3}>
               <Hash
                 w='45/55'
-                k='Questions Count'
+                k='Questions'
                 v={section.questions.length}
+              />
+            </Column>
+
+            <Column large={3}>
+              <Hash
+                w='45/55'
+                k='Max Score'
+                v={section.maxScore}
               />
             </Column>
 
@@ -87,26 +99,15 @@ class Content extends Component {
                 k='Required Score'
                 v={section.requiredScore}
               />
-              <Hash
-                w='45/55'
-                k='Acceptable Score'
-                v={section.acceptableScore}
-              />
-              <Hash
-                w='45/55'
-                k='User Score'
-                v={section.userScore}
-              />
             </Column>
 
             <Column large={3}>
               <Hash
                 w='45/55'
-                k='Passed'
-                v={section.isPassed}
+                k='Scored'
+                v={section.userScore}
               />
             </Column>
-
           </Row>
         </div>
       </div>

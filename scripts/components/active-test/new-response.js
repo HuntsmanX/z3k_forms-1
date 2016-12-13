@@ -4,10 +4,7 @@ import { observer, inject } from "mobx-react";
 import Callout              from "./../shared/callout";
 import Button               from "./../shared/button";
 import Loader               from "./../shared/loader";
-import UserSelectOption     from "./new-response/user-select-forms";
-import SetSelectedValue     from "./new-response/set-selected-value";
-import TestSelectOption     from "./new-response/test-select-forms";
-import SetTestSelectedValue from "./new-response/set-test-selected-value"
+
 import Form, { Fieldset, FormFooter, AjaxSelect, TextField } from "./../shared/form";
 
 @inject("s")
@@ -17,34 +14,42 @@ class NewResponse extends Component {
   render() {
     const { s: { activeTest, activeTest: { response } } } = this.props;
 
-    const formatOption = (el) => ({
-      ...el,
-      value: el.id,
-      label: (el.fullNameEng || el.name)
-    });
-
     return (
       <Form onSubmit={activeTest.createResponse.bind(activeTest)} model={response}>
         <Callout>
           <Fieldset legend="New Response">
             <AjaxSelect
                model={response}
-               url="/tests/find_test"
                attr="testId"
+               url="/tests/find_test"
                label="Test"
-               optionComponent={TestSelectOption}
-               valueComponent={SetTestSelectedValue}
-               formatOption={formatOption}
+               formatOption={(el) => ({
+                 ...el,
+                 value:    el.id,
+                 label:    el.name,
+                 disabled: el.alerts.length > 0
+               })}
+               optionComponent={({ name, alerts }) => (
+                 <div>
+                   <div>{name}</div>
+                   {alerts.length ? (
+                     <div className="sub warning">{alerts.join(", ")}</div>
+                   ) : null}
+                 </div>
+               )}
                hint=""
             />
             <AjaxSelect
               model={response}
-              url="/testees/find"
               attr="userId"
+              url="/testees/find"
+              minLength={2}
               label="User"
-              optionComponent={UserSelectOption}
-              valueComponent={SetSelectedValue}
-              formatOption={formatOption}
+              formatOption={(el) => ({
+                ...el,
+                value: el.id,
+                label: el.fullNameEng
+              })}
               hint=""
             />
           </Fieldset>

@@ -8,24 +8,35 @@ import ui from "./../stores/ui";
 class ReviewEditor extends Editor {
 
   initialize() {
-    this.decorators = this._getDecorators();
+    this.mistakeTypes = this._getMistakeTypes();
+    this.decorators   = this._getDecorators();
     this.decorateState();
+    window.editor = this;
   }
 
   get showMistakeControls() {
     return true;
   }
 
-  mistakesCount(identifier) {
-    let count = 0;
-
+  @computed get mistakesCount() {
+    const count = {};
     const { entityMap } = this.rawContent;
 
     Object.keys(entityMap).forEach(key => {
-      if (entityMap[key].data.identifier === identifier) count++;
+      const mt = this.mistakeTypes.find({ identifier: entityMap[key].data.identifier });
+      if (!mt) return;
+      count[mt.identifier] = count[mt.identifier] || { name: mt.name, penalty: 0, count: 0 };
+      count[mt.identifier].penalty += mt.penalty;
+      count[mt.identifier].count += 1;
     });
 
     return count;
+  }
+
+  @computed get totalPenalty() {
+    return Object.keys(this.mistakesCount).reduce(
+      (total, identifier) => total + this.mistakesCount[identifier].penalty, 0
+    );
   }
 
   @action decorateState() {
@@ -66,18 +77,22 @@ class ReviewEditor extends Editor {
   }
 
   _getDecorators() {
-    const decorators = ui.getData('mistakeTypes').map(type => {
+    const decorators = this.mistakeTypes.map(type => {
       return {
         strategy: (block, callback) => {
           block.findEntityRanges(
-            (meta) => Entity.get(meta.getEntity()).data.identifier === type.identifier,
+            (meta) => meta.getEntity() && Entity.get(meta.getEntity()).data.identifier === type.identifier,
             callback
           );
         },
-        component: (props) => <span style={{ backgroundColor: type.color }}>{props.children}</span>
+        component: (props) => <span style={{ backgroundColor: type.color, color: 'white' }}>{props.children}</span>
       }
     });
     return new CompositeDecorator(decorators);
+  }
+
+  _getMistakeTypes() {
+    return ui.getData('mistakeTypes')
   }
 
 }

@@ -36,7 +36,6 @@ class FieldControls extends Component {
 
   render() {
     const { field, index } = this.props;
-    const mistakeTypes = this.props.s.ui.getData('mistakeTypes');
 
     return (
       <div className="field-controls">
@@ -53,32 +52,38 @@ class FieldControls extends Component {
               w='20/80'
               k='Score'
               v={
-                <span style={{ display: 'inline-block', paddingTop: '0.2rem', width: '100%' }}>
-                  <Slider
-                    min={0}
-                    max={field.score}
-                    step={0.01}
-                    value={field.userScore}
-                    onChange={(val) => field.set('userScore', val)}
-                  />
+                <span className="score-slider">
+                  <span className="left">0</span>
+                  <span className="slider-input">
+                    <Slider
+                      min={0}
+                      max={field.maxScore}
+                      step={0.01}
+                      value={field.userScore}
+                      onChange={(val) => field.set('userScore', val)}
+                    />
+                  </span>
+                  <span className="right">{field.maxScore}</span>
                 </span>
               }
             />
           </Column>
-        </Row>
-        {field.fieldType === "text_editor" ? (
-          <Row>
-            <Column large={12}>
-              {mistakeTypes.map(mt => {
+
+          <Column large={4}>
+            {field.fieldType === "text_editor" ? (
+              Object.keys(field.editor.mistakesCount).map(key => {
+                const mistake = field.editor.mistakesCount[key];
                 return (
-                  <div key={mt.id}>
-                    {`${mt.name} - ${field.editor.mistakesCount(mt.identifier)}`}
-                  </div>
+                  <Hash key={key}
+                    k={mistake.name}
+                    v={mistake.count}
+                    w="70/30"
+                  />
                 );
-              })}
-            </Column>
-          </Row>
-        ) : null}
+              })
+            ) : null}
+          </Column>
+        </Row>
       </div>
     );
   }

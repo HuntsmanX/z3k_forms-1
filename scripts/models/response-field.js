@@ -35,6 +35,12 @@ class ResponseField extends Field {
     return true;
   }
 
+  @computed get maxScore() {
+    if (this.fieldType !== "text_editor") return this.score;
+    const max = this.score - this.editor.totalPenalty;
+    return max < 0 ? 0 : max;
+  }
+
   get isExpandable() {
     return this.question.isBeingEdited;
   }

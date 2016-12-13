@@ -15,8 +15,8 @@ class Search extends Component {
         <Callout color="secondary">
           <Fieldset legend="Filter">
             <div className="row large-up-4">
-              <TextField collection={responses} label="Name" attr="name_cont" layout="col" />
-              <TextField collection={responses} label="Testee" attr="user_first_name_eng_cont" layout="col" />
+              <TextField collection={responses} label="Test" attr="name_cont" layout="col" />
+              <TextField collection={responses} label="Name" attr="user_first_name_eng_or_user_last_name_eng_cont" layout="col" />
             </div>
           </Fieldset>
           <FormFooter float="left">

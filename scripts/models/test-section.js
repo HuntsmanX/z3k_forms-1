@@ -1,8 +1,11 @@
 import AppModel from "./app-model";
 import { action, observable, computed } from "mobx";
-import humanize from "underscore.string/humanize";
+
+import humanize  from "underscore.string/humanize";
 import pluralize from "pluralize";
-import sum from "lodash/sum";
+import sum       from "lodash/sum";
+import includes  from "lodash/includes";
+import remove    from "lodash/remove";
 
 import TestQuestions from "./../collections/test-questions";
 
@@ -109,6 +112,9 @@ class TestSection extends AppModel {
     if (!this.isExpanded && this.questions.find('isBeingEdited'))
       ret.push('This section has unsaved questions');
 
+    if (includes(ret, 'This section has no questions') && this.questions.length)
+      remove(ret, el => el === 'This section has no questions');
+    
     return ret.join("\n");
   }
 
