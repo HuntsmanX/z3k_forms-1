@@ -21,7 +21,7 @@ class RadioButtonsBlock extends Component {
               <label key={option.uuid}>
                 <input
                   type="radio"
-                  name={field.uuid}
+                  name={option.uuid}
                   value={option.uuid}
                   checked={option.isSelected}
                   onChange={this.handleChange}

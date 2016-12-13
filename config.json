@@ -1,8 +1,10 @@
 {
   "development": {
-    "ENV_API_URL": "http://localhost:3000"
+    "ENV_API_URL":   "http://localhost:3000",
+    "STAFF_API_URL": "http://localhost:3002"
   },
   "production": {
-    "ENV_API_URL": ""
+    "ENV_API_URL": "",
+    "STAFF_API_URL": ""
   }
 }
