@@ -55,7 +55,10 @@ class Header extends Component {
                 <ul className="menu">
                   <li>
                     {user.isSignedIn ? (
-                      <a onClick={session.destroy.bind(session)}>Sign Out</a>
+                      <div>
+                        <li className="user-avatar" style={{backgroundImage: 'url(' + STAFF_API_URL+user.avatarUrl + ')'}}></li>
+                        <li><a onClick={session.destroy.bind(session)}>Sign Out</a></li>
+                      </div>
                     ) : null}
                   </li>
                 </ul>

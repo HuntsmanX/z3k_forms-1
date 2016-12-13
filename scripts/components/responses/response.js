@@ -21,18 +21,22 @@ class Response extends Component {
             <Hash k='Name' v={model.name} />
             <Hash k='Testee' v={model.userFullNameEng} />
           </Column>
+
           <Column large={2}>
-            <Hash k='Sections' v={model.numsOfSections} w="70/30" />
+            <Hash k='Sections' v={model.sectionsCount} w="70/30" />
             <Hash k='Total Questions' v={model.totalQuestions} w="70/30" />
           </Column>
+
           <Column large={2}>
             <Hash k='Max Score' v={model.maxScore} w="70/30" />
             <Hash k='Scored' v={model.userScore} w="70/30" />
           </Column>
+
           <Column large={3}>
             <Hash k='Checked' v='' w="70/30" />
             <Hash k='Successful' v='' w="70/30" />
           </Column>
+          
           <Column large={1}>
             <div className="button-group small float-right">
               <Link to="verifyResponse" params={{ id: model.id }} button={{ icon: "spellcheck" }} />
