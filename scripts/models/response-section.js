@@ -1,4 +1,5 @@
-import { action } from "mobx";
+import { action, computed } from "mobx";
+import sum from "lodash/sum";
 
 import AppModel from "./app-model";
 
@@ -20,6 +21,18 @@ class ResponseSection extends AppModel {
 
   @action toggle() {
     this.set('isExpanded', !this.isExpanded);
+  }
+
+  @computed get userScore() {
+    return Math.round(sum([].concat.apply([], this.questions.map(q => q.fields.map( f => f.userScore))))* 100) / 100
+  }
+
+  @computed get isPassed() {
+    if(this.userScore >= this.requiredScore) {
+      return 'Yes'
+    } else {
+      return 'No'
+    }
   }
 
 }

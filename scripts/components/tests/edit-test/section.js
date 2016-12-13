@@ -192,7 +192,7 @@ class Content extends Component {
               <Hash
                 w='45/55'
                 k='Score Units'
-                v={section.requiredScoreUnitsLabel}
+                v={section.requiredScoreUnitLabel}
               />
             </Column>
 
@@ -212,7 +212,7 @@ class Content extends Component {
                 render={section.acceptableScoreRequired}
                 w='45/55'
                 k='Score Units'
-                v={section.acceptableScoreUnitsLabel}
+                v={section.acceptableScoreUnitLabel}
               />
             </Column>
           </Row>
@@ -327,8 +327,8 @@ class EditableContent extends Component {
                 k='Score Units'
                 v={<select
                   className="edit-input select"
-                  value={section.requiredScoreUnits}
-                  onChange={this.handleChange.bind(this, 'requiredScoreUnits')}
+                  value={section.requiredScoreUnit}
+                  onChange={this.handleChange.bind(this, 'requiredScoreUnit')}
                 >
                   {Object.keys(section.scoreUnitsMap).map(key => {
                     return <option key={key} value={key}>
@@ -372,8 +372,8 @@ class EditableContent extends Component {
                 k='Score Units'
                 v={<select
                   className="edit-input select"
-                  value={section.acceptableScoreUnits}
-                  onChange={this.handleChange.bind(this, 'acceptableScoreUnits')}
+                  value={section.acceptableScoreUnit}
+                  onChange={this.handleChange.bind(this, 'acceptableScoreUnit')}
                 >
                   {Object.keys(section.scoreUnitsMap).map(key => {
                     return <option key={key} value={key}>

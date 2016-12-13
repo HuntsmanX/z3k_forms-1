@@ -19,9 +19,9 @@ class TestSection extends AppModel {
       timeLimit:            0,
       bonusTime:            0,
       requiredScore:        0,
-      requiredScoreUnits:   'points',
+      requiredScoreUnit:   'points',
       acceptableScore:      0,
-      acceptableScoreUnits: 'points',
+      acceptableScoreUnit: 'points',
       orderIndex:           0,
       shuffleQuestions:     false,
       questionsToShow:      0,
@@ -87,8 +87,8 @@ class TestSection extends AppModel {
     return sum(this.questions.map('manualScore'));
   }
 
-  @computed get requiredScoreUnitsLabel() {
-    return this.scoreUnitsMap[this.requiredScoreUnits];
+  @computed get requiredScoreUnitLabel() {
+    return this.scoreUnitsMap[this.requiredScoreUnit];
   }
 
   @computed get showNextSectionLabel() {
@@ -99,12 +99,12 @@ class TestSection extends AppModel {
     return this.showNextSection === 'show_next_depending_on_score';
   }
 
-  @computed get acceptableScoreUnitsLabel() {
-    return this.scoreUnitsMap[this.acceptableScoreUnits];
+  @computed get acceptableScoreUnitLabel() {
+    return this.scoreUnitsMap[this.acceptableScoreUnit];
   }
 
   @computed get warnings() {
-    var ret = this.alerts.slice();
+    const ret = this.alerts.slice();
 
     if (!this.isExpanded && this.questions.find('isBeingEdited'))
       ret.push('This section has unsaved questions');
