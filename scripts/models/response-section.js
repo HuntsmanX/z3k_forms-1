@@ -28,7 +28,7 @@ class ResponseSection extends AppModel {
   }
 
   @computed get isPassed() {
-    if(this.userScore >= this.requiredScore) {
+    if((this.userScore >= this.requiredScore) && this.userScore != 0) {
       return 'Yes'
     } else {
       return 'No'
