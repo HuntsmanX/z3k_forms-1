@@ -16,4 +16,36 @@ body {
   .tooltip[role='tooltip'] {
     margin-top: 0.75rem;
   }
+
+  .errors, .warnings {
+    white-space:  pre-wrap;
+    font-size:    0.9rem;
+    padding-left: 2rem;
+    position:     relative;
+    margin-top:   0.5rem;
+
+    &::before {
+      font-family: "Material Icons";
+      position:    absolute;
+      top:         -0.5rem;
+      left:        0;
+      font-size:   1.5rem;
+    }
+  }
+
+  .errors {
+    color: $alert-color;
+
+    &::before {
+      content: "\E000";
+    }
+  }
+
+  .warnings {
+    color: $warning-color;
+
+    &::before {
+      content: "\E002";
+    }
+  }
 }

@@ -1,0 +1,29 @@
+.color-picker {
+  width: 100%;
+
+  .swatch {
+    border:           $input-border;
+    padding:          $form-spacing / 2;
+    color:            $input-color;
+    background-color: $input-background;
+    box-shadow:       $input-shadow;
+
+    .color {
+      height: 1.25rem;
+      cursor: pointer;
+    }
+  }
+
+  .popover {
+    position: absolute;
+    z-index:  2;
+
+    .cover {
+      position: fixed;
+      top:      0px;
+      right:    0px;
+      bottom:   0px;
+      left:     0px;
+    }
+  }
+}

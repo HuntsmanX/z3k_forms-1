@@ -5,6 +5,7 @@ import { Row, Column } from "react-foundation-components/lib/global/grid-flex";
 import Button from "./../shared/button";
 import Link   from "./../shared/link";
 import Hash   from "./../shared/hash";
+import Icon   from "./../shared/icon";
 
 @inject("s")
 @observer
@@ -25,8 +26,8 @@ class Test extends Component {
             <Hash k='Max Score' v={test.maxScore} />
           </Column>
           <Column large={3}>
-            <Hash k='Total Questions' v={test.totalQuestions} />
-            <Hash k='Shuffle Questions' v={test.shuffleQuestions} />
+            <Hash k='Total Questions' v={test.totalQuestions} w="60/40" />
+            <Hash k='Shuffle Questions' v={test.shuffleQuestions} w="60/40" />
           </Column>
           <Column large={2}>
             <div className="button-group small float-right">
@@ -35,9 +36,15 @@ class Test extends Component {
             </div>
           </Column>
         </Row>
-        {test.warnings.length ? (
-          <div className="warnings">{test.warnings}</div>
-        ) : null}
+        <Row>
+          <Column large={12}>
+            {test.warnings.length ? (
+              <div className="warnings">
+                {test.warnings}
+              </div>
+            ) : null}
+          </Column>
+        </Row>
       </li>
     );
   }

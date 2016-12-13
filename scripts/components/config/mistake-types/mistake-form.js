@@ -1,8 +1,8 @@
-import React, {Component} from "react";
-import {observer, inject} from "mobx-react";
+import React, { Component } from "react";
+import { observer, inject } from "mobx-react";
 import Callout from "./../../shared/callout";
 import Button  from "./../../shared/button";
-import {Row, Column} from "react-foundation-components/lib/global/grid-flex";
+import { Row, Column } from "react-foundation-components/lib/global/grid-flex";
 import Modal   from "./../../shared/modal";
 import ColorPicker from "./../../shared/form/color-picker";
 
@@ -14,7 +14,7 @@ class MistakeForm extends Component {
 
   render() {
     const mistakeType = this.props.s.mistakeTypes.model;
-    const {s: {mistakeTypes}} = this.props;
+    const { s: { mistakeTypes } } = this.props;
 
     return (
       <Modal
@@ -24,22 +24,13 @@ class MistakeForm extends Component {
       >
         <Form onSubmit={mistakeTypes.create.bind(mistakeTypes)} model={mistakeType}>
           <Callout>
-            <Fieldset legend="New Mistake Type">
-              <TextField model={mistakeType} attr="name"/>
-              <div className="form-field row">
-                <Column large={3}>
-                  <label className="middle text-right">Color</label>
-                </Column>
-                  <ColorPicker
-                    model={mistakeType}
-                    attr="color"
-                    colors={['#E8E3E3', '#FFCCCC', '#E6A119', '#EBEB47', '#47EBEB', '#A3BEF5', '#F5A3F5', '#FFEB3B']}
-                  />
-              </div>
-              <TextField model={mistakeType} attr="penalty"/>
+            <Fieldset legend={`${mistakeType.isNew ? 'New' : 'Edit'} Mistake Type`}>
+              <TextField model={mistakeType} attr="name" />
+              <ColorPicker model={mistakeType} attr="color" />
+              <TextField model={mistakeType} attr="penalty" />
             </Fieldset>
             <FormFooter>
-              <Button type="submit" label="Save" icon="done"/>
+              <Button type="submit" label="Save" icon="done" />
             </FormFooter>
           </Callout>
         </Form>

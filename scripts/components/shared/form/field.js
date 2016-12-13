@@ -104,7 +104,7 @@ class Field extends Component {
   render() {
     const Wrapper      = this.wrapper;
     const InputWrapper = this.inputWrapper;
-
+    
     return (
       <Wrapper>
         {this.renderLabel()}

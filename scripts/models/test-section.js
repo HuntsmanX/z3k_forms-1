@@ -27,7 +27,8 @@ class TestSection extends AppModel {
       questionsToShow:      0,
       showNextSection:      'show_next_regardless_of_score',
       isBeingEdited:        false,
-      isExpanded:           false
+      isExpanded:           false,
+      alerts:               []
     };
   }
 
@@ -103,7 +104,7 @@ class TestSection extends AppModel {
   }
 
   @computed get warnings() {
-    var ret = this.alerts;
+    var ret = this.alerts.slice();
 
     if (!this.isExpanded && this.questions.find('isBeingEdited'))
       ret.push('This section has unsaved questions');

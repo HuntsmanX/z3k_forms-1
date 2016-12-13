@@ -26,6 +26,15 @@
     color: $warning-color;
     white-space: pre-wrap;
   }
+
+  .material-icons.status {
+
+    &.warning {
+      color:     $warning-color;
+      font-size: 1.5rem;
+      cursor:    default;
+    }
+  }
 }
 
 .hash {
@@ -39,8 +48,9 @@
     color:          #666;
     vertical-align: top;
 
-    &.w-45 { width: 45%; }
     &.w-20 { width: 20%; }
+    &.w-45 { width: 45%; }
+    &.w-70 { width: 60%; }
   }
 
   .value {
@@ -50,7 +60,8 @@
     padding-left:  0.5rem;
     padding-right: 0.5rem;
 
-    &.w-55 { width: 55%; }
     &.w-80 { width: 80%; }
+    &.w-55 { width: 55%; }
+    &.w-30 { width: 40%; }
   }
 }

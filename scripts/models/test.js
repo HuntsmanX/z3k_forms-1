@@ -18,15 +18,13 @@ class Test extends AppModel {
 
   static get defaults() {
     return {
-      name: ""
+      name:   "",
+      alerts: []
     }
   }
 
   @computed get warnings() {
-    var ret = [];
-    this.sections.forEach( s => ret = _.union(ret ,s.warnings.split("\n")));
-
-    return ret.join("\n");
+    return this.alerts.join("\n");
   }
 
   @action addSection() {
