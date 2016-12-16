@@ -7,7 +7,7 @@ import ActiveQuestions from "./../collections/active-questions";
 class ActiveSection extends AppModel {
 
   static get urlRoot() {
-    return "/response/sections";
+    return "/v1/forms/response/sections";
   }
 
   static get associations() {

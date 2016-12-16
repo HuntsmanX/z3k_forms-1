@@ -14,6 +14,7 @@ import TextField  from "./form/text-field";
 import Fieldset   from "./form/fieldset";
 import FormFooter from "./form/form-footer";
 import AjaxSelect from "./form/ajax-select";
+import AjaxMultiSelect from "./form/ajax-multi-select";
 
 @observer
 class Form extends Component {
@@ -39,4 +40,4 @@ class Form extends Component {
 }
 
 export default Form;
-export { Fieldset, FormFooter, TextField, AjaxSelect };
+export { Fieldset, FormFooter, TextField, AjaxSelect, AjaxMultiSelect };

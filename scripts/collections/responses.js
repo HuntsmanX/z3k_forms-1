@@ -9,7 +9,7 @@ class ResponsesCollection extends AppCollection {
   }
 
   static get urlRoot() {
-    return "/responses";
+    return "/v1/forms/responses";
   }
 
 }

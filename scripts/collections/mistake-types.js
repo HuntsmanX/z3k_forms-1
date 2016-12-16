@@ -9,7 +9,7 @@ class MistakeTypesCollection extends AppCollection {
   }
 
   static get urlRoot() {
-    return "/config/mistake_types";
+    return "/v1/forms/config/mistake_types";
   }
 
 }

@@ -5,7 +5,7 @@ import { Entity } from "draft-js";
 class MistakeType extends AppModel {
 
   static get urlRoot() {
-    return "/config/mistake_types";
+    return "/v1/forms/config/mistake_types";
   }
 
   static get defaults() {

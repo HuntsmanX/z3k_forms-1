@@ -12,7 +12,7 @@ import TestQuestions from "./../collections/test-questions";
 class TestSection extends AppModel {
 
   static get urlRoot() {
-    return "/test/sections";
+    return "/v1/forms/test/sections";
   }
 
   static get defaults() {
