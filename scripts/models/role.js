@@ -2,6 +2,7 @@ import { computed, action, observable } from "mobx";
 import AppModel from "./app-model";
 import { Entity } from "draft-js";
 import Users from "./../collections/users";
+import Permissions from "./../collections/permissions";
 
 class Role extends AppModel {
 
@@ -11,7 +12,8 @@ class Role extends AppModel {
 
   static get associations() {
     return {
-      users: { collection: Users, parentKey: 'role' }
+      users: { collection: Users, parentKey: 'role' },
+      permissions: { collection: Permissions, parentKey: 'role' }
     };
   }
 
@@ -26,9 +28,9 @@ class Role extends AppModel {
     return `role-${this.id}`;
   }
 
-  serialize(options) {
-    const data = super.serialize(options);
-    data.userIds = this.users.serialize().map((u) => {return u.id});
+  serialize() {
+    const data = super.serialize({ include: 'permissions', includeMap: { permissions: 'permissionsAttributes' } });
+    data.userIds = this.users.serialize().map(u => u.id);
     return data;
   }
 
