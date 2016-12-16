@@ -18,7 +18,6 @@ const setDefaults = (options) => {
     url:         '/',
     method:      'GET',
     dataType:    'json',
-    prefix:      '/v1/forms',
     contentType: 'application/json',
     headers:     { 'X-Key-Inflection' : 'camel' }
   });

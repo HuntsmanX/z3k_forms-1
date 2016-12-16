@@ -10,7 +10,7 @@ import TestFields from "./../collections/test-fields";
 class TestQuestion extends AppModel {
 
   static get urlRoot() {
-    return "/test/questions";
+    return "/v1/forms/test/questions";
   }
 
   static get defaults() {

@@ -7,7 +7,7 @@ import ResponseSections from "./../collections/response-sections";
 class Response extends AppModel {
 
   static get urlRoot() {
-    return "/responses";
+    return "/v1/forms/responses";
   }
 
   static get defaults() {

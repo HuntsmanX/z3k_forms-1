@@ -7,6 +7,8 @@ import SignInLayout from "./components/layouts/sign-in-layout";
 import Dashboard           from "./components/dashboard";
 import Tests               from "./components/tests";
 import MistakeTypes        from "./components/config/mistake-types";
+import Roles               from "./components/permissions/roles";
+import EditRole            from "./components/permissions/roles/edit-role";
 import EditTest            from "./components/tests/edit-test";
 import NotFound            from "./components/not-found";
 import Responses           from "./components/responses";
@@ -72,6 +74,18 @@ const views = {
     path:      '/config/mistake-types',
     component: MistakeTypes,
     onEnter:   ({ s }) => s.mistakeTypes.list()
+  },
+
+  roles: {
+    path:      '/permissions/roles',
+    component: Roles,
+    onEnter:   ({ s }) => s.roles.list()
+  },
+
+  editRole: {
+    path:      '/permissions/roles/:id',
+    component: EditRole,
+    onEnter:   ({ s, params }) => s.roles.show(params.id)
   },
 
   start: {

@@ -7,7 +7,7 @@ import TestSections from "./../collections/test-sections";
 class Test extends AppModel {
 
   static get urlRoot() {
-    return "/tests";
+    return "/v1/forms/tests";
   }
 
   static get associations() {

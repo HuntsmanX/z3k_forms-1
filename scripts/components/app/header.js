@@ -48,6 +48,9 @@ class Header extends Component {
                       </li>
                     </ul>
                   </li>
+                  <li>
+                    <Link to="roles">Roles</Link>
+                  </li>
 
                 </ul>
               </div>

@@ -11,7 +11,7 @@ import { scoreRainbow } from "./../helpers/rainbow";
 class ResponseQuestion extends AppModel {
 
   static get urlRoot() {
-    return "/response/questions";
+    return "/v1/forms/response/questions";
   }
 
   static get associations() {
