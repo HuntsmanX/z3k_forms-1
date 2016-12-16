@@ -1,4 +1,4 @@
-import { action, computed } from "mobx";
+import { action, computed, observable } from "mobx";
 import PubSub from "pubsub-js";
 
 import AppModel from "./app-model";
@@ -18,6 +18,7 @@ class User extends AppModel {
 
   @action signIn() {
     this.set('isBeingSaved', true);
+    this.unsetErrors();
 
     const request = auth.emailSignIn({
       email:    this.email,
@@ -25,7 +26,13 @@ class User extends AppModel {
     });
 
     request.then(
-      () => this.set('isBeingSaved', false)
+      () => {
+        this.set('isBeingSaved', false);
+      },
+      ({ reason }) => {
+        this.set('isBeingSaved', false);
+        this.setErrors({ email: [reason], password: [reason] });
+      }
     );
 
     return request;

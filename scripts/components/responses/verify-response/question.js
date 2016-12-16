@@ -3,8 +3,9 @@ import { observer } from "mobx-react";
 
 import { Row, Column } from "react-foundation-components/lib/global/grid-flex";
 
-import Icon from "../../shared/icon";
-import Hash from "../../shared/hash";
+import Icon           from "../../shared/icon";
+import Hash           from "../../shared/hash";
+import LoadingWrapper from "../../shared/loading-wrapper";
 
 import QuestionEditor from "./question-editor";
 import FieldsControls from "./question/fields-controls";
@@ -18,20 +19,22 @@ class Question extends Component {
 
     return (
       <div className={className}>
+        {question.isBeingSaved ? <LoadingWrapper spinner /> : null}
+
         <div className="score-indicator" style={{ backgroundColor: question.scoreColor }} />
 
         <ActionsRight question={question} />
 
-          <div className="main-content">
-            <QuestionEditor question={question} />
+        <div className="main-content">
+          <QuestionEditor question={question} />
 
-            {question.isBeingEdited ? (
-              <FieldsControls question={question} />
-            ) : (
-              <QuestionStats question={question} />
-            )}
+          {question.isBeingEdited ? (
+            <FieldsControls question={question} />
+          ) : (
+            <QuestionStats question={question} />
+          )}
 
-          </div>
+        </div>
       </div>
     )
   }

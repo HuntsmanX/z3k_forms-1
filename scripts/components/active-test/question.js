@@ -10,7 +10,10 @@ class Question extends React.Component {
     const { question, index } = this.props;
 
     return (
-      <QuestionEditor question={question} />
+      <div className="question indexed">
+        <div className="index">{index + 1}</div>
+        <QuestionEditor question={question} />
+      </div>
     );
   }
 

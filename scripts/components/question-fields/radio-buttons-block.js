@@ -23,7 +23,7 @@ class RadioButtonsBlock extends Component {
                   type="radio"
                   name={field.uuid}
                   value={option.uuid}
-                  checked={option.isSelected}
+                  checked={option.isSelected || false}
                   onChange={this.handleChange}
                   disabled={field.readOnly}
                 />

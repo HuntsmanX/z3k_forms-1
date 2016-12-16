@@ -38,6 +38,8 @@ class AjaxSelect extends Field {
         valueComponent={valueComponent ? Value(valueComponent) : undefined}
         onChange={this.handleChange}
         className={this.inputClassName}
+        cache={false}
+        filterOption={() => true}
       />
     );
   }

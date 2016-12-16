@@ -1,0 +1,74 @@
+.sections-list {
+
+  .section {
+    position:   relative;
+    border-top: 1px solid $light-gray;
+
+    &:last-child {
+      border-bottom: 1px solid $light-gray;
+    }
+
+    .content {
+      padding:    1rem 3rem;
+      transition: background-color 0.25s ease-out;
+
+      &:hover {
+        background-color: #def0fc;
+      }
+
+      &.editable {
+        background-color: #ebebeb;
+      }
+
+      .title {
+        margin-bottom: 0;
+      }
+
+      .description {
+        font-style: italic;
+        font-size:  1rem;
+      }
+
+      .attributes {
+        margin-top: 0.5rem;
+      }
+    }
+
+    .edit-input, .edit-input > input {
+      margin:           0;
+      padding:          0;
+      border:           0;
+      box-shadow:       none;
+      background:       transparent;
+      text-decoration:  underline;
+
+      &.title-input {
+        font-family: 'Nunito', sans-serif;
+        font-size:   1.47059rem;
+        line-height: 1.4;
+        height:      1.4em;
+        width:       95%;
+      }
+
+      &.description-input {
+        font-style:  italic;
+        font-size:   1rem;
+        line-height: 1.5;
+        height:      1.5em;
+        width:       95%;
+      }
+
+      &.num-input {
+        line-height: 1.5;
+        height:      1.5em;
+        min-width:   1rem;
+      }
+
+      &.select {
+        line-height: 1.5;
+        height:      1.5em;
+        cursor:      context-menu;
+      }
+    }
+  }
+}

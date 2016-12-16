@@ -22,6 +22,10 @@ class ResponseField extends Field {
     return this.options;
   }
 
+  @computed get correctlyOrderedOptions() {
+    return this.options.sortBy('correctOrderIndex');
+  }
+
   @action setValue(val) {
     this.set('userContent', val);
   }

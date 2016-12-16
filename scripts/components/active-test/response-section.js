@@ -22,11 +22,10 @@ class ResponseSection extends Component {
 
         <div className="description">
           {section.description}
-          <hr />
         </div>
-        <div className="question-list">
-          <QuestionsList section={section} />
-        </div>
+
+        <QuestionsList section={section} />
+        
         <Button
           type="submit"
           label="Submit"

@@ -18,8 +18,20 @@ class Response extends Component {
       <li>
         <Row>
           <Column large={4}>
-            <Hash k='Name' v={model.name} />
-            <Hash k='Testee' v={model.userFullNameEng} />
+            <Hash k='Test' v={model.name} />
+            <Hash k='Name' v={model.userFullNameEng} />
+          </Column>
+
+          <Column large={3}>
+            <Hash k='Date' v={model.createdAtFormatted} />
+            <Hash
+              k='Successful'
+              v={
+                <span className={`label ${model.isSuccessfulLabelClass}`}>
+                  {model.isSuccessful}
+                </span>
+              }
+            />
           </Column>
 
           <Column large={2}>
@@ -32,11 +44,6 @@ class Response extends Component {
             <Hash k='Scored' v={model.userScore} w="70/30" />
           </Column>
 
-          <Column large={3}>
-            <Hash k='Checked' v='' w="70/30" />
-            <Hash k='Successful' v='' w="70/30" />
-          </Column>
-          
           <Column large={1}>
             <div className="button-group small float-right">
               <Link to="verifyResponse" params={{ id: model.id }} button={{ icon: "spellcheck" }} />

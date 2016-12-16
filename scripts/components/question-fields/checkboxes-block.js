@@ -22,7 +22,7 @@ class CheckboxesBlock extends Component {
                 <input
                   type="checkbox"
                   value={option.uuid}
-                  checked={option.isSelected}
+                  checked={option.isSelected || false}
                   onChange={this.handleChange}
                   disabled={field.readOnly}
                 />

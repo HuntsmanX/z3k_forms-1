@@ -37,7 +37,7 @@ class SequenceBlock extends Component {
 
         <FieldExpand field={field}>
           <div className="box-inputs">
-            {field.availableOptions.map((option, index) => {
+            {(field.correctlyOrderedOptions || []).map((option, index) => {
               return (
                 <SequenceOption
                   key={option.uuid}

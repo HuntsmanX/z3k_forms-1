@@ -10,7 +10,7 @@ class QuestionsList extends Component {
     const { section, s: { sections } } = this.props;
 
     return(
-      <div className="questions-list">
+      <div className="questions-list no-padding">
         {section.questions.map((question, index) => {
           return <Question
             key={question.uuid}
