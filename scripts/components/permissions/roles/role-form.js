@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import {observer, inject} from "mobx-react";
+import uuid from "node-uuid";
 
 import Callout from "./../../shared/callout";
 import Button  from "./../../shared/button";
@@ -71,22 +72,23 @@ class Permission extends Component {
 
   renderCondition = (condition) => {
     if (condition.type === 'select') return this.renderSelectCondition(condition);
-  }
+  };
 
   renderSelectCondition = (condition) => {
     const { permission } = this.props;
 
     return (
       <select
+        key={uuid.v4()}
         value={permission.getCondition(condition.name)}
         onChange={(e) => permission.setCondition(condition.name, e.target.value)}
       >
         {condition.options.map(option => {
-          return <option key={option.value} value={option.value}>{option.label}</option>
+          return <option key={uuid.v4()} value={option.value}>{option.label}</option>
         })}
       </select>
     );
-  }
+  };
 
   render() {
     const { permission } = this.props;
@@ -97,7 +99,7 @@ class Permission extends Component {
           <label>
             <input
               type="checkbox"
-              value={permission.allowed}
+              checked={permission.allowed}
               onChange={permission.toggleAllowed.bind(permission)}
             />
             {permission.label}
