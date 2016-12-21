@@ -1,23 +1,23 @@
 import React, { Component } from "react";
 import { observer, inject } from "mobx-react";
 import { CompactPicker } from 'react-color'
-import RoleForm  from "./role-form";
+import UserForm from "./user-form";
 import Loader from "./../../shared/loader";
 
 @inject("s")
 @observer
-class EditRole extends Component {
+class ShowUser extends Component {
 
   render() {
-    const role = this.props.s.roles.model;
-    const {s: {roles}} = this.props;
+    const users = this.props.s.users;
+    const roles = this.props.s.roles;
 
-    if (role.isBeingFetched) return <Loader />;
+    if (users.isBeingFetched) return <Loader />;
 
     return (
-      <div id="edit-role">
+      <div id="show-user">
         <div className="clearfix">
-          <RoleForm role={role} roles={roles}/>
+          <UserForm user={users} roles={roles} />
         </div>
       </div>
     );
@@ -25,4 +25,4 @@ class EditRole extends Component {
 
 }
 
-export default EditRole;
+export default ShowUser;

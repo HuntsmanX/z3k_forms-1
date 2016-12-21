@@ -10,9 +10,7 @@ import {Row, Column} from "react-foundation-components/lib/global/grid-flex";
 import Form, {
   Fieldset,
   FormFooter,
-  TextField,
-  AjaxMultiSelect,
-  SelectField
+  TextField
 } from "./../../shared/form";
 
 @observer
@@ -29,22 +27,6 @@ class RoleForm extends Component {
         <Callout>
           <Fieldset legend={role.isNew ? "New Role": role.name}>
             <TextField model={role} attr="name" hint="" />
-          </Fieldset>
-          <Fieldset legend="Users">
-            <AjaxMultiSelect
-              model={role}
-              attr="users"
-              url="/v1/users/find"
-              minLength={2}
-              label="Users"
-              multi
-              formatOption={(el) => ({
-                ...el,
-                value: el.id,
-                label: el.fullNameEng
-              })}
-              hint=""
-            />
           </Fieldset>
 
           {groupKeys.map(key => {

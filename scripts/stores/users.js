@@ -23,6 +23,14 @@ class UsersStore {
     );
   }
 
+  @action create() {
+    this.model.save().then(
+      () => {
+        router.navigate('users');
+      }
+    );
+  }
+
 }
 
 export default new UsersStore();
