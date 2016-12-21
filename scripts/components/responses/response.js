@@ -28,7 +28,7 @@ class Response extends Component {
               k='Successful'
               v={
                 <span className={`label ${model.isSuccessfulLabelClass}`}>
-                  {model.isSuccessful}
+                  {model.isSuccessfulLabel}
                 </span>
               }
             />
@@ -36,7 +36,7 @@ class Response extends Component {
 
           <Column large={2}>
             <Hash k='Sections' v={model.sectionsCount} w="70/30" />
-            <Hash k='Total Questions' v={model.totalQuestions} w="70/30" />
+            <Hash k='Total Questions' v={model.questionsCount} w="70/30" />
           </Column>
 
           <Column large={2}>

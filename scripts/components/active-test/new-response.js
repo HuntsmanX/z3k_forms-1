@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import { observer, inject } from "mobx-react";
 
-import Callout              from "./../shared/callout";
-import Button               from "./../shared/button";
-import Loader               from "./../shared/loader";
+import Callout from "./../shared/callout";
+import Button  from "./../shared/button";
+import Loader  from "./../shared/loader";
+import Icon    from "./../shared/icon";
 
 import Form, { Fieldset, FormFooter, AjaxSelect, TextField } from "./../shared/form";
 
@@ -50,6 +51,19 @@ class NewResponse extends Component {
                 value: el.id,
                 label: el.fullNameEng
               })}
+              optionComponent={({ fullNameEng, firstCalledOn, email, phone }) => (
+                <div>
+                  <div>{fullNameEng}</div>
+                  <div className="sub clearfix">
+                    <div className="float-left">
+                      <Icon>email</Icon>&nbsp;{email}
+                    </div>
+                    <div className="float-right">
+                      <Icon>access_time</Icon>&nbsp;{firstCalledOn}
+                    </div>
+                  </div>
+                </div>
+              )}
               hint=""
             />
           </Fieldset>
