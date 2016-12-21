@@ -6,6 +6,7 @@ import activeTest   from "./stores/active-test";
 import session      from "./stores/session";
 import mistakeTypes from "./stores/mistake-types";
 import roles        from "./stores/roles";
+import users        from "./stores/users";
 
 const stores = {
   router,
@@ -15,7 +16,8 @@ const stores = {
   activeTest,
   session,
   mistakeTypes,
-  roles
+  roles,
+  users
 };
 
 router.start(stores);

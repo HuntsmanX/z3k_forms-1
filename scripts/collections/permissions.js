@@ -14,6 +14,12 @@ class PermissionsCollection extends AppCollection {
     return this.groupBy('resourceName');
   }
 
+  @computed get groupedByRole() {
+    return this.groupBy(function (o) {
+      return o.role.name
+    });
+  }
+
 }
 
 export default PermissionsCollection;

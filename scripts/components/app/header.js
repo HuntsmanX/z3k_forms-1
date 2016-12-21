@@ -51,7 +51,9 @@ class Header extends Component {
                   <li>
                     <Link to="roles">Roles</Link>
                   </li>
-
+                  <li>
+                    <Link to="users">Users</Link>
+                  </li>
                 </ul>
               </div>
               <div className="top-bar-right">

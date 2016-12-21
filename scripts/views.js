@@ -8,6 +8,8 @@ import Dashboard           from "./components/dashboard";
 import Tests               from "./components/tests";
 import MistakeTypes        from "./components/config/mistake-types";
 import Roles               from "./components/permissions/roles";
+import Users               from "./components/users/users";
+import ShowUser            from "./components/users/users/show-user";
 import EditRole            from "./components/permissions/roles/edit-role";
 import EditTest            from "./components/tests/edit-test";
 import NotFound            from "./components/not-found";
@@ -80,6 +82,18 @@ const views = {
     path:      '/permissions/roles',
     component: Roles,
     onEnter:   ({ s }) => s.roles.list()
+  },
+
+  users: {
+    path:      '/users',
+    component: Users,
+    onEnter:   ({ s }) => s.users.list()
+  },
+
+  showUser: {
+    path:      '/users/:id',
+    component: ShowUser,
+    onEnter:   ({ s, params }) => s.users.show(params.id)
   },
 
   editRole: {
