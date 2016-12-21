@@ -2,6 +2,7 @@ import { action, computed, observable } from "mobx";
 import PubSub from "pubsub-js";
 
 import AppModel from "./app-model";
+import Roles from "./../collections/roles";
 
 import auth from "./../helpers/auth";
 
@@ -10,6 +11,29 @@ class User extends AppModel {
   initialize() {
     PubSub.subscribe('auth.validation.success', (e, data) => this.fromAuth(data));
     PubSub.subscribe('auth.signOut.success',    (e, data) => this.clearAttrs());
+  }
+
+  static get urlRoot() {
+    return "/v1/users";
+  }
+
+  static get associations() {
+    return {
+      roles: { collection: Roles, parentKey: 'user' }
+    };
+  }
+
+  static get defaults() {
+    return {
+      roleIds: []
+    };
+  }
+
+  serialize() {
+    const data = super.serialize();
+    data.roleIds = this.roles.serialize().map(r => r.id);
+
+    return data;
   }
 
   @computed get isSignedIn() {
