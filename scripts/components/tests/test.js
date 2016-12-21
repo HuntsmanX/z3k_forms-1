@@ -26,7 +26,7 @@ class Test extends Component {
             <Hash k='Max Score' v={test.maxScore} />
           </Column>
           <Column large={3}>
-            <Hash k='Total Questions' v={test.totalQuestions} w="60/40" />
+            <Hash k='Total Questions' v={test.questionsCount} w="60/40" />
             <Hash k='Shuffle Questions' v={test.shuffleQuestions} w="60/40" />
           </Column>
           <Column large={2}>

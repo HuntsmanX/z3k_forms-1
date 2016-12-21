@@ -31,10 +31,6 @@ class ResponseSection extends AppModel {
     return Math.round(sumBy(this.questions.models, 'userScore') * 100) / 100;
   }
 
-  @computed get isSuccessful() {
-    return this.userScore >= this.requiredScore;
-  }
-
   @computed get isChecked() {
     return this.questions.every('isChecked');
   }

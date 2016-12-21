@@ -69,7 +69,10 @@ class ResponseQuestion extends AppModel {
 
   @action save() {
     super.save().then(
-      () => this.set('isBeingEdited', false)
+      () => {
+        this.set('isBeingEdited', false);
+        this.section.set('isSuccessful', this.sectionIsSuccessful);
+      }
     );
   }
 

@@ -22,14 +22,14 @@ class Response extends AppModel {
     };
   }
 
-  @computed get isSuccessful() {
+  @computed get isSuccessfulLabel() {
     if (!this.checked) return "Pending";
-    return this.successful ? "Yes" : "No";
+    return this.isSuccessful ? "Yes" : "No";
   }
 
   @computed get isSuccessfulLabelClass() {
     if (!this.checked) return "secondary";
-    return this.successful ? "success" : "alert";
+    return this.isSuccessful ? "success" : "alert";
   }
 
 }

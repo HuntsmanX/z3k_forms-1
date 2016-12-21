@@ -25,6 +25,7 @@
 
   .sub {
     font-size: 0.75rem;
+    color:     $dark-gray;
 
     &.warning {
       color: $warning-color;
@@ -39,6 +40,10 @@
 .Select-option.is-focused {
   background-color: $primary-color;
   color:            white;
+
+  .sub {
+    color: white;
+  }
 }
 
 .Select-option.is-disabled {

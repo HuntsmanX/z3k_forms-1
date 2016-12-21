@@ -12,7 +12,7 @@ import QuestionsList from "./questions-list";
 class Section extends Component {
 
   render() {
-    const { section } = this.props
+    const { section } = this.props;
 
     return (
       <div className="section">
