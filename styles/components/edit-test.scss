@@ -61,4 +61,41 @@
     cursor: move !important;
   }
 
+  .edit-input, .edit-input > input {
+    margin:           0;
+    padding:          0;
+    border:           0;
+    box-shadow:       none;
+    background:       transparent;
+    text-decoration:  underline;
+
+    &.title-input {
+      font-family: 'Nunito', sans-serif;
+      font-size:   1.47059rem;
+      line-height: 1.4;
+      height:      1.4em;
+      width:       95%;
+    }
+
+    &.description-input {
+      font-style:  italic;
+      font-size:   1rem;
+      line-height: 1.5;
+      height:      1.5em;
+      width:       95%;
+    }
+
+    &.num-input {
+      line-height: 1.5;
+      height:      1.5em;
+      min-width:   1rem;
+    }
+
+    &.select {
+      line-height: 1.5;
+      height:      1.5em;
+      cursor:      context-menu;
+    }
+  }
+
 }
