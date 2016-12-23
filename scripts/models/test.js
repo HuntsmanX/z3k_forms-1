@@ -1,7 +1,7 @@
 import { computed, action } from "mobx";
 
 import AppModel from "./app-model";
-
+import humanize from "underscore.string/humanize";
 import TestSections from "./../collections/test-sections";
 
 class Test extends AppModel {
@@ -37,6 +37,12 @@ class Test extends AppModel {
 
   @computed get warnings() {
     return this.alerts.join("\n");
+  }
+
+  @computed get formattedErrors() {
+    return this.errors.entries().map(entry => {
+      return `${humanize(entry[0])} ${entry[1].join(', ')}`;
+    }).join("\n");
   }
 
   @computed get successCriterionLabel() {

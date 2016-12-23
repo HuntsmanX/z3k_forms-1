@@ -86,6 +86,17 @@ class TestSettings extends Component {
             </Row>
           </div>
         </Callout>
+
+        {test.formattedErrors.length ? (
+          <div className="errors">{test.formattedErrors}</div>
+        ) : null}
+
+        {test.warnings.length ? (
+          <div className="warnings">
+            {test.warnings}
+          </div>
+        ) : null}
+
       </div>
     );
   }
