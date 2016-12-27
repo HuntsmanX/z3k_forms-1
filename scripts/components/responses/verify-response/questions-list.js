@@ -22,7 +22,7 @@ class QuestionsList extends Component {
   }
 
   renderQuestions() {
-    const { section } = this.props;
+    const { section, ifAllowed } = this.props;
 
     return section.questions.map((question, index) => {
       return <Question
@@ -30,6 +30,7 @@ class QuestionsList extends Component {
         question={question}
         uuid={question.uuid}
         index={index}
+        ifAllowed={ifAllowed}
       />
     });
   }

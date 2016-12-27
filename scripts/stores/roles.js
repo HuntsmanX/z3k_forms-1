@@ -11,10 +11,10 @@ class RolesStore {
   @observable collection = new RolesCollection();
   @observable model      = new Role();
 
-  @observable roleShown = false;
+  @observable newRoleShown = false;
 
   @action showNew(val) {
-    if (val) this.model = new Role();
+    if (val) this.model.clear();
     this.showModal(val);
   }
 
@@ -24,6 +24,7 @@ class RolesStore {
   }
 
   @action show(id) {
+    this.model.clear();
     this.model.set('id', id);
     this.model.fetch().then(
       () => ui.setPageTitle(this.model.name)
@@ -31,16 +32,22 @@ class RolesStore {
   }
 
   @action showModal(val) {
-    this.roleShown = val;
+    this.newRoleShown = val;
   }
 
   @action create() {
     this.model.save().then(
       () => {
         this.showNew(false);
-        router.navigate('roles');
+        this.collection.fetch();
       }
     );
+  }
+
+  @action update() {
+    this.model.save().then(
+      () => router.navigate('roles')
+    )
   }
 
   @action destroy(id) {

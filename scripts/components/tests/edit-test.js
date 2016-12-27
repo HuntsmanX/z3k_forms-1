@@ -10,7 +10,7 @@ import Loader from "./../shared/loader";
 class EditTest extends Component {
 
   render() {
-    const test = this.props.s.tests.model;
+    const { s: { tests: { model: test }, session: { ifAllowed } } } = this.props;
 
     if (test.isBeingFetched) return <Loader />;
 
@@ -23,17 +23,20 @@ class EditTest extends Component {
             <p>No sections yet</p>
           )}
         </div>
-        <div className="clearfix">
-          <div className="float-right">
-            <a onClick={test.addSection.bind(test)} className="btn-add">Add Section</a>
+        
+        {ifAllowed(test, 'update',
+          <div className="clearfix">
+            <div className="float-right">
+              <a onClick={test.addSection.bind(test)} className="btn-add">Add Section</a>
+            </div>
           </div>
-        </div>
+        )}
       </div>
     );
   }
 
   renderSections() {
-    const test = this.props.s.tests.model;
+    const { s: { tests: { model: test }, session: { ifAllowed } } } = this.props;
 
     return test.sections.map((section, index) => {
       return <Section
@@ -43,6 +46,7 @@ class EditTest extends Component {
         uuid={section.uuid}
         index={index}
         deleteSection={() => test.deleteSection(section.uuid)}
+        ifAllowed={ifAllowed.bind(null, test, 'update')}
       />
     });
   }

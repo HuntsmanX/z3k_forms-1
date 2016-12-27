@@ -2,16 +2,18 @@ import { observable, action } from "mobx";
 
 import PubSub from "pubsub-js";
 
+import ajax from "./../helpers/ajax";
+
 import MistakeTypes from "./../collections/mistake-types";
 
 class UIStore {
 
+  @observable isInitializing = true;
+  @observable pageTitle      = '';
+
   @observable data = {
     mistakeTypes: new MistakeTypes()
   };
-
-  @observable isInitializing = true;
-  @observable pageTitle      = '';
 
   constructor() {
     this.awaitValidation().then(
@@ -23,10 +25,15 @@ class UIStore {
   }
 
   @action fetchData() {
-    return Promise.all([
-      this.data.mistakeTypes.fetch()
-    ])
+    return ajax({
+      url: '/v1/inits/forms'
+    }).then(data => {
+      Object.keys(data).forEach(key => {
+        this.data[key].fromJSON(data[key].data)
+      });
+    });
   }
+
 
   @action completeInit() {
     this.setInitializing(false);

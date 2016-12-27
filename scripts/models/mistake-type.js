@@ -16,6 +16,10 @@ class MistakeType extends AppModel {
     };
   }
 
+  static get resourceKey() {
+    return "forms:mistake_type";
+  }
+
   get identifier() {
     return `mistake-${this.id}`;
   }

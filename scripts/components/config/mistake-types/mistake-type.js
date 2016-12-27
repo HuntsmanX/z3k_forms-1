@@ -11,7 +11,10 @@ import Hash   from "./../../shared/hash";
 class MistakeType extends Component {
 
   render() {
-    const { model: mistakeType, s: { mistakeTypes } } = this.props;
+    const {
+      model: mistakeType,
+      s: { mistakeTypes, session: { ifAllowed } }
+    } = this.props;
 
     return (
       <li>
@@ -29,8 +32,12 @@ class MistakeType extends Component {
           </Column>
           <Column large={2}>
             <div className="button-group small float-right">
-              <Button icon="mode_edit" onClick={mistakeTypes.show.bind(mistakeTypes, mistakeType.id)}/>
-              <Button icon="delete" color="alert" onClick={mistakeTypes.destroy.bind(mistakeTypes, mistakeType.id)}/>
+              {ifAllowed(mistakeType, 'update',
+                <Button icon="mode_edit" onClick={mistakeTypes.show.bind(mistakeTypes, mistakeType.id)}/>
+              )}
+              {ifAllowed(mistakeType, 'delete',
+                <Button icon="delete" color="alert" onClick={mistakeTypes.destroy.bind(mistakeTypes, mistakeType.id)}/>
+              )}
             </div>
           </Column>
         </Row>

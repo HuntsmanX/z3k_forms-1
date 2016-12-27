@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import { observer, inject } from "mobx-react";
 import Callout from "./../../shared/callout";
 import Button  from "./../../shared/button";
-import { Row, Column } from "react-foundation-components/lib/global/grid-flex";
-import Modal   from "./../../shared/modal";
+
+import Modal       from "./../../shared/modal";
 import ColorPicker from "./../../shared/form/color-picker";
 
 import Form, { Fieldset, FormFooter, TextField } from "./../../shared/form";
@@ -13,8 +13,11 @@ import Form, { Fieldset, FormFooter, TextField } from "./../../shared/form";
 class MistakeForm extends Component {
 
   render() {
-    const mistakeType = this.props.s.mistakeTypes.model;
-    const { s: { mistakeTypes } } = this.props;
+    const { s: { mistakeTypes, mistakeTypes: { model: mistakeType } } } = this.props;
+
+    const onSubmit = mistakeType.isNew ?
+      mistakeTypes.create.bind(mistakeTypes) :
+      mistakeTypes.update.bind(mistakeTypes);
 
     return (
       <Modal
@@ -22,7 +25,7 @@ class MistakeForm extends Component {
         show={mistakeTypes.mistakeTypeShown}
         onHide={mistakeTypes.showNew.bind(mistakeTypes, false)}
       >
-        <Form onSubmit={mistakeTypes.create.bind(mistakeTypes)} model={mistakeType}>
+        <Form onSubmit={onSubmit} model={mistakeType}>
           <Callout>
             <Fieldset legend={`${mistakeType.isNew ? 'New' : 'Edit'} Mistake Type`}>
               <TextField model={mistakeType} attr="name" />

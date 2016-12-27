@@ -10,12 +10,12 @@ class Permission extends AppModel {
   }
 
   @action setCondition(attr, value) {
-    this.conditions[camelCase(attr)] = value;
+    this.conditions[attr] = value;
   }
 
   getCondition(attr) {
     return computed(
-      () => this.conditions[camelCase(attr)]
+      () => this.conditions[attr]
     ).get();
   }
 

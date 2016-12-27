@@ -22,6 +22,10 @@ class Response extends AppModel {
     };
   }
 
+  static get resourceKey() {
+    return "forms:response";
+  }
+
   @computed get isSuccessfulLabel() {
     if (!this.checked) return "Pending";
     return this.isSuccessful ? "Yes" : "No";

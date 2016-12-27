@@ -12,7 +12,7 @@ import Icon   from "./../shared/icon";
 class Test extends Component {
 
   render() {
-    const { model: test, s: { tests } } = this.props;
+    const { model: test, s: { tests, session: { ifAllowed } } } = this.props;
 
     return (
       <li>
@@ -31,8 +31,12 @@ class Test extends Component {
           </Column>
           <Column large={2}>
             <div className="button-group small float-right">
-              <Link to="editTest" params={{ id: test.id }} button={{ icon: "mode_edit" }} />
-              <Button icon="delete" color="alert" onClick={tests.destroy.bind(tests, test.id)} />
+              {ifAllowed(test, 'view',
+                <Link to="editTest" params={{ id: test.id }} button={{ icon: "mode_edit" }} />
+              )}
+              {ifAllowed(test, 'delete',
+                <Button icon="delete" color="alert" onClick={tests.destroy.bind(tests, test.id)} />
+              )}
             </div>
           </Column>
         </Row>

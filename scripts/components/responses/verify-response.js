@@ -11,7 +11,7 @@ class VerifyResponse extends Component {
 
   render() {
     const response = this.props.s.responses.model;
-    
+
     if (response.isBeingFetched) return <Loader />;
 
     return(
@@ -27,8 +27,10 @@ class VerifyResponse extends Component {
     );
   }
 
-  renderSections() { //TODO: move this to shared
+  // TODO: move this to shared
+  renderSections() {
     const response = this.props.s.responses.model;
+    const { ifAllowed } = this.props.s.session;
 
     return response.sections.map((section, index) => {
       return <Section
@@ -36,6 +38,7 @@ class VerifyResponse extends Component {
         section={section}
         uuid={section.uuid}
         index={index}
+        ifAllowed={ifAllowed.bind(null, response, 'update')}
       />
     });
   }

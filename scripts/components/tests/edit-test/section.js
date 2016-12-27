@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { observer } from "mobx-react";
+import { observer, inject } from "mobx-react";
 
 import { Row, Column } from "react-foundation-components/lib/global/grid-flex";
 
@@ -23,7 +23,8 @@ class Section extends Component {
       connectDragSource,
       connectDragPreview,
       isDragging,
-      connectDropTarget
+      connectDropTarget,
+      ifAllowed
     } = this.props;
 
     const opacity      = isDragging ? 0 : 1;
@@ -37,13 +38,19 @@ class Section extends Component {
 
         <div className="actions left">
           {section.isPersisted ? (
-            connectDragSource(
-              <i className="material-icons action drag-handle">dehaze</i>
+            ifAllowed(
+              connectDragSource(
+                <i className="material-icons action drag-handle">dehaze</i>
+              )
             )
           ) : null}
         </div>
 
-        <ActionsRight section={section} deleteSection={deleteSection} />
+        <ActionsRight
+          section={section}
+          deleteSection={deleteSection}
+          ifAllowed={ifAllowed}
+        />
 
         {connectDragPreview(
           <div className={contentClass}>
@@ -64,7 +71,7 @@ class Section extends Component {
         )}
 
         {section.isExpanded ? (
-          <QuestionsList section={section} />
+          <QuestionsList section={section} ifAllowed={ifAllowed} />
         ) : null}
       </div>
     );
@@ -75,36 +82,49 @@ class Section extends Component {
 @observer
 class ActionsRight extends Component {
 
+  renderEditSaveIcon() {
+    const { section } = this.props;
+
+    if (section.isBeingEdited)
+      return (
+        <Icon
+          className="action primary"
+          title="Save"
+          onClick={section.save.bind(section)}
+        >
+          save
+        </Icon>
+      );
+
+    return (
+      <Icon
+        className="action primary"
+        title="Edit"
+        onClick={section.edit.bind(section)}
+      >
+        edit
+      </Icon>
+    );
+  }
+
   render() {
-    const { section, deleteSection } = this.props;
+    const { section, deleteSection, ifAllowed } = this.props;
 
     return (
       <div className="actions right">
-        {section.isBeingEdited ? (
-          <Icon
-            className="action primary"
-            title="Save"
-            onClick={section.save.bind(section)}
-          >
-            save
-          </Icon>
-        ) : (
-          <Icon
-            className="action primary"
-            title="Edit"
-            onClick={section.edit.bind(section)}
-          >
-            edit
-          </Icon>
+        {ifAllowed(
+          this.renderEditSaveIcon()
         )}
 
-        <Icon
-          className="action alert"
-          title="Delete"
-          onClick={deleteSection}
-        >
-          delete
-        </Icon>
+        {ifAllowed(
+          <Icon
+            className="action alert"
+            title="Delete"
+            onClick={deleteSection}
+          >
+            delete
+          </Icon>
+        )}
 
         {section.isPersisted ? (
           section.isExpanded ? (

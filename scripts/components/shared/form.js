@@ -1,15 +1,5 @@
 import React, { Component } from "react";
 import { observer }         from "mobx-react";
-import humanize             from "underscore.string/humanize";
-
-import { Column } from 'react-foundation-components/lib/global/grid-flex';
-
-import {
-  FormFieldInput,
-  FormFieldLabel,
-  FormFieldError
-} from 'react-foundation-components/lib/global/forms-flex';
-
 
 import TextField       from "./form/text-field";
 import Fieldset        from "./form/fieldset";
@@ -17,7 +7,6 @@ import FormFooter      from "./form/form-footer";
 import AjaxSelect      from "./form/ajax-select";
 import AjaxMultiSelect from "./form/ajax-multi-select";
 import SelectField     from "./form/select-field";
-
 
 @observer
 class Form extends Component {

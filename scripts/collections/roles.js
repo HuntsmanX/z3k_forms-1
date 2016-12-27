@@ -9,7 +9,7 @@ class RolesCollection extends AppCollection {
   }
 
   static get urlRoot() {
-    return "/roles";
+    return "/v1/roles";
   }
 
 }

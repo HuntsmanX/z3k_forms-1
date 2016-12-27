@@ -20,7 +20,7 @@ class RouterStore extends Router {
   }
 
   @action checkAuth(options) {
-    if (!this.stores.session.user.isSignedIn) {
+    if (!this.stores.session.currentUser.isSignedIn) {
       this.beforeSignIn = options;
       this.navigate('signIn');
       return false;

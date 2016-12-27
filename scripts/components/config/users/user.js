@@ -3,7 +3,7 @@ import { observer, inject } from "mobx-react";
 import { Row, Column } from "react-foundation-components/lib/global/grid-flex";
 import { Label } from "react-foundation-components/lib/global/label";
 
-import Link from "../../shared/link";
+import Button from "../../shared/button";
 import Hash   from "../../shared/hash";
 
 @inject("s")
@@ -11,20 +11,23 @@ import Hash   from "../../shared/hash";
 class User extends Component {
 
   render() {
-    const { model: user, s: { users } } = this.props;
+    const { model: user, s: { users, session: { ifAllowed } } } = this.props;
 
     return (
       <li>
         <Row>
           <Column large={5}>
-            <Hash k='Name' v={user.fullNameEng}/>
+            <Hash k='Name' v={user.fullNameEng} />
+            <Hash k='Email' v={user.email} />
           </Column>
           <Column large={5}>
-            <Hash k='Email' v={user.email}/>
+            <Hash k='Roles' v={user.roleNames} />
           </Column>
           <Column large={2}>
             <div className="button-group small float-right">
-              <Link to="showUser" params={{ id: user.id }} button={{ icon: "mode_edit" }} />
+              {ifAllowed(user, 'update',
+                <Button icon="mode_edit" onClick={users.edit.bind(users, user.id)} />
+              )}
             </div>
           </Column>
         </Row>

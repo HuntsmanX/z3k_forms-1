@@ -15,17 +15,19 @@ import Search  from "./tests/search";
 class Tests extends Component {
 
   render() {
-    const { s: { tests } } = this.props;
+    const { s: { tests, session: { ifAllowed } } } = this.props;
 
     return (
       <div>
-        <NewTest />
+        {ifAllowed('forms:test', 'update', <NewTest />)}
         <EntitiesListPanel>
-          <Button
-            label="New Test"
-            icon="add"
-            onClick={tests.showNew.bind(tests, true)}
-          />
+          {ifAllowed('forms:test', 'update',
+            <Button
+              label="New Test"
+              icon="add"
+              onClick={tests.showNew.bind(tests, true)}
+            />
+          )}
         </EntitiesListPanel>
         <Search tests={tests.collection} />
         <EntitiesList

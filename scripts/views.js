@@ -4,22 +4,26 @@ import { Route } from 'mobx-router';
 import MainLayout   from "./components/layouts/main-layout";
 import SignInLayout from "./components/layouts/sign-in-layout";
 
-import Dashboard           from "./components/dashboard";
-import Tests               from "./components/tests";
-import MistakeTypes        from "./components/config/mistake-types";
-import Roles               from "./components/permissions/roles";
-import Users               from "./components/users/users";
-import ShowUser            from "./components/users/users/show-user";
-import EditRole            from "./components/permissions/roles/edit-role";
-import EditTest            from "./components/tests/edit-test";
 import NotFound            from "./components/not-found";
+import SignIn              from "./components/sign-in";
+
+import Dashboard           from "./components/dashboard";
+
+import Tests               from "./components/tests";
+import EditTest            from "./components/tests/edit-test";
+
 import Responses           from "./components/responses";
 import VerifyResponse      from "./components/responses/verify-response";
+
 import NewResponse         from "./components/active-test/new-response";
 import Start               from "./components/active-test/start";
-import Finish              from "./components/active-test/finish";
 import ResponseSection     from "./components/active-test/response-section";
-import SignIn              from "./components/sign-in";
+import Finish              from "./components/active-test/finish";
+
+import MistakeTypes        from "./components/config/mistake-types";
+import Roles               from "./components/config/roles";
+import EditRole            from "./components/config/roles/edit-role";
+import Users               from "./components/config/users";
 
 const views = {
 
@@ -29,7 +33,7 @@ const views = {
     layout:      SignInLayout,
     skipAuth:    true,
     beforeEnter: ({ s }) => {
-      if (!s.session.user.isSignedIn) return true;
+      if (!s.session.currentUser.isSignedIn) return true;
       if (s.router.currentView) return false;
       s.router.navigate('dashboard');
       return false;
@@ -88,12 +92,6 @@ const views = {
     path:      '/users',
     component: Users,
     onEnter:   ({ s }) => s.users.list()
-  },
-
-  showUser: {
-    path:      '/users/:id',
-    component: ShowUser,
-    onEnter:   ({ s, params }) => s.users.show(params.id)
   },
 
   editRole: {

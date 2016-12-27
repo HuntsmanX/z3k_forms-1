@@ -9,7 +9,7 @@ class NewMistakeType extends Component {
 
   render() {
     return (
-      <MistakeForm/>
+      <MistakeForm />
     );
   }
 

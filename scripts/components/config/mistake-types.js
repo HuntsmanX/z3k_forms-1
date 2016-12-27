@@ -15,17 +15,19 @@ class MistakeTypes extends Component {
 
   render() {
 
-    const { s: { mistakeTypes } } = this.props;
-    
+    const { s: { mistakeTypes, session: { ifAllowed } } } = this.props;
+
     return (
       <div>
-        <NewMistakeType />
+        {ifAllowed('forms:mistake_type', 'update', <NewMistakeType />)}
         <EntitiesListPanel>
-          <Button
-            label="New Mistake Type"
-            icon="add"
-            onClick={mistakeTypes.showNew.bind(mistakeTypes, true)}
-          />
+          {ifAllowed('forms:mistake_type', 'update',
+            <Button
+              label="New Mistake Type"
+              icon="add"
+              onClick={mistakeTypes.showNew.bind(mistakeTypes, true)}
+            />
+          )}
         </EntitiesListPanel>
         <EntitiesList
           collection={mistakeTypes.collection}

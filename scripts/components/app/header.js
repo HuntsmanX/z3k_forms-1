@@ -14,7 +14,7 @@ class Header extends Component {
   }
 
   render() {
-    const { session, session: { user } } = this.props.s;
+    const { session, session: { currentUser, ifAllowed } } = this.props.s;
 
     return (
       <div id="header" >
@@ -28,38 +28,54 @@ class Header extends Component {
                     <Link to="dashboard">Z3K Forms</Link>
                   </li>
 
-                  <li>
-                    <Link to="tests">Tests</Link>
-                  </li>
+                  {ifAllowed('forms:test', 'view',
+                    <li>
+                      <Link to="tests">Tests</Link>
+                    </li>
+                  )}
 
-                  <li>
-                    <Link to="responses">Responses</Link>
-                  </li>
+                  {ifAllowed('forms:response', 'view',
+                    <li>
+                      <Link to="responses">Responses</Link>
+                    </li>
+                  )}
 
-                  <li>
-                    <Link to="newResponse">New Response</Link>
-                  </li>
+                  {ifAllowed('forms:response', 'create',
+                    <li>
+                      <Link to="newResponse">New Response</Link>
+                    </li>
+                  )}
 
-                  <li>
-                    <a>Settings</a>
-                    <ul className="menu vertical">
-                      <li>
-                        <Link to="mistakeTypes">Mistake Types</Link>
-                      </li>
-                    </ul>
-                  </li>
-                  <li>
-                    <Link to="roles">Roles</Link>
-                  </li>
-                  <li>
-                    <Link to="users">Users</Link>
-                  </li>
+                  {ifAllowed('forms:mistake_type', 'view', 'staff:user', 'view', 'staff:role', 'view',
+                    <li>
+                      <a>Settings</a>
+                      <ul className="menu vertical">
+                        {ifAllowed('forms:mistake_type', 'view',
+                          <li>
+                            <Link to="mistakeTypes">Mistake Types</Link>
+                          </li>
+                        )}
+
+                        {ifAllowed('staff:user', 'view',
+                          <li>
+                            <Link to="users">Users</Link>
+                          </li>
+                        )}
+
+                        {ifAllowed('staff:role', 'view',
+                          <li>
+                            <Link to="roles">Roles</Link>
+                          </li>
+                        )}
+                      </ul>
+                    </li>
+                  )}
                 </ul>
               </div>
               <div className="top-bar-right">
-                {user.isSignedIn ? (
+                {currentUser.isSignedIn ? (
                   <ul className="menu">
-                    <li className="user-avatar" style={{ backgroundImage: `url('${user.avatarUrl}')` }}></li>
+                    <li className="user-avatar" style={{ backgroundImage: `url('${currentUser.avatarUrl}')` }}></li>
                     <li><a onClick={session.destroy.bind(session)}>Sign Out</a></li>
                   </ul>
                 ) : null}

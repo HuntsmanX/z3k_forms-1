@@ -22,7 +22,7 @@ class NewResponse extends Component {
             <AjaxSelect
                model={response}
                attr="testId"
-               url="/v1/forms/tests/find_test"
+               url="/v1/forms/tests/find"
                label="Test"
                formatOption={(el) => ({
                  ...el,

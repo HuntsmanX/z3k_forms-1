@@ -1,42 +1,30 @@
-import React      from "react";
-import {observer} from "mobx-react";
-import Select     from "react-select";
+import React        from "react";
+import { observer } from "mobx-react";
+import Select       from "react-select";
 
-import ajax from "../../../helpers/ajax";
-
-import Field from "./field"
-
-import Option from "./ajax-multi-select/option";
-import Value  from "./ajax-multi-select/value";
+import BaseSelect from "./base-select";
 
 @observer
-class AjaxMultiSelect extends Field {
+class AjaxMultiSelect extends BaseSelect {
 
-  handleChange = (values) => {
-    this.props.model[this.props.attr].add(values.filter(f => !f.uuid));
-  };
-
-  loadOptions = (query) => {
-    const {url, formatOption, minLength} = this.props;
-
-    if (minLength && query.length < minLength) return Promise.resolve({options: []});
-    return ajax({url: url, method: 'GET', payload: {q: query}}).then(
-      json => ({options: Array.from(json.data).map(formatOption)}));
+  handleChange = (options) => {
+    const value = options.map(option => option.value);
+    this.model.set(this.attr, value);
   };
 
   renderInput() {
-    const {model, attr, optionComponent, valueComponent, formatOption} = this.props;
     return (
-        <Select.Async
-          value={model[attr].length > 0 ? model[attr].map(formatOption) : []}
-          loadOptions={this.loadOptions}
-          options={this.props.model[this.props.attr].map(formatOption)}
-          optionComponent={optionComponent ? Option(optionComponent) : undefined}
-          valueComponent={valueComponent ? Value(valueComponent) : undefined}
-          multi={true}
-          onChange={this.handleChange}
-          className={this.inputClassName}
-        />
+      <Select.Async
+        value={this.value.toJS()}
+        loadOptions={this.loadOptions}
+        optionComponent={this.optionComponent}
+        valueComponent={this.valueComponent}
+        multi={true}
+        onChange={this.handleChange}
+        className={this.inputClassName}
+        cache={false}
+        filterOption={() => true}
+      />
     );
   }
 }

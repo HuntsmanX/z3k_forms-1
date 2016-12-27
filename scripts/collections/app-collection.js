@@ -105,6 +105,10 @@ class AppCollection {
     this[attr] = val;
   }
 
+  @action clear() {
+    this.models = [];
+  }
+
   @action setQuery(attr, val) {
     this.query.set(attr, val);
   }

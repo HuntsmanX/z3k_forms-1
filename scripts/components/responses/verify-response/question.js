@@ -14,7 +14,7 @@ import FieldsControls from "./question/fields-controls";
 class Question extends Component {
 
   render() {
-    const { question } = this.props;
+    const { question, ifAllowed } = this.props;
     const className = question.isBeingEdited ? "question edited" : "question";
 
     return (
@@ -23,7 +23,7 @@ class Question extends Component {
 
         <div className="score-indicator" style={{ backgroundColor: question.scoreColor }} />
 
-        <ActionsRight question={question} />
+        <ActionsRight question={question} ifAllowed={ifAllowed} />
 
         <div className="main-content">
           <QuestionEditor question={question} />
@@ -45,9 +45,9 @@ class Question extends Component {
 class ActionsRight extends Component {
 
   render() {
-    const { question } = this.props;
+    const { question, ifAllowed } = this.props;
 
-    return (
+    return ifAllowed(
       <div className="actions right">
         {question.isBeingEdited ? (
           <Icon

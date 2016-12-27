@@ -1,27 +1,27 @@
-import { computed, action, observable } from "mobx";
 import AppModel from "./app-model";
-import { Entity } from "draft-js";
-import Users from "./../collections/users";
+
 import Permissions from "./../collections/permissions";
 
 class Role extends AppModel {
 
   static get urlRoot() {
-    return "/roles";
+    return "/v1/roles";
   }
 
   static get associations() {
     return {
-      users: { collection: Users, parentKey: 'role' },
       permissions: { collection: Permissions, parentKey: 'role' }
     };
   }
 
   static get defaults() {
     return {
-      name:    "",
-      userIds: []
+      name: ""
     };
+  }
+
+  static get resourceKey() {
+    return "staff:role";
   }
 
   get identifier() {
@@ -29,9 +29,10 @@ class Role extends AppModel {
   }
 
   serialize() {
-    const data = super.serialize({ include: 'permissions', includeMap: { permissions: 'permissionsAttributes' } });
-    data.userIds = this.users.serialize().map(u => u.id);
-    return data;
+    return super.serialize({
+      include: 'permissions',
+      includeMap: { permissions: 'permissionsAttributes' }
+    });
   }
 
 }

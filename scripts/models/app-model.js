@@ -185,6 +185,14 @@ class AppModel {
     this.errors.clear();
   }
 
+  @action clear() {
+    this.attrs.clear();
+    this.errors.clear();
+    Object.keys(this.associations).forEach(associationName => {
+      this[associationName].clear();
+    });
+  }
+
   error(attr) {
     return computed(
       () => this.errors.get(attr)

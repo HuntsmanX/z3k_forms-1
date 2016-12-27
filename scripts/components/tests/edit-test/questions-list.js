@@ -7,7 +7,7 @@ import Question from "./question";
 class QuestionsList extends Component {
 
   render() {
-    const { section } = this.props;
+    const { section, ifAllowed } = this.props;
 
     return (
       <div className="questions-list">
@@ -17,17 +17,19 @@ class QuestionsList extends Component {
           <p>No questions yet</p>
         )}
 
-        <div className="clearfix">
-          <div className="float-right">
-            <a onClick={section.addQuestion.bind(section)}>Add Question</a>
+        {ifAllowed(
+          <div className="clearfix">
+            <div className="float-right">
+              <a onClick={section.addQuestion.bind(section)}>Add Question</a>
+            </div>
           </div>
-        </div>
+        )}
       </div>
     );
   }
 
   renderQuestions() {
-    const { section } = this.props;
+    const { section, ifAllowed } = this.props;
 
     return section.questions.map((question, index) => {
       return <Question
@@ -37,6 +39,7 @@ class QuestionsList extends Component {
         uuid={question.uuid}
         index={index}
         deleteQuestion={() => section.deleteQuestion(question.uuid)}
+        ifAllowed={ifAllowed}
       />
     });
   }

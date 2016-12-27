@@ -10,8 +10,7 @@ const style = {
   right:           0,
   opacity:         0.5,
   backgroundColor: 'white',
-  cursor:          'wait',
-  zIndex:          1e3
+  cursor:          'wait'
 }
 
 const LoadingWrapper = (props) => (

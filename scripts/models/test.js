@@ -23,6 +23,10 @@ class Test extends AppModel {
     }
   }
 
+  static get resourceKey() {
+    return "forms:test";
+  }
+
   @computed get warnings() {
     return this.alerts.join("\n");
   }

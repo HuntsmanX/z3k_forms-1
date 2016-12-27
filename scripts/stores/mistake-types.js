@@ -24,10 +24,8 @@ class MistakeTypesStore {
   }
 
   @action show(id) {
-    this.model.set('id', id);
-    this.model.fetch().then(
-      () => this.showModal(true)
-    );
+    this.model = this.collection.find({ id: id });
+    this.showModal(true);
   }
 
   @action showModal(val) {
@@ -38,9 +36,15 @@ class MistakeTypesStore {
     this.model.save().then(
       () => {
         this.showNew(false);
-        router.navigate('mistakeTypes');
+        this.collection.fetch();
       }
     );
+  }
+
+  @action update() {
+    this.model.save().then(
+      () => this.showNew(false)
+    )
   }
 
   @action destroy(id) {

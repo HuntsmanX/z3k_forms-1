@@ -15,17 +15,19 @@ class Roles extends Component {
 
   render() {
 
-    const { s: { roles } } = this.props;
-    
+    const { s: { roles, session: { ifAllowed } } } = this.props;
+
     return (
       <div>
-        <NewRole />
+        {ifAllowed('staff:role', 'update', <NewRole />)}
         <EntitiesListPanel>
-          <Button
-            label="New Role"
-            icon="add"
-            onClick={roles.showNew.bind(roles, true)}
-          />
+          {ifAllowed('staff:role', 'update',
+            <Button
+              label="New Role"
+              icon="add"
+              onClick={roles.showNew.bind(roles, true)}
+            />
+          )}
         </EntitiesListPanel>
         <EntitiesList
           collection={roles.collection}

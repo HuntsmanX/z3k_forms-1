@@ -11,8 +11,7 @@ import Hash   from "./../shared/hash";
 class Response extends Component {
 
   render() {
-    const { model } = this.props;
-    const { responses } = this.props.s;
+    const { model, s: { responses, session: { ifAllowed } } } = this.props;
 
     return (
       <li>
@@ -46,7 +45,9 @@ class Response extends Component {
 
           <Column large={1}>
             <div className="button-group small float-right">
-              <Link to="verifyResponse" params={{ id: model.id }} button={{ icon: "spellcheck" }} />
+              {ifAllowed(model, 'view',
+                <Link to="verifyResponse" params={{ id: model.id }} button={{ icon: "spellcheck" }} />
+              )}
             </div>
           </Column>
         </Row>

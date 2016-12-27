@@ -12,16 +12,16 @@ import Form, { Fieldset, FormFooter, TextField} from "./shared/form";
 class SignIn extends Component {
 
   render() {
-    const { session, session: { user } } = this.props.s;
+    const { session, session: { currentUser } } = this.props.s;
 
     return (
       <Row>
         <Column large={6} largeOffset={3}>
-          <Form onSubmit={session.create.bind(session)} model={user}>
+          <Form onSubmit={session.create.bind(session)} model={currentUser}>
             <Callout>
               <Fieldset legend="Sign In">
-                <TextField model={user} attr="email" />
-                <TextField model={user} attr="password" type="password"/>
+                <TextField model={currentUser} attr="email" />
+                <TextField model={currentUser} attr="password" type="password" />
               </Fieldset>
               <FormFooter>
                 <Button type="submit" label="Sign In" icon="done" />

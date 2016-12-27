@@ -25,7 +25,8 @@ class Question extends Component {
       connectDragPreview,
       isDragging,
       connectDropTarget,
-      deleteQuestion
+      deleteQuestion,
+      ifAllowed
     } = this.props;
 
     const opacity   = isDragging ? 0 : 1;
@@ -39,13 +40,19 @@ class Question extends Component {
 
         <div className="actions left">
           {question.isPersisted ? (
-            connectDragSource(
-              <i className="material-icons action drag-handle">dehaze</i>
+            ifAllowed(
+              connectDragSource(
+                <i className="material-icons action drag-handle">dehaze</i>
+              )
             )
           ) : null}
         </div>
 
-        <ActionsRight question={question} deleteQuestion={deleteQuestion} />
+        <ActionsRight
+          question={question}
+          deleteQuestion={deleteQuestion}
+          ifAllowed={ifAllowed}
+        />
 
         {connectDragPreview(
           <div className="main-content">
@@ -74,28 +81,38 @@ class Question extends Component {
 @observer
 class ActionsRight extends Component {
 
-  render() {
-    const { question, deleteQuestion } = this.props;
+  renderEditSaveIcon() {
+    const { question } = this.props;
+
+    if (question.isBeingEdited)
+      return (
+        <Icon
+          className="action primary"
+          onClick={question.save.bind(question)}
+          title="Save"
+        >
+          save
+        </Icon>
+      );
 
     return (
+      <Icon
+        className="action primary"
+        onClick={question.edit.bind(question)}
+        title="Edit"
+      >
+        mode_edit
+      </Icon>
+    );
+  }
+
+  render() {
+    const { question, deleteQuestion, ifAllowed } = this.props;
+
+    return ifAllowed(
       <div className="actions right">
-        {question.isBeingEdited ? (
-          <Icon
-            className="action primary"
-            onClick={question.save.bind(question)}
-            title="Save"
-          >
-            save
-          </Icon>
-        ) : (
-          <Icon
-            className="action primary"
-            onClick={question.edit.bind(question)}
-            title="Edit"
-          >
-            mode_edit
-          </Icon>
-        )}
+        {this.renderEditSaveIcon()}
+
         <Icon
           className="material-icons action alert"
           title="Delete"

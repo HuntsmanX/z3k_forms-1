@@ -12,7 +12,7 @@ import QuestionsList from "./questions-list";
 class Section extends Component {
 
   render() {
-    const { section } = this.props;
+    const { section, ifAllowed } = this.props;
 
     return (
       <div className="section">
@@ -25,7 +25,7 @@ class Section extends Component {
         <Content section={section} />
 
         {section.isExpanded ? (
-          <QuestionsList section={section} />
+          <QuestionsList section={section} ifAllowed={ifAllowed} />
         ) : null}
       </div>
     );
