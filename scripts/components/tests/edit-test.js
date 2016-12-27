@@ -17,18 +17,17 @@ class EditTest extends Component {
 
     return (
       <div id="edit-test">
+        <TestSettings test={test}/>
+        <br />
+        
         <div className="sections-list">
-
-          <TestSettings test={test}/>
-
           {test.sections.length ? (
             this.renderSections()
           ) : (
             <p>No sections yet</p>
           )}
-
         </div>
-        
+
         {ifAllowed(test, 'update',
           <div className="clearfix">
             <div className="float-right">

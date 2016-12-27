@@ -14,7 +14,7 @@ const style = {
 }
 
 const LoadingWrapper = (props) => (
-  <div className="loading-wrapper" style={style}>
+  <div className="loading-wrapper" style={Object.assign({}, style, props.style)}>
     {props.spinner ? <Loader /> : null}
   </div>
 );

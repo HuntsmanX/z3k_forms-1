@@ -1,10 +1,12 @@
-import React, {Component} from "react";
-import {observer, inject} from "mobx-react";
-import {Row, Column}      from "react-foundation-components/lib/global/grid-flex";
-import Hash               from "./../../shared/hash";
-import Callout            from "../../shared/callout";
-import Loader             from "../../shared/loader";
-import Icon               from "../../shared/icon";
+import React, { Component } from "react";
+import { observer, inject } from "mobx-react";
+
+import { Row, Column }      from "react-foundation-components/lib/global/grid-flex";
+
+import Hash           from "../../shared/hash";
+import Callout        from "../../shared/callout";
+import Icon           from "../../shared/icon";
+import LoadingWrapper from "../../shared/loading-wrapper";
 
 @inject("s")
 @observer
@@ -17,13 +19,13 @@ class TestSettings extends Component {
   render() {
     const test = this.props.s.tests.model;
 
-    if (test.isBeingFetched) return <Loader />;
-
     const handleChange = this.handleChange.bind(this);
 
     return (
-      <div id="test-settings">
-        <Callout>
+      <div id="test-settings" style={{ position: 'relative' }}>
+        {test.isBeingSaved ? <LoadingWrapper style={{ zIndex: 10 }} /> : null}
+
+        <Callout style={{ zIndex: 0 }}>
           <div className="attributes">
             <Row>
               <Column large={3}>
@@ -85,18 +87,17 @@ class TestSettings extends Component {
 
             </Row>
           </div>
+
+          {test.formattedErrors.length ? (
+            <div className="errors">{test.formattedErrors}</div>
+          ) : null}
+
+          {test.warnings.length ? (
+            <div className="warnings">
+              {test.warnings}
+            </div>
+          ) : null}
         </Callout>
-
-        {test.formattedErrors.length ? (
-          <div className="errors">{test.formattedErrors}</div>
-        ) : null}
-
-        {test.warnings.length ? (
-          <div className="warnings">
-            {test.warnings}
-          </div>
-        ) : null}
-
       </div>
     );
   }
@@ -197,7 +198,7 @@ class RequiredScoreInput extends Component {
         type="text"
         className="edit-input num-input"
         onChange={handleChange.bind(this, 'requiredScore')}
-        value={test.requiredScore}
+        value={test.requiredScore || ''}
         placeholder="Required Score"
         ref={test.assignInputRef.bind(test)}
       />
