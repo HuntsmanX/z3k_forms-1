@@ -1,7 +1,8 @@
-import React, { Component } from "react";
-import { observer, inject } from "mobx-react";
+import React, {Component} from "react";
+import {observer, inject} from "mobx-react";
 
 import Section from "./edit-test/section";
+import TestSettings from "./edit-test/settings";
 
 import Loader from "./../shared/loader";
 
@@ -17,11 +18,15 @@ class EditTest extends Component {
     return (
       <div id="edit-test">
         <div className="sections-list">
+
+          <TestSettings test={test}/>
+
           {test.sections.length ? (
             this.renderSections()
           ) : (
             <p>No sections yet</p>
           )}
+
         </div>
         
         {ifAllowed(test, 'update',
