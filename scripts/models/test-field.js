@@ -12,6 +12,7 @@ class TestField extends Field {
     return {
       content:   "",
       score:     1,
+      highlight: false,
       autocheck: false,
       _destroy:  false
     };
@@ -42,6 +43,19 @@ class TestField extends Field {
 
   @action setValue(val) {
     this.set('content', val);
+  }
+
+  @action setHighlight() {
+    this.set('highlight', true)
+  }
+
+  @action removeHiglight() {
+    this.set('highlight', false)
+  }
+
+  @computed get highlighting(){
+    if (this.highlight == true) return 'highlighting';
+    return '';
   }
 
   @action toggleAutocheck() {

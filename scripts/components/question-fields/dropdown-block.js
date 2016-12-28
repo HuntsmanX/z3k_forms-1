@@ -20,7 +20,7 @@ class DropdownBlock extends Component {
     const correctVal = correct ? correct.uuid : "";
 
     return (
-      <div>
+      <div className={field.highlighting} onMouseOver={field.setHighlight.bind(field)} onMouseLeave={field.removeHiglight.bind(field)}>
         <select
           value={value}
           onChange={this.handleChange}

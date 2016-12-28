@@ -38,7 +38,7 @@ class FieldControls extends Component {
 
     return (
       <div className="field-controls">
-        <Row>
+        <Row onMouseOver={field.setHighlight.bind(field)} onMouseLeave={field.removeHiglight.bind(field)} className={field.highlighting}>
 
           <Column large={2}>
             {`${index + 1}. `}

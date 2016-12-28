@@ -15,7 +15,7 @@ class CheckboxesBlock extends Component {
 
     return (
       <div>
-        <div className="box-inputs">
+        <div className="box-inputs" className={field.highlighting} onMouseOver={field.setHighlight.bind(field)} onMouseLeave={field.removeHiglight.bind(field)}>
           {field.availableOptions.map(option => {
             return (
               <label key={option.uuid}>

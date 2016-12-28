@@ -20,7 +20,7 @@ class InlineDropdownBlock extends Component {
     const correctVal = correct ? correct.uuid : "";
 
     return (
-      <span>
+      <span className={field.highlighting} onMouseOver={field.setHighlight.bind(field)} onMouseLeave={field.removeHiglight.bind(field)}>
         <div className="inline-dropdown-wrapper">
           <select
             value={value}

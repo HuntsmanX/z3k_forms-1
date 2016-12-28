@@ -23,6 +23,9 @@ class TextInputBlock extends Component {
           onBlur={onBlur}
           placeholder={placeholder}
           readOnly={field.readOnly}
+          className={field.highlighting}
+          onMouseOver={field.setHighlight.bind(field)}
+          onMouseLeave={field.removeHiglight.bind(field)}
         />
 
         <FieldExpand field={field}>

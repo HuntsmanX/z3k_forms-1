@@ -26,7 +26,7 @@ class TextEditorBlock extends Component {
     const { field, field: { editor }, onFocus, onBlur } = this.props.blockProps;
 
     return (
-      <div className="text-editor-field">
+      <div className={`text-editor-field ${field.highlighting}`} onMouseOver={field.setHighlight.bind(field)} onMouseLeave={field.removeHiglight.bind(field)}>
         {field.readOnly ? this.renderBlocker() : null}
 
         <Controls editor={editor} />

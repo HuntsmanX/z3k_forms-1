@@ -68,8 +68,8 @@ class Test extends AppModel {
   }
 
   @action save() {
-    super.save().then(
-      () => this.set('isBeingEdited', false)
+    return super.save().then(
+      () => (this.set('isBeingEdited', false))
     );
   }
 

@@ -14,7 +14,7 @@ class InlineTextInputBlock extends Component {
     const { field, onFocus, onBlur, placeholder } = this.props.blockProps;
 
     return (
-      <span>
+      <span className={field.highlighting} onMouseOver={field.setHighlight.bind(field)} onMouseLeave={field.removeHiglight.bind(field)}>
         <input
           type="text"
           value={field.value}
